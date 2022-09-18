@@ -1,13 +1,8 @@
-﻿
-
-///<summary>
-///ygyuhuihui
-/// </summary>
-static void Welcome6591(int rr)
+﻿static void Welcome6591()
 {
-    Console.Write("{0} Enter your name: ", rr);
+    Console.Write("Enter your name: ");
     string name = Console.ReadLine();
     Console.WriteLine("{0}, welcome to my first application", name);
 }
 
-Welcome6591(3);
+Welcome6591();
