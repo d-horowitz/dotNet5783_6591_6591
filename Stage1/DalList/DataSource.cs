@@ -13,7 +13,8 @@ static internal class DataSource
         static internal int productIndex = 0;
         static internal int orderIndex = 0;
         static internal int orderItemIndex = 0;
-        static internal int productId = 100000;
+        static internal int OrderId = 100000;
+        static internal int OrderItemId = 100000;
     }
 }
 
