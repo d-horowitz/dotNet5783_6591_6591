@@ -3,11 +3,11 @@
 namespace DO;
 public struct Product
 {
-    int Id { get; set; }
-    string Name { get; set; }
-    ECategory Category { get; set; }
-    double Price { get; set; }
-    int Amount { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public ECategory Category { get; set; }
+    public double Price { get; set; }
+    public int Amount { get; set; }
 
     public override string ToString() => $@"
         Product ID={Id}: {Name}, 

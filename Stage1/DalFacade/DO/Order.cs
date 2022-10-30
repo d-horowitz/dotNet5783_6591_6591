@@ -3,13 +3,13 @@
 namespace DO;
 public struct Order
 {
-    int Id { get; set; }
-    string Name { get; set; }
-    string Email { get; set; }
-    string Address { get; set; }
-    DateTime OrderCreated { get; set; }
-    DateTime Shipping { get; set; }
-    DateTime Delivery { get; set; }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public string Address { get; set; }
+    public DateTime OrderCreated { get; set; }
+    public DateTime Shipping { get; set; }
+    public DateTime Delivery { get; set; }
     public override string ToString() => $@"
         OrderId={Id}: {Name},
         Email: {Email}, 
