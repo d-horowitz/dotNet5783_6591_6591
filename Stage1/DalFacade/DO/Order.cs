@@ -11,10 +11,10 @@ public struct Order
     public DateTime Shipping { get; set; }
     public DateTime Delivery { get; set; }
     public override string ToString() => $@"
-        OrderId={Id}: {Name},
+        OrderId={Id},
+        Customer name: {Name},
         Email: {Email}, 
     	Address: {Address},
-    	Order created on {OrderCreated}, shipped on {Shipping}, delivered on {Delivery}.}
-    ";
+    	Order created on {OrderCreated}, shipped on {Shipping}, delivered on {Delivery}";
 }
 
