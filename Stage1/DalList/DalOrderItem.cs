@@ -1,15 +1,15 @@
 ﻿using DO;
 namespace Dal;
 
-internal static class DalOrderItem
+public class DalOrderItem
 {
-    public static int Create(OrderItem oi)
+    public int Create(OrderItem oi)
     {
         oi.Id = DataSource.Config.OrderItemId;
         DataSource._orderItems[DataSource.Config.OrderItemIndex] = oi;
         return oi.Id;
     }
-    public static OrderItem Read(int orderItemId)
+    public OrderItem Read(int orderItemId)
     {
         foreach (OrderItem oi in DataSource._orderItems)
         {
@@ -17,7 +17,7 @@ internal static class DalOrderItem
         }
         throw new Exception("OrderItem not found");
     }
-    public static OrderItem[] Read()
+    public OrderItem[] Read()
     {
         OrderItem[] orderItems = new OrderItem[DataSource.Config._orderItemIndex];
         for (int i = 0; i < orderItems.Length; i++)
@@ -26,7 +26,7 @@ internal static class DalOrderItem
         }
         return orderItems;
     }
-    public static void Delete(int orderItemId)
+    public void Delete(int orderItemId)
     {
         bool found = false;
         for (int i = 0; i < DataSource.Config._orderItemIndex--; i++)
@@ -43,7 +43,7 @@ internal static class DalOrderItem
             throw new Exception("OrderItem not found");
         }
     }
-    public static void Update(OrderItem oi)
+    public void Update(OrderItem oi)
     {
         for (int i = 0; i < DataSource.Config._orderItemIndex; i++)
         {
@@ -54,5 +54,34 @@ internal static class DalOrderItem
             }
         }
         throw new Exception("OrderItem not found");
+    }
+    public OrderItem Read(int productId, int orderId)
+    {
+        foreach (OrderItem oi in DataSource._orderItems)
+        {
+            if (oi.ProductId == productId && oi.OrderId == orderId)
+            {
+                return oi;
+            }
+        }
+        throw new Exception("OrderItem not found");
+    }
+    public OrderItem[] ReadList(int orderId)
+    {
+        int number = 0;
+        foreach (OrderItem oi in DataSource._orderItems)
+        {
+            if (oi.OrderId == orderId) { number++; }
+        }
+        if (number==0) { throw new Exception("Items not found"); }
+        OrderItem[] orderItems = new OrderItem[number];
+        for (int i = 0; i < DataSource.Config._orderItemIndex; i++)
+        {
+            if (DataSource._orderItems[i].OrderId == orderId)
+            {
+                orderItems[i] = DataSource._orderItems[i];
+            }
+        }
+        return orderItems;
     }
 }

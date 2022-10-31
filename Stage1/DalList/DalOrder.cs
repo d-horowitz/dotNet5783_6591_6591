@@ -1,15 +1,15 @@
 ﻿using DO;
 namespace Dal;
 
-internal static class DalOrder
+public class DalOrder
 {
-    public static int Create(Order o)
+    public int Create(Order o)
     {
         o.Id = DataSource.Config.OrderId;
         DataSource._orders[DataSource.Config.OrderIndex] = o;
         return o.Id;
     }
-    public static Order Read(int orderId)
+    public Order Read(int orderId)
     {
         foreach (Order o in DataSource._orders)
         {
@@ -17,7 +17,7 @@ internal static class DalOrder
         }
         throw new Exception("Order not found");
     }
-    public static Order[] Read()
+    public Order[] Read()
     {
         Order[] orders = new Order[DataSource.Config._orderIndex];
         for (int i = 0; i < orders.Length; i++)
@@ -26,7 +26,7 @@ internal static class DalOrder
         }
         return orders;
     }
-    public static void Delete(int orderId)
+    public void Delete(int orderId)
     {
         bool found = false;
         for (int i = 0; i < DataSource.Config._orderIndex--; i++)
@@ -43,7 +43,7 @@ internal static class DalOrder
             throw new Exception("Order not found");
         }
     }
-    public static void Update(Order o)
+    public void Update(Order o)
     {
         for (int i = 0; i < DataSource.Config._orderIndex; i++)
         {

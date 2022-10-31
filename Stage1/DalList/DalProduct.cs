@@ -1,15 +1,15 @@
 ﻿using DO;
 namespace Dal;
 
-internal static class DalProduct
+public class DalProduct
 {
-    public static int Create(Product p)
+    public int Create(Product p)
     {
         p.Id = DataSource.Config.ProductId;
         DataSource._products[DataSource.Config.ProductIndex] = p;
         return p.Id;
     }
-    public static Product Read(int productId)
+    public Product Read(int productId)
     {
         foreach (Product p in DataSource._products)
         {
@@ -17,7 +17,7 @@ internal static class DalProduct
         }
         throw new Exception("Product not found");
     }
-    public static Product[] Read()
+    public Product[] Read()
     {
         Product[] products = new Product[DataSource.Config._productIndex];
         for (int i = 0; i < products.Length; i++)
@@ -26,7 +26,7 @@ internal static class DalProduct
         }
         return products;
     }
-    public static void Delete(int productId)
+    public void Delete(int productId)
     {
         bool found = false;
         for (int i = 0; i < DataSource.Config._productIndex--; i++)
@@ -43,7 +43,7 @@ internal static class DalProduct
             throw new Exception("Product not found");
         }
     }
-    public static void Update(Product p)
+    public void Update(Product p)
     {
         for (int i = 0; i < DataSource.Config._productIndex; i++)
         {
