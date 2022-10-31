@@ -13,11 +13,13 @@ static internal class DataSource
         static internal int _productIndex = 0;
         static internal int _orderIndex = 0;
         static internal int _orderItemIndex = 0;
+        static internal int _productId = 100000;
         static internal int _orderId = 100000;
         static internal int _orderItemId = 100000;
         public static int ProductIndex { get { return _productIndex++; } }
         public static int OrderIndex { get { return _orderIndex++; } }
         public static int OrderItemIndex { get { return _orderItemIndex++; } }
+        public static int ProductId { get { return _productId++; } }
         public static int OrderId { get { return _orderId++; } }
         public static int OrderItemId { get { return _orderItemId++; } }
     }
@@ -27,7 +29,7 @@ static internal class DataSource
         {
             Product p = new()
             {
-                Id = 100000 + i,
+                Id = Config.ProductId,
                 Name = "BOOK " + (char)(i + 65),
                 Category = (ECategory)(i % 5),
                 Price = 90 + i * 1.1,
