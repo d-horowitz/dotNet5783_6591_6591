@@ -25,12 +25,14 @@ static internal class DataSource
     {
         for (int i = 0; i < 10; i++)
         {
-            Product p = new Product();
-            p.Id = 100000 + i;
-            p.Name = "BOOK " + (char)(i + 65);
-            p.Category = (ECategory)(i % 5);
-            p.Price = 90 + i * 1.1;
-            p.Amount = i;
+            Product p = new()
+            {
+                Id = 100000 + i,
+                Name = "BOOK " + (char)(i + 65),
+                Category = (ECategory)(i % 5),
+                Price = 90 + i * 1.1,
+                Amount = i
+            };
             _products[Config.ProductIndex] = p;
         }
     }
@@ -38,17 +40,33 @@ static internal class DataSource
     {
         for (int i = 0; i < 20; i++)
         {
-            Order o = new Order();
-            o.Id = Config.OrderId;
-            o.Name = "Customer " + (char)(i + 97);
-            o.Email = "customer" + (char)(i + 97) + "@gmail.com";
-            o.Address = i + " " + (char)(i + 65) + " st.";
-            o.OrderCreated = DateTime.Now - TimeSpan.FromDays(i + 1);
+            Order o = new()
+            {
+                Id = Config.OrderId,
+                Name = "Customer " + (char)(i + 97),
+                Email = "customer" + (char)(i + 97) + "@gmail.com",
+                Address = i + " " + (char)(i + 65) + " st.",
+                OrderCreated = DateTime.Now - TimeSpan.FromDays(_randomer.NextInt64(10, 20))
+            };
+            o.Shipping = i%10<8 ? o.OrderCreated+TimeSpan.FromDays(_randomer.NextInt64(3, 5)) : DateTime.MinValue;
+            o.Delivery = i%10<5 ? o.Shipping+TimeSpan.FromDays(_randomer.NextInt64(1, 2)) : DateTime.MinValue;
+            _orders[Config.OrderIndex] = o;
         }
     }
     private static void addOrderItems()
     {
-
+        for (int i = 0; i < 40; i++)
+        {
+            OrderItem oi = new()
+            {
+                Id = Config.OrderItemId,
+                OrderId = _orders[_randomer.NextInt64(0, _orders.Length - 1)].Id,
+                ProductId = _products[_randomer.NextInt64(0, _products.Length)].Id,
+                UnitPrice = _randomer.NextDouble()*75+55,
+                Amount = (int)_randomer.NextInt64(1, 6)
+            };
+            _orderItems[Config.OrderItemIndex] = oi;
+        }
     }
     private static void s_Initialize()
     {
