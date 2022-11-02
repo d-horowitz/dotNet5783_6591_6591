@@ -77,9 +77,81 @@ class Program
             Console.WriteLine(ex.Message);
         }
     }
+    private static void OrderMenu()
+    {
+        Crud crud;
+        Order o = new();
+        int orderId;
+        Console.WriteLine("Choose Action:");
+        Console.WriteLine("0 - Add a new order");
+        Console.WriteLine("1 - Display an order");
+        Console.WriteLine("2 - Display all orders");
+        Console.WriteLine("3 - Update an order");
+        Console.WriteLine("4 - Delete an order");
+        crud = (Crud)Convert.ToInt32(Console.ReadLine());
+        try
+        {
+            switch (crud)
+            {
+                case Crud.Create:
+                    Console.WriteLine("Enter order details:");
+                    Console.WriteLine("Customer name:");
+                    o.Name = Console.ReadLine();
+                    Console.WriteLine("Amount of copies in stock:");
+                    /*p.Amount = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Price:");
+                    p.Price = Convert.ToDouble(Console.ReadLine());
+                    Console.WriteLine("Category:(0-Kodesh, 1-Biography, 2-Novel, 3-Fiction, 4-Children)");
+                    p.Category = (ECategory)Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(dalProduct.Create(p));*/
+                    break;
+                /*case Crud.Read:
+                    Console.WriteLine("Enter book id:");
+                    bookId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(dalProduct.Read(bookId));
+                    break;
+                case Crud.ReadAll:
+                    Product[] products = dalProduct.Read();
+                    foreach (Product product in products)
+                    {
+                        Console.WriteLine(product);
+                    }
+                    break;
+                case Crud.Update:
+                    Console.WriteLine("Enter book id:");
+                    p.Id = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(dalProduct.Read(p.Id));
+                    Console.WriteLine("Enter new details:");
+                    Console.WriteLine("Name:");
+                    p.Name = Console.ReadLine();
+                    Console.WriteLine("Amount of copies in stock:");
+                    p.Amount = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Price:");
+                    p.Price = Convert.ToDouble(Console.ReadLine());
+                    Console.WriteLine("Category:(0-Kodesh, 1-Biography, 2-Novel, 3-Fiction, 4-Children)");
+                    p.Category = (ECategory)Convert.ToInt32(Console.ReadLine());
+                    break;
+                case Crud.Delete:
+                    Console.WriteLine("Enter book id:");
+                    bookId = Convert.ToInt32(Console.ReadLine());
+                    dalProduct.Delete(bookId);
+                    break;*/
+                default:
+                    Console.WriteLine("ERROR\nINVALID CHOICE!!!");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
     public static void Main()
     {
         Console.WriteLine("Started Program");
+        Console.WriteLine(DateTime.Now);
+        DateTime date = DateTime.Parse("31/12/2020");
+        Console.WriteLine(date);
         Options choice;
         Console.WriteLine("Choose an Option:");
         Console.WriteLine("0 - Exit");
@@ -95,6 +167,7 @@ class Program
                     ProductMenu();
                     break;
                 case Options.Order:
+                    OrderMenu();
                     break;
                 case Options.OrderItem:
                     break;
