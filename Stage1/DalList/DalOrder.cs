@@ -6,6 +6,9 @@ public class DalOrder
     public int Create(Order o)
     {
         o.Id = DataSource.Config.OrderId;
+        o.OrderCreated = DateTime.Now;
+        o.OrderCreated = DateTime.MinValue;
+        o.Delivery = DateTime.MinValue;
         DataSource._orders[DataSource.Config.OrderIndex] = o;
         return o.Id;
     }

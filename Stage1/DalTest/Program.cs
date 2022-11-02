@@ -94,30 +94,28 @@ class Program
             switch (crud)
             {
                 case Crud.Create:
-                    Console.WriteLine("Enter order details:");
-                    Console.WriteLine("Customer name:");
+                    Console.WriteLine("Enter Customer details:");
+                    Console.WriteLine("Name:");
                     o.Name = Console.ReadLine();
-                    Console.WriteLine("Amount of copies in stock:");
-                    /*p.Amount = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Price:");
-                    p.Price = Convert.ToDouble(Console.ReadLine());
-                    Console.WriteLine("Category:(0-Kodesh, 1-Biography, 2-Novel, 3-Fiction, 4-Children)");
-                    p.Category = (ECategory)Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalProduct.Create(p));*/
+                    Console.WriteLine("Email:");
+                    o.Email = Console.ReadLine();
+                    Console.WriteLine("Address:");
+                    o.Address = Console.ReadLine();
+                    Console.WriteLine(dalOrder.Create(o));
                     break;
-                /*case Crud.Read:
-                    Console.WriteLine("Enter book id:");
-                    bookId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalProduct.Read(bookId));
+                case Crud.Read:
+                    Console.WriteLine("Enter order id:");
+                    orderId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(dalOrder.Read(orderId));
                     break;
                 case Crud.ReadAll:
-                    Product[] products = dalProduct.Read();
-                    foreach (Product product in products)
+                    Order[] orders = dalOrder.Read();
+                    foreach (Order order in orders)
                     {
-                        Console.WriteLine(product);
+                        Console.WriteLine(order);
                     }
                     break;
-                case Crud.Update:
+               /* case Crud.Update:
                     Console.WriteLine("Enter book id:");
                     p.Id = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine(dalProduct.Read(p.Id));
