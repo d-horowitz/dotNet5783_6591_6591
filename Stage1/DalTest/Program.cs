@@ -54,13 +54,16 @@ class Program
                     Console.WriteLine(dalProduct.Read(p.Id));
                     Console.WriteLine("Enter new details:");
                     Console.WriteLine("Name:");
-                    p.Name = Console.ReadLine();
+                    //str = Console.ReadLine();
+                    //p.Name = str == null ? p.Name : str;
+                    p.Name = Console.ReadLine() ?? p.Name;
                     Console.WriteLine("Amount of copies in stock:");
                     p.Amount = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Price:");
                     p.Price = Convert.ToDouble(Console.ReadLine());
                     Console.WriteLine("Category:(0-Kodesh, 1-Biography, 2-Novel, 3-Fiction, 4-Children)");
                     p.Category = (ECategory)Convert.ToInt32(Console.ReadLine());
+                    dalProduct.Update(p);
                     break;
                 case Crud.Delete:
                     Console.WriteLine("Enter book id:");
@@ -115,21 +118,20 @@ class Program
                         Console.WriteLine(order);
                     }
                     break;
-               /* case Crud.Update:
-                    Console.WriteLine("Enter book id:");
-                    p.Id = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalProduct.Read(p.Id));
+                case Crud.Update:
+                    Console.WriteLine("Enter order id:");
+                    o.Id = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(dalOrder.Read(o.Id));
                     Console.WriteLine("Enter new details:");
-                    Console.WriteLine("Name:");
-                    p.Name = Console.ReadLine();
+                    Console.WriteLine("Customer Name:");
+                    o.Name = Console.ReadLine() ?? o.Name;
+                    Console.WriteLine("Email:");
+                    o.Email = Console.ReadLine() ?? o.Email;
+                    Console.WriteLine("Address:");
+                    o.Address = Console.ReadLine() ?? o.Address;
                     Console.WriteLine("Amount of copies in stock:");
-                    p.Amount = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("Price:");
-                    p.Price = Convert.ToDouble(Console.ReadLine());
-                    Console.WriteLine("Category:(0-Kodesh, 1-Biography, 2-Novel, 3-Fiction, 4-Children)");
-                    p.Category = (ECategory)Convert.ToInt32(Console.ReadLine());
                     break;
-                case Crud.Delete:
+                /*case Crud.Delete:
                     Console.WriteLine("Enter book id:");
                     bookId = Convert.ToInt32(Console.ReadLine());
                     dalProduct.Delete(bookId);
