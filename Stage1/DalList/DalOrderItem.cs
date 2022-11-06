@@ -15,7 +15,7 @@ public class DalOrderItem
         {
             if (oi.Id == orderItemId) { return oi; }
         }
-        throw new Exception("OrderItem not found");
+        throw new Exception("Order item not found");
     }
     public OrderItem[] Read()
     {
@@ -40,7 +40,7 @@ public class DalOrderItem
         if (!found)
         {
             DataSource.Config._orderItemIndex++;
-            throw new Exception("OrderItem not found");
+            throw new Exception("Order item not found");
         }
     }
     public void Update(OrderItem oi)
@@ -53,9 +53,9 @@ public class DalOrderItem
                 return;
             }
         }
-        throw new Exception("OrderItem not found");
+        throw new Exception("Order item not found");
     }
-    public OrderItem Read(int productId, int orderId)
+    public OrderItem Read(int orderId, int productId)
     {
         foreach (OrderItem oi in DataSource._orderItems)
         {
@@ -64,7 +64,7 @@ public class DalOrderItem
                 return oi;
             }
         }
-        throw new Exception("OrderItem not found");
+        throw new Exception("Order item not found");
     }
     public OrderItem[] ReadList(int orderId)
     {

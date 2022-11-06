@@ -7,5 +7,5 @@ public enum Options
 
 public enum Crud
 {
-    Create, Read, ReadAll, Update, Delete
+    Create, Read, ReadAll, Update, Delete, Read2param, ReadList
 }

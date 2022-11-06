@@ -13,6 +13,7 @@ class Program
         Crud crud;
         Product p = new();
         int bookId;
+        string input;
         Console.WriteLine("Choose Action:");
         Console.WriteLine("0 - Add a new book");
         Console.WriteLine("1 - Display a book");
@@ -54,15 +55,17 @@ class Program
                     Console.WriteLine(dalProduct.Read(p.Id));
                     Console.WriteLine("Enter new details:");
                     Console.WriteLine("Name:");
-                    //str = Console.ReadLine();
-                    //p.Name = str == null ? p.Name : str;
-                    p.Name = Console.ReadLine() ?? p.Name;
+                    input = Console.ReadLine();
+                    p.Name = input == "" ? p.Name : input;
                     Console.WriteLine("Amount of copies in stock:");
-                    p.Amount = Convert.ToInt32(Console.ReadLine());
+                    input = Console.ReadLine();
+                    p.Amount = input == "" ? p.Amount : Convert.ToInt32(input);
                     Console.WriteLine("Price:");
-                    p.Price = Convert.ToDouble(Console.ReadLine());
+                    input = Console.ReadLine();
+                    p.Price = input == "" ? p.Price : Convert.ToDouble(input);
                     Console.WriteLine("Category:(0-Kodesh, 1-Biography, 2-Novel, 3-Fiction, 4-Children)");
-                    p.Category = (ECategory)Convert.ToInt32(Console.ReadLine());
+                    input = Console.ReadLine();
+                    p.Category = input == "" ? p.Category : (ECategory)Convert.ToInt32(input);
                     dalProduct.Update(p);
                     break;
                 case Crud.Delete:
@@ -85,6 +88,7 @@ class Program
         Crud crud;
         Order o = new();
         int orderId;
+        string input;
         Console.WriteLine("Choose Action:");
         Console.WriteLine("0 - Add a new order");
         Console.WriteLine("1 - Display an order");
@@ -124,18 +128,109 @@ class Program
                     Console.WriteLine(dalOrder.Read(o.Id));
                     Console.WriteLine("Enter new details:");
                     Console.WriteLine("Customer Name:");
-                    o.Name = Console.ReadLine() ?? o.Name;
+                    input = Console.ReadLine();
+                    o.Name = input == "" ? o.Name : input;
                     Console.WriteLine("Email:");
-                    o.Email = Console.ReadLine() ?? o.Email;
+                    input = Console.ReadLine();
+                    o.Email = input == "" ? o.Email : input;
                     Console.WriteLine("Address:");
-                    o.Address = Console.ReadLine() ?? o.Address;
-                    Console.WriteLine("Amount of copies in stock:");
+                    input = Console.ReadLine();
+                    o.Address = input == "" ? o.Address : input;
+                    Console.WriteLine("Date of shipping (dd/mm/yyyy format):");
+                    input = Console.ReadLine();
+                    o.Shipping = input == "" ? o.Shipping : DateTime.Parse(input);
+                    Console.WriteLine("Date of Delivery (dd/mm/yyyy format):");
+                    input = Console.ReadLine();
+                    o.Delivery = input == "" ? o.Delivery : DateTime.Parse(input);
+                    dalOrder.Update(o);
                     break;
-                /*case Crud.Delete:
-                    Console.WriteLine("Enter book id:");
-                    bookId = Convert.ToInt32(Console.ReadLine());
-                    dalProduct.Delete(bookId);
-                    break;*/
+                case Crud.Delete:
+                    Console.WriteLine("Enter order id:");
+                    orderId = Convert.ToInt32(Console.ReadLine());
+                    dalProduct.Delete(orderId);
+                    break;
+                default:
+                    Console.WriteLine("ERROR\nINVALID CHOICE!!!");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private static void OrderItemMenu()
+    {
+        Crud crud;
+        OrderItem oi = new();
+        OrderItem[] orderItems;
+        int orderItemId, orderId;
+        Console.WriteLine("Choose Action:");
+        Console.WriteLine("0 - Add a new order item");
+        Console.WriteLine("1 - Display an order item by id");
+        Console.WriteLine("2 - Display all orders' items");
+        Console.WriteLine("3 - Update an order item");
+        Console.WriteLine("4 - Delete an order item");
+        Console.WriteLine("5 - Display an order item by order id and product id");
+        Console.WriteLine("6 - Display an order's items");
+        crud = (Crud)Convert.ToInt32(Console.ReadLine());
+        try
+        {
+            switch (crud)
+            {
+                case Crud.Create:
+                    Console.WriteLine("Enter order id:");
+                    oi.OrderId = Convert.ToInt32(Console.ReadLine());
+                    dalOrder.Read(oi.OrderId);
+                    Console.WriteLine("Enter product id");
+                    oi.ProductId = Convert.ToInt32(Console.ReadLine());
+                    oi.UnitPrice = dalProduct.Read(oi.ProductId).Price;
+                    Console.WriteLine("Enter amount:");
+                    oi.Amount = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(dalOrderItem.Create(oi));
+                    break;
+                case Crud.Read:
+                    Console.WriteLine("Enter order item id:");
+                    orderItemId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(dalOrderItem.Read(orderItemId));
+                    break;
+                case Crud.ReadAll:
+                    orderItems = dalOrderItem.Read();
+                    foreach (OrderItem orderItem in orderItems)
+                    {
+                        Console.WriteLine(orderItem);
+                    }
+                    break;
+                case Crud.Update:
+                    Console.WriteLine("Enter order item id:");
+                    orderItemId = Convert.ToInt32(Console.ReadLine());
+                    oi = dalOrderItem.Read(orderItemId);
+                    Console.WriteLine("Enter new Amount:");
+                    oi.Amount = Convert.ToInt32(Console.ReadLine());
+                    dalOrderItem.Update(oi);
+                    break;
+                case Crud.Delete:
+                    Console.WriteLine("Enter order item id:");
+                    orderItemId = Convert.ToInt32(Console.ReadLine());
+                    dalOrderItem.Delete(orderItemId);
+                    break;
+                case Crud.Read2param:
+                    Console.WriteLine("Enter order id:");
+                    orderId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter product id:");
+                    int productId = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine(dalOrderItem.Read(orderId, productId));
+                    break;
+                case Crud.ReadList:
+                    Console.WriteLine("Enter order id:");
+                    orderId = Convert.ToInt32(Console.ReadLine());
+                    orderItems = dalOrderItem.ReadList(orderId);
+                    foreach (OrderItem orderItem in orderItems)
+                    {
+                        Console.WriteLine(orderItem);
+                    }
+                    break;
                 default:
                     Console.WriteLine("ERROR\nINVALID CHOICE!!!");
                     break;
@@ -148,10 +243,6 @@ class Program
     }
     public static void Main()
     {
-        Console.WriteLine("Started Program");
-        Console.WriteLine(DateTime.Now);
-        DateTime date = DateTime.Parse("31/12/2020");
-        Console.WriteLine(date);
         Options choice;
         Console.WriteLine("Choose an Option:");
         Console.WriteLine("0 - Exit");
@@ -170,6 +261,7 @@ class Program
                     OrderMenu();
                     break;
                 case Options.OrderItem:
+                    OrderItemMenu();
                     break;
                 default:
                     Console.WriteLine("ERROR\nINVALID OPTION!!!");
