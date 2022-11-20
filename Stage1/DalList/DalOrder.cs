@@ -1,9 +1,11 @@
 ﻿using DO;
+using DalApi;
 namespace Dal;
 
-public class DalOrder
+internal class DalOrder : IOrder
 {
-    public int Create(Order o)
+
+    public int Add(Order o)
     {
         o.Id = DataSource.Config.OrderId;
         o.OrderCreated = DateTime.Now;
@@ -20,7 +22,7 @@ public class DalOrder
         }
         throw new Exception("Order not found");
     }
-    public Order[] Read()
+    public IEnumerable<Order> Read()
     {
         Order[] orders = new Order[DataSource.Config._orderIndex];
         for (int i = 0; i < orders.Length; i++)
@@ -37,7 +39,7 @@ public class DalOrder
             if (DataSource._orders[i].Id == orderId || found)
             {
                 found = true;
-                DataSource._orders[i] = DataSource._orders[i+1];
+                DataSource._orders[i] = DataSource._orders[i + 1];
             }
         }
         if (!found)
@@ -50,7 +52,7 @@ public class DalOrder
     {
         for (int i = 0; i < DataSource.Config._orderIndex; i++)
         {
-            if (DataSource._orders[i].Id==o.Id)
+            if (DataSource._orders[i].Id == o.Id)
             {
                 DataSource._orders[i] = o;
                 return;

@@ -1,9 +1,10 @@
-﻿using DO;
+﻿using DalApi;
+using DO;
 namespace Dal;
 
-public class DalProduct
+internal class DalProduct : IProduct
 {
-    public int Create(Product p)
+    public int Add(Product p)
     {
         p.Id = DataSource.Config.ProductId;
         DataSource._products[DataSource.Config.ProductIndex] = p;
@@ -17,8 +18,7 @@ public class DalProduct
         }
         throw new Exception("Product not found");
     }
-    public Product[] Read()
-    {
+    public IEnumerable<Product> Read() { 
         Product[] products = new Product[DataSource.Config._productIndex];
         for (int i = 0; i < products.Length; i++)
         {
@@ -34,7 +34,7 @@ public class DalProduct
             if (DataSource._products[i].Id == productId || found)
             {
                 found = true;
-                DataSource._products[i] = DataSource._products[i+1];
+                DataSource._products[i] = DataSource._products[i + 1];
             }
         }
         if (!found)
@@ -47,7 +47,7 @@ public class DalProduct
     {
         for (int i = 0; i < DataSource.Config._productIndex; i++)
         {
-            if (DataSource._products[i].Id==p.Id)
+            if (DataSource._products[i].Id == p.Id)
             {
                 DataSource._products[i] = p;
                 return;
@@ -56,4 +56,58 @@ public class DalProduct
         throw new Exception("Product not found");
     }
 }
+//{
+//    public int Create(Product p)
+//    {
+//        p.Id = DataSource.Config.ProductId;
+//        DataSource._products[DataSource.Config.ProductIndex] = p;
+//        return p.Id;
+//    }
+//    public Product Read(int productId)
+//    {
+//        foreach (Product p in DataSource._products)
+//        {
+//            if (p.Id == productId) { return p; }
+//        }
+//        throw new Exception("Product not found");
+//    }
+//    public Product[] Read()
+//    {
+//        Product[] products = new Product[DataSource.Config._productIndex];
+//        for (int i = 0; i < products.Length; i++)
+//        {
+//            products[i] = DataSource._products[i];
+//        }
+//        return products;
+//    }
+//    public void Delete(int productId)
+//    {
+//        bool found = false;
+//        for (int i = 0; i < DataSource.Config._productIndex--; i++)
+//        {
+//            if (DataSource._products[i].Id == productId || found)
+//            {
+//                found = true;
+//                DataSource._products[i] = DataSource._products[i+1];
+//            }
+//        }
+//        if (!found)
+//        {
+//            DataSource.Config._productIndex++;
+//            throw new Exception("Product not found");
+//        }
+//    }
+//    public void Update(Product p)
+//    {
+//        for (int i = 0; i < DataSource.Config._productIndex; i++)
+//        {
+//            if (DataSource._products[i].Id==p.Id)
+//            {
+//                DataSource._products[i] = p;
+//                return;
+//            }
+//        }
+//        throw new Exception("Product not found");
+//    }
+//}
 

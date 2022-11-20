@@ -1,9 +1,10 @@
-﻿using DO;
+﻿using DalApi;
+using DO;
 namespace Dal;
 
-public class DalOrderItem
+internal class DalOrderItem : IOrderItem
 {
-    public int Create(OrderItem oi)
+    public int Add(OrderItem oi)
     {
         oi.Id = DataSource.Config.OrderItemId;
         DataSource._orderItems[DataSource.Config.OrderItemIndex] = oi;
@@ -17,7 +18,7 @@ public class DalOrderItem
         }
         throw new Exception("Order item not found");
     }
-    public OrderItem[] Read()
+    public IEnumerable<OrderItem> Read()
     {
         OrderItem[] orderItems = new OrderItem[DataSource.Config._orderItemIndex];
         for (int i = 0; i < orderItems.Length; i++)
@@ -34,7 +35,7 @@ public class DalOrderItem
             if (DataSource._orderItems[i].Id == orderItemId || found)
             {
                 found = true;
-                DataSource._orderItems[i] = DataSource._orderItems[i+1];
+                DataSource._orderItems[i] = DataSource._orderItems[i + 1];
             }
         }
         if (!found)
@@ -47,7 +48,7 @@ public class DalOrderItem
     {
         for (int i = 0; i < DataSource.Config._orderItemIndex; i++)
         {
-            if (DataSource._orderItems[i].Id==oi.Id)
+            if (DataSource._orderItems[i].Id == oi.Id)
             {
                 DataSource._orderItems[i] = oi;
                 return;
@@ -66,14 +67,14 @@ public class DalOrderItem
         }
         throw new Exception("Order item not found");
     }
-    public OrderItem[] ReadList(int orderId)
+    public IEnumerable<OrderItem> ReadList(int orderId)
     {
         int number = 0;
         foreach (OrderItem oi in DataSource._orderItems)
         {
             if (oi.OrderId == orderId) { number++; }
         }
-        if (number==0) { throw new Exception("Items not found"); }
+        if (number == 0) { throw new Exception("Items not found"); }
         OrderItem[] orderItems = new OrderItem[number];
         for (int i = 0; i < DataSource.Config._orderItemIndex; i++)
         {

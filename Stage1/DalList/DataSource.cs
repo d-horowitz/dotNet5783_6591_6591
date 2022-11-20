@@ -4,21 +4,15 @@ namespace Dal;
 public class DataSource
 {
     public static readonly Random _randomer = new Random();
-    public static Product[] _products = new Product[50];
-    public static Order[] _orders = new Order[100];
-    public static OrderItem[] _orderItems = new OrderItem[200];
+    public static List<Product> _products = new(50);
+    public static List<Order> _orders = new(100);
+    public static List<OrderItem> _orderItems = new(200);
 
     public static class Config
     {
-        public static int _productIndex = 0;
-        public static int _orderIndex = 0;
-        public static int _orderItemIndex = 0;
         public static int _productId = 100000;
         public static int _orderId = 100000;
         public static int _orderItemId = 100000;
-        public static int ProductIndex { get { return _productIndex++; } }
-        public static int OrderIndex { get { return _orderIndex++; } }
-        public static int OrderItemIndex { get { return _orderItemIndex++; } }
         public static int ProductId { get { return _productId++; } }
         public static int OrderId { get { return _orderId++; } }
         public static int OrderItemId { get { return _orderItemId++; } }
@@ -35,7 +29,7 @@ public class DataSource
                 Price = 90 + i * 1.1,
                 Amount = i
             };
-            _products[Config.ProductIndex] = p;
+            _products.Add(p);
         }
     }
     private static void addOrders()
@@ -52,7 +46,7 @@ public class DataSource
             };
             o.Shipping = i%10<8 ? o.OrderCreated+TimeSpan.FromDays(_randomer.NextInt64(3, 5)) : DateTime.MinValue;
             o.Delivery = i%10<5 ? o.Shipping+TimeSpan.FromDays(_randomer.NextInt64(1, 2)) : DateTime.MinValue;
-            _orders[Config.OrderIndex] = o;
+            _orders.Add(o);
         }
     }
     private static void addOrderItems()
@@ -67,7 +61,7 @@ public class DataSource
                 UnitPrice = _randomer.NextDouble()*75+55,
                 Amount = (int)_randomer.NextInt64(1, 6)
             };
-            _orderItems[Config.OrderItemIndex] = oi;
+            _orderItems.Add(oi);
         }
     }
     private static void s_Initialize()
