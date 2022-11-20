@@ -11,7 +11,7 @@ internal class DalOrder : IOrder
         o.OrderCreated = DateTime.Now;
         o.OrderCreated = DateTime.MinValue;
         o.Delivery = DateTime.MinValue;
-        DataSource._orders[DataSource.Config.OrderIndex] = o;
+        DataSource._orders.Add(o);
         return o.Id;
     }
     public Order Read(int orderId)
@@ -24,33 +24,17 @@ internal class DalOrder : IOrder
     }
     public IEnumerable<Order> Read()
     {
-        Order[] orders = new Order[DataSource.Config._orderIndex];
-        for (int i = 0; i < orders.Length; i++)
-        {
-            orders[i] = DataSource._orders[i];
-        }
+        IEnumerable<Order> orders = new List<Order>(DataSource._orders);
         return orders;
     }
     public void Delete(int orderId)
     {
-        bool found = false;
-        for (int i = 0; i < DataSource.Config._orderIndex--; i++)
-        {
-            if (DataSource._orders[i].Id == orderId || found)
-            {
-                found = true;
-                DataSource._orders[i] = DataSource._orders[i + 1];
-            }
-        }
-        if (!found)
-        {
-            DataSource.Config._orderIndex++;
+        if (!DataSource._orders.Remove(new Order { Id = orderId }))
             throw new Exception("Order not found");
-        }
     }
     public void Update(Order o)
     {
-        for (int i = 0; i < DataSource.Config._orderIndex; i++)
+        for (int i = 0; i < DataSource._orders.Count; i++)
         {
             if (DataSource._orders[i].Id == o.Id)
             {

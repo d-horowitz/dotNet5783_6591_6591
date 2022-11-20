@@ -44,8 +44,8 @@ public class DataSource
                 Address = i + " " + (char)(i + 65) + " st.",
                 OrderCreated = DateTime.Now - TimeSpan.FromDays(_randomer.NextInt64(10, 20))
             };
-            o.Shipping = i%10<8 ? o.OrderCreated+TimeSpan.FromDays(_randomer.NextInt64(3, 5)) : DateTime.MinValue;
-            o.Delivery = i%10<5 ? o.Shipping+TimeSpan.FromDays(_randomer.NextInt64(1, 2)) : DateTime.MinValue;
+            o.Shipping = i % 10 < 8 ? o.OrderCreated + TimeSpan.FromDays(_randomer.NextInt64(3, 5)) : DateTime.MinValue;
+            o.Delivery = i % 10 < 5 ? o.Shipping + TimeSpan.FromDays(_randomer.NextInt64(1, 2)) : DateTime.MinValue;
             _orders.Add(o);
         }
     }
@@ -56,9 +56,9 @@ public class DataSource
             OrderItem oi = new()
             {
                 Id = Config.OrderItemId,
-                OrderId = _orders[_randomer.NextInt64(0, _orders.Length - 1)].Id,
-                ProductId = _products[_randomer.NextInt64(0, _products.Length)].Id,
-                UnitPrice = _randomer.NextDouble()*75+55,
+                OrderId = _orders[_randomer.Next(0, _orders.Count - 1)].Id,
+                ProductId = _products[_randomer.Next(0, _products.Count - 1)].Id,
+                UnitPrice = _randomer.NextDouble() * 75 + 55,
                 Amount = (int)_randomer.NextInt64(1, 6)
             };
             _orderItems.Add(oi);

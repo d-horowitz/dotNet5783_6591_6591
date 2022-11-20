@@ -7,7 +7,7 @@ internal class DalOrderItem : IOrderItem
     public int Add(OrderItem oi)
     {
         oi.Id = DataSource.Config.OrderItemId;
-        DataSource._orderItems[DataSource.Config.OrderItemIndex] = oi;
+        DataSource._orderItems.Add(oi);
         return oi.Id;
     }
     public OrderItem Read(int orderItemId)
@@ -20,33 +20,17 @@ internal class DalOrderItem : IOrderItem
     }
     public IEnumerable<OrderItem> Read()
     {
-        OrderItem[] orderItems = new OrderItem[DataSource.Config._orderItemIndex];
-        for (int i = 0; i < orderItems.Length; i++)
-        {
-            orderItems[i] = DataSource._orderItems[i];
-        }
+        IEnumerable<OrderItem> orderItems = new List<OrderItem>(DataSource._orderItems);
         return orderItems;
     }
     public void Delete(int orderItemId)
     {
-        bool found = false;
-        for (int i = 0; i < DataSource.Config._orderItemIndex--; i++)
-        {
-            if (DataSource._orderItems[i].Id == orderItemId || found)
-            {
-                found = true;
-                DataSource._orderItems[i] = DataSource._orderItems[i + 1];
-            }
-        }
-        if (!found)
-        {
-            DataSource.Config._orderItemIndex++;
+        if (!DataSource._orderItems.Remove(new OrderItem { Id = orderItemId }))
             throw new Exception("Order item not found");
-        }
     }
     public void Update(OrderItem oi)
     {
-        for (int i = 0; i < DataSource.Config._orderItemIndex; i++)
+        for (int i = 0; i < DataSource._orderItems.Count; i++)
         {
             if (DataSource._orderItems[i].Id == oi.Id)
             {
@@ -69,20 +53,7 @@ internal class DalOrderItem : IOrderItem
     }
     public IEnumerable<OrderItem> ReadList(int orderId)
     {
-        int number = 0;
-        foreach (OrderItem oi in DataSource._orderItems)
-        {
-            if (oi.OrderId == orderId) { number++; }
-        }
-        if (number == 0) { throw new Exception("Items not found"); }
-        OrderItem[] orderItems = new OrderItem[number];
-        for (int i = 0; i < DataSource.Config._orderItemIndex; i++)
-        {
-            if (DataSource._orderItems[i].OrderId == orderId)
-            {
-                orderItems[i] = DataSource._orderItems[i];
-            }
-        }
+        IEnumerable<OrderItem> orderItems = DataSource._orderItems.FindAll(oi => oi.OrderId == orderId);
         return orderItems;
     }
 }

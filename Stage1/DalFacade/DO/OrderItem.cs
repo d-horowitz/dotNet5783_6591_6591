@@ -16,4 +16,8 @@ public struct OrderItem
     	UnitPrice: {UnitPrice},
     	Amount of units: {Amount}
     ";
+    public bool Equals(OrderItem oi)
+    {
+        return oi.Id == Id;
+    }
 }

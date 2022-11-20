@@ -1,5 +1,7 @@
 ﻿
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace DO;
 public struct Order
 {
@@ -16,5 +18,9 @@ public struct Order
         Email: {Email}, 
     	Address: {Address},
     	Order created on {OrderCreated}, shipped on {Shipping}, delivered on {Delivery}";
+    public bool Equals(Order o)
+    {
+        return o.Id == Id;
+    }
 }
 

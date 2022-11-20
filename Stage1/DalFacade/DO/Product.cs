@@ -15,4 +15,8 @@ public struct Product
     	Price: {Price}
     	Amount in stock: {Amount}
     ";
+    public bool Equals(Product p)
+    {
+        return p.Id == Id;
+    }
 }
