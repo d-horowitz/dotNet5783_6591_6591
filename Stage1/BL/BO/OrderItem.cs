@@ -1,5 +1,5 @@
 ﻿namespace BO;
-    internal class OrderItem
+internal class OrderItem
 {
     public int Id { get; set; }
     public string? Name { get; set; }
