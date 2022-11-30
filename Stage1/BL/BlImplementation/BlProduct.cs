@@ -5,11 +5,11 @@ namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
     private IDal Dal = new DalList();
-    public IEnumerable<DO.Product> getProductList()
+    public IEnumerable<DO.Product> GetProductList()
     {
         return new List<DO.Product>();//change urgently
     }
-    public IEnumerable<DO.Product> getCatalog()
+    public IEnumerable<DO.Product> GetCatalog()
     {
         return new List<DO.Product>();//change urgently
     }
@@ -17,5 +17,13 @@ internal class BlProduct : BlApi.IProduct
     {
         return new DO.Product();//change urgently
     }
-
+    public void Add(BO.Product p)
+    {
+        //change urgently
+    }
+    public void Delete(int productId)
+    {
+        //change urgently
+    }
+    public void Update()
 }
