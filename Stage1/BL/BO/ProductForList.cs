@@ -1,5 +1,5 @@
 ﻿namespace BO;
-internal class ProductForList
+public class ProductForList
 {
     public int Id { get; set; }
     public string? Name { get; set; }

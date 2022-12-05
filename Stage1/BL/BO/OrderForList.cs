@@ -1,5 +1,5 @@
 ﻿namespace BO;
-internal class OrderForList
+public class OrderForList
 {
 
     public int Id { get; set; }

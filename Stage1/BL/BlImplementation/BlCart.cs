@@ -13,7 +13,7 @@ internal class BlCart : ICart
         {
             int idx = -1;
             if (items.Items != null)
-                idx = items.Items.FindIndex(item => item.ID == id);
+                idx = items.Items.FindIndex(item => item.Id == id);
             DO.Product p = Dal.Product.Read(id);
 
             if (idx == -1)
@@ -52,7 +52,7 @@ internal class BlCart : ICart
     {
         int idx = -1;
         if (item.Items != null)
-            idx = item.Items.FindIndex(item => item.ID == id);
+            idx = item.Items.FindIndex(item => item.Id == id);
         if (idx == -1)
         {
             throw new BO.NonExistentObject("The item is not in the cart");
