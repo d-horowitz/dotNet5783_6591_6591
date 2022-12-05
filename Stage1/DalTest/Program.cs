@@ -182,7 +182,7 @@ class Program
                 case Crud.Create:
                     Console.WriteLine("Enter order id:");
                     oi.OrderId = Convert.ToInt32(Console.ReadLine());
-                    dalOrder.Read(oi.OrderId);
+                    dalOrder.ReadSingle( order=> order.Id == oi.OrderId);//oi.OrderId
                     Console.WriteLine("Enter product id");
                     oi.ProductId = Convert.ToInt32(Console.ReadLine());
                     oi.UnitPrice = dalProduct.Read(oi.ProductId).Price;

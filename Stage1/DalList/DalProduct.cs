@@ -10,6 +10,7 @@ internal class DalProduct : IProduct
         DataSource._products.Add(p);
         return p.Id;
     }
+    /*
     public Product Read(int productId)
     {
         foreach (Product p in DataSource._products)
@@ -18,9 +19,19 @@ internal class DalProduct : IProduct
         }
         throw new Exception("Product not found");
     }
-    public IEnumerable<Product> Read()
+    */
+    public Product ReadSingle(Func<Product, bool> func)
     {
-        IEnumerable<Product> products = new List<Product>(DataSource._products);
+        Predicate<Product> myFunc = new(func);
+        return DataSource._products.Find(myFunc);
+    }
+    public IEnumerable<Product> Read(Func<Product, bool>? func = null)
+    {
+        IEnumerable<Product> products;
+        if (func != null)
+            products = new List<Product>(DataSource._products.Where(func));
+        else
+            products = new List<Product>(DataSource._products);
         return products;
     }
     public void Delete(int productId)

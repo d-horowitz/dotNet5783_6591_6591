@@ -10,6 +10,7 @@ internal class DalOrderItem : IOrderItem
         DataSource._orderItems.Add(oi);
         return oi.Id;
     }
+    /*
     public OrderItem Read(int orderItemId)
     {
         foreach (OrderItem oi in DataSource._orderItems)
@@ -18,9 +19,19 @@ internal class DalOrderItem : IOrderItem
         }
         throw new Exception("Order item not found");
     }
-    public IEnumerable<OrderItem> Read()
+    */
+    public OrderItem ReadSingle(Func<OrderItem, bool> func)
     {
-        IEnumerable<OrderItem> orderItems = new List<OrderItem>(DataSource._orderItems);
+        Predicate<OrderItem> myFunc = new(func);
+        return DataSource._orderItems.Find(myFunc);
+    }
+    public IEnumerable<OrderItem> Read(Func<OrderItem, bool>? func = null)
+    {
+        IEnumerable<OrderItem> orderItems;
+        if (func != null)
+            orderItems = new List<OrderItem>(DataSource._orderItems.Where(func));
+        else
+            orderItems = new List<OrderItem>(DataSource._orderItems);
         return orderItems;
     }
     public void Delete(int orderItemId)

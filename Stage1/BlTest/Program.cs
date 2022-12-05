@@ -86,16 +86,14 @@ void UpdateProduct()
         string price = Console.ReadLine();
         if (!string.IsNullOrEmpty(price))
         {
-            double price1 = Convert.ToDouble(price);
-            Product.Price = price1;
+            Product.Price = Convert.ToDouble(price);
         }
 
         Console.WriteLine("Enter new amount in stock");
         string inStock = Console.ReadLine();
         if (!string.IsNullOrEmpty(inStock))
-        {
-            int inStock1 = Convert.ToInt32(inStock);
-            Product.AmountInStock = inStock1;
+        { 
+            Product.AmountInStock = Convert.ToInt32(inStock);
         }
         blListEntity.Product.Update(Product);
         Console.WriteLine("The update was successful");
@@ -117,7 +115,7 @@ void CreateProduct()
         Console.WriteLine("Enter name");
         Product.Name = Console.ReadLine();
         Console.WriteLine("Enter price");
-        Product.Price = Convert.ToInt32(Console.ReadLine());
+        Product.Price = Convert.ToDouble(Console.ReadLine());
         Console.WriteLine("Enter amount in stock");
         Product.AmountInStock = Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("Enter category: רהיטים - 1, רהיטי מטבח - 2");
@@ -135,7 +133,7 @@ void CreateProduct()
 /// </summary>
 void ProductFunction()
 {
-    Console.WriteLine("Enter your choice: 1 - Read , 2 - Read catalog , 3 - Read Product for buyer , 4 - Read Product for dairector , 5 - Update , 6 - Creat ");
+    Console.WriteLine("Enter your choice: 1 - Read , 2 - Read catalog , 3 - Read Product for customer , 4 - Read Product for manager , 5 - Update , 6 - Create ");
     choice = Convert.ToInt32(Console.ReadLine());
     try
     {
@@ -223,7 +221,7 @@ void UpdateOrderDelivery()
 /// </summary>
 void OrderFunction()
 {
-    Console.WriteLine("Enter your choice:  1 - Read all 2 - Read for dairector , 3 - Update order shipping , 4 - Update order delivery ");
+    Console.WriteLine("Enter your choice:  1 - Read all 2 - Read for manager , 3 - Update order shipping , 4 - Update order delivery ");
     choice = Convert.ToInt32(Console.ReadLine());
     try
     {

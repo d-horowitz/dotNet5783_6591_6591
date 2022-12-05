@@ -14,6 +14,7 @@ internal class DalOrder : IOrder
         DataSource._orders.Add(o);
         return o.Id;
     }
+    /*
     public Order Read(int orderId)
     {
         foreach (Order o in DataSource._orders)
@@ -22,9 +23,19 @@ internal class DalOrder : IOrder
         }
         throw new Exception("Order not found");
     }
-    public IEnumerable<Order> Read()
+    */
+    public Order ReadSingle(Func<Order, bool> func)
     {
-        IEnumerable<Order> orders = new List<Order>(DataSource._orders);
+        Predicate<Order> myFunc = new(func);
+        return DataSource._orders.Find(myFunc);
+    }
+    public IEnumerable<Order> Read(Func<Order, bool>? func = null)
+    {
+        IEnumerable<Order> orders;
+        if (func != null)
+            orders = new List<Order>(DataSource._orders.Where(func));
+        else
+            orders = new List<Order>(DataSource._orders);
         return orders;
     }
     public void Delete(int orderId)
