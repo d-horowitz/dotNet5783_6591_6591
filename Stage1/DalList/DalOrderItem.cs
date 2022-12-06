@@ -2,7 +2,7 @@
 using DO;
 namespace Dal;
 
-internal class DalOrderItem : IOrderItem
+public class DalOrderItem : IOrderItem
 {
     public int Add(OrderItem oi)
     {
@@ -51,6 +51,7 @@ internal class DalOrderItem : IOrderItem
         }
         throw new Exception("Order item not found");
     }
+    /*
     public OrderItem Read(int orderId, int productId)
     {
         foreach (OrderItem oi in DataSource._orderItems)
@@ -62,9 +63,11 @@ internal class DalOrderItem : IOrderItem
         }
         throw new Exception("Order item not found");
     }
+   
     public IEnumerable<OrderItem> ReadList(int orderId)
     {
         IEnumerable<OrderItem> orderItems = DataSource._orderItems.FindAll(oi => oi.OrderId == orderId);
         return orderItems;
     }
+    */
 }

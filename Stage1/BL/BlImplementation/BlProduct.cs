@@ -61,7 +61,7 @@ internal class BlProduct : BlApi.IProduct
         {
             try
             {
-                DO.Product DOproduct = Dal.Product.Read(productId);
+                DO.Product DOproduct = Dal.Product.ReadSingle(product => product.Id == productId);
                 BO.Product BOproduct = new()
                 {
                     Id = DOproduct.Id,
@@ -93,7 +93,7 @@ internal class BlProduct : BlApi.IProduct
         {
             try
             {
-                DO.Product DOproduct = Dal.Product.Read(productId);
+                DO.Product DOproduct = Dal.Product.ReadSingle(product => product.Id == productId);
                 BO.Product BOproduct = new()
                 {
                     Id = DOproduct.Id,
@@ -145,15 +145,12 @@ internal class BlProduct : BlApi.IProduct
     }
     public void Delete(int productId)
     {
-        foreach (var oi in Dal.OrderItem.Read())
+        foreach (var oi in Dal.OrderItem.Read(orderItem => orderItem.ProductId == productId))
         {
-            if (oi.ProductId == productId)
+            DO.Order order = Dal.Order.ReadSingle(order => order.Id == oi.OrderId);
+            if (DateTime.Now < order.Shipping)
             {
-                DO.Order order = Dal.Order.Read(oi.OrderId);
-                if (DateTime.Now < order.Shipping)
-                {
-                    throw new BO.ProductExistsAtSomeOrder();
-                }
+                throw new BO.ProductExistsAtSomeOrder();
             }
         }
         try

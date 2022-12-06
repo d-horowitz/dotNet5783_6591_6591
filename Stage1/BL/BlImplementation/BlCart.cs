@@ -14,7 +14,7 @@ internal class BlCart : ICart
             int idx = -1;
             if (items.Items != null)
                 idx = items.Items.FindIndex(item => item.Id == id);
-            DO.Product p = Dal.Product.Read(id);
+            DO.Product p = Dal.Product.ReadSingle(product => product.Id == id);
 
             if (idx == -1)
             {
@@ -43,8 +43,14 @@ internal class BlCart : ICart
                 }
             }
         }
-        catch (NonExistentObject ex) { throw new BO.NonExistentObject(ex); }
-        catch (InvalidInput ex) { throw new BO.InvalidInput(ex); }
+        catch (NonExistentObject ex)
+        {
+            throw new BO.NonExistentObject(ex);
+        }
+        catch (InvalidInput ex)
+        {
+            throw new BO.InvalidInput(ex);
+        }
         return items;
     }
 
@@ -63,7 +69,7 @@ internal class BlCart : ICart
             {
                 if (item.Items[idx].Amount < newAmount)
                 {
-                    DO.Product p = Dal.Product.Read(id);
+                    DO.Product p = Dal.Product.ReadSingle(product => product.Id == id);
                     if (p.Amount > 0)
                     {
                         item.Items[idx].Amount += newAmount;
@@ -84,8 +90,14 @@ internal class BlCart : ICart
                     item.Items[idx].TotalPrice = 0;
                 }
             }
-            catch (NonExistentObject ex) { throw new BO.NonExistentObject(ex); }
-            catch (InvalidInput ex) { throw new BO.InvalidInput(ex); }
+            catch (NonExistentObject ex)
+            {
+                throw new BO.NonExistentObject(ex);
+            }
+            catch (InvalidInput ex)
+            {
+                throw new BO.InvalidInput(ex);
+            }
         }
         return item;
     }
@@ -94,20 +106,31 @@ internal class BlCart : ICart
     {
         try
         {
-            if (items.CustomerName == "") { throw new BO.InvalidInput("Name is not valid"); }
-            if (items.CustomerAddress == "") { throw new BO.InvalidInput("Address is not valid"); }
+            if (items.CustomerName == "")
+            {
+                throw new BO.InvalidInput("Name is not valid");
+            }
+            if (items.CustomerAddress == "")
+            {
+                throw new BO.InvalidInput("Address is not valid");
+            }
             if (!new EmailAddressAttribute().IsValid(mail)) { throw new BO.InvalidInput("Email is not valid"); }
             DO.Product p1;
             if (items.Items != null)
             {
-                foreach (BO.OrderItem ThisItem in items.Items)
+                foreach (BO.OrderItem item in items.Items)
                 {
-                    if (ThisItem.Amount <= 0) { throw new BO.InvalidInput("Amount is not valid"); }
-                    p1 = Dal.Product.Read(ThisItem.ProductId);
-                    if (p1.Amount < ThisItem.Amount) { throw new BO.Unsuccessful("Out of stock"); }
+                    if (item.Amount <= 0)
+                    {
+                        throw new BO.InvalidInput("Amount is not valid");
+                    }
+                    p1 = Dal.Product.ReadSingle(product => product.Id == item.ProductId);
+                    if (p1.Amount < item.Amount)
+                    {
+                        throw new BO.Unsuccessful("Out of stock");
+                    }
                 }
             }
-            DO.OrderItem oi = new();
             DO.Product product = new();
             DO.Order order = new();
             order.Name = name;
@@ -121,21 +144,36 @@ internal class BlCart : ICart
             {
                 foreach (var i in items.Items)
                 {
-                    oi.ProductId = i.ProductId;
-                    oi.OrderId = orderId;
-                    oi.Amount = i.Amount;
-                    oi.UnitPrice = i.Price;
+                    DO.OrderItem oi = new()
+                    {
+                        ProductId = i.ProductId,
+                        OrderId = orderId,
+                        Amount = i.Amount,
+                        UnitPrice = i.Price
+                    };
                     Dal.OrderItem.Add(oi);
-                    product = Dal.Product.Read(oi.ProductId);
+                    product = Dal.Product.ReadSingle(product => product.Id == oi.ProductId);
                     product.Amount -= oi.Amount;
                     Dal.Product.Update(product);
                 }
             }
         }
-        catch (ObjectAlreadyExists ex) { throw new BO.ObjectAlreadyExists(ex); }
-        catch (DataOverflow ex) { throw new BO.DataOverflow(ex); }
-        catch (DataIsEmpty ex) { throw new BO.DataIsEmpty(ex); }
-        catch (NonExistentObject ex) { throw new BO.NonExistentObject(ex); }
+        catch (ObjectAlreadyExists ex)
+        {
+            throw new BO.ObjectAlreadyExists(ex);
+        }
+        catch (DataOverflow ex)
+        {
+            throw new BO.DataOverflow(ex);
+        }
+        catch (DataIsEmpty ex)
+        {
+            throw new BO.DataIsEmpty(ex);
+        }
+        catch (NonExistentObject ex)
+        {
+            throw new BO.NonExistentObject(ex);
+        }
     }
 
 }

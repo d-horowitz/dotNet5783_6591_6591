@@ -35,15 +35,15 @@ class Program
                     p.Price = Convert.ToDouble(Console.ReadLine());
                     Console.WriteLine("Category:(0-Kodesh, 1-Biography, 2-Novel, 3-Fiction, 4-Children)");
                     p.Category = (ECategory)Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalProduct.Create(p));
+                    Console.WriteLine(dalProduct.Add(p));
                     break;
                 case Crud.Read:
                     Console.WriteLine("Enter book id:");
                     bookId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalProduct.Read(bookId));
+                    Console.WriteLine(dalProduct.ReadSingle(product => product.Id == bookId));
                     break;
                 case Crud.ReadAll:
-                    Product[] products = dalProduct.Read();
+                    List<Product> products = new(dalProduct.Read());
                     foreach (Product product in products)
                     {
                         Console.WriteLine(product);
@@ -52,7 +52,7 @@ class Program
                 case Crud.Update:
                     Console.WriteLine("Enter book id:");
                     p.Id = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalProduct.Read(p.Id));
+                    Console.WriteLine(dalProduct.ReadSingle(product => product.Id == p.Id));
                     Console.WriteLine("Enter new details:");
                     Console.WriteLine("Name:");
                     input = Console.ReadLine();
@@ -108,15 +108,15 @@ class Program
                     o.Email = Console.ReadLine();
                     Console.WriteLine("Address:");
                     o.Address = Console.ReadLine();
-                    Console.WriteLine(dalOrder.Create(o));
+                    Console.WriteLine(dalOrder.Add(o));
                     break;
                 case Crud.Read:
                     Console.WriteLine("Enter order id:");
                     orderId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalOrder.Read(orderId));
+                    Console.WriteLine(dalOrder.ReadSingle(order=>order.Id==orderId));
                     break;
                 case Crud.ReadAll:
-                    Order[] orders = dalOrder.Read();
+                    List<Order> orders = new(dalOrder.Read());
                     foreach (Order order in orders)
                     {
                         Console.WriteLine(order);
@@ -125,7 +125,7 @@ class Program
                 case Crud.Update:
                     Console.WriteLine("Enter order id:");
                     o.Id = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalOrder.Read(o.Id));
+                    Console.WriteLine(dalOrder.ReadSingle(order=>order.Id==o.Id));
                     Console.WriteLine("Enter new details:");
                     Console.WriteLine("Customer Name:");
                     input = Console.ReadLine();
@@ -164,7 +164,7 @@ class Program
     {
         Crud crud;
         OrderItem oi = new();
-        OrderItem[] orderItems;
+        List<OrderItem> orderItems;
         int orderItemId, orderId;
         Console.WriteLine("Choose Action:");
         Console.WriteLine("0 - Add a new order item");
@@ -185,18 +185,18 @@ class Program
                     dalOrder.ReadSingle( order=> order.Id == oi.OrderId);//oi.OrderId
                     Console.WriteLine("Enter product id");
                     oi.ProductId = Convert.ToInt32(Console.ReadLine());
-                    oi.UnitPrice = dalProduct.Read(oi.ProductId).Price;
+                    oi.UnitPrice = dalProduct.ReadSingle(product=>product.Id==oi.ProductId).Price;
                     Console.WriteLine("Enter amount:");
                     oi.Amount = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalOrderItem.Create(oi));
+                    Console.WriteLine(dalOrderItem.Add(oi));
                     break;
                 case Crud.Read:
                     Console.WriteLine("Enter order item id:");
                     orderItemId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalOrderItem.Read(orderItemId));
+                    Console.WriteLine(dalOrderItem.ReadSingle(orderItem=>orderItem.Id==orderItemId));
                     break;
                 case Crud.ReadAll:
-                    orderItems = dalOrderItem.Read();
+                    orderItems = new(dalOrderItem.Read());
                     foreach (OrderItem orderItem in orderItems)
                     {
                         Console.WriteLine(orderItem);
@@ -205,7 +205,7 @@ class Program
                 case Crud.Update:
                     Console.WriteLine("Enter order item id:");
                     orderItemId = Convert.ToInt32(Console.ReadLine());
-                    oi = dalOrderItem.Read(orderItemId);
+                    oi = dalOrderItem.ReadSingle(orderItem =>orderItem.Id==orderItemId);
                     Console.WriteLine("Enter new Amount:");
                     oi.Amount = Convert.ToInt32(Console.ReadLine());
                     dalOrderItem.Update(oi);
@@ -220,12 +220,12 @@ class Program
                     orderId = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter product id:");
                     int productId = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine(dalOrderItem.Read(orderId, productId));
+                    Console.WriteLine(dalOrderItem.ReadSingle(orderItem => orderItem.OrderId == orderId && orderItem.ProductId == productId));
                     break;
                 case Crud.ReadList:
                     Console.WriteLine("Enter order id:");
                     orderId = Convert.ToInt32(Console.ReadLine());
-                    orderItems = dalOrderItem.ReadList(orderId);
+                    orderItems = new(dalOrderItem.Read(orderItem=>orderItem.OrderId==orderId));
                     foreach (OrderItem orderItem in orderItems)
                     {
                         Console.WriteLine(orderItem);

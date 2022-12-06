@@ -2,7 +2,7 @@
 using DalApi;
 using Dal;
 namespace BlImplementation;
-internal class BlOrder:BlApi.IOrder
+internal class BlOrder : BlApi.IOrder
 {
     private readonly IDal Dal = new DalList();
     public IEnumerable<BO.OrderForList> Read()
@@ -24,13 +24,11 @@ internal class BlOrder:BlApi.IOrder
                     newOrder.OrderStatus = BO.EOrderStatus.Delivered;
                 int amount = 0;
                 double price = 0;
-                foreach (var orderItem in Dal.OrderItem.Read())
+                foreach (var orderItem in Dal.OrderItem.Read(oi => oi.OrderId == order.Id))
                 {
-                    if (orderItem.OrderId == order.Id)
-                    {
-                        amount++;
-                        price += orderItem.Amount * orderItem.UnitPrice;
-                    }
+                    amount++;
+                    price += orderItem.Amount * orderItem.UnitPrice;
+
                 }
                 newOrder.AmountOfItems = amount;
                 newOrder.TotalPrice = price;
@@ -46,7 +44,7 @@ internal class BlOrder:BlApi.IOrder
             throw new BO.InvalidInput("id is not valid");
         try
         {
-            DO.Order DOorder = Dal.Order.Read(orderId);
+            DO.Order DOorder = Dal.Order.ReadSingle(order=>order.Id==orderId);
             BO.Order BOorder = new();
             BOorder.Id = orderId;
             BOorder.OrderDate = DOorder.OrderCreated;
@@ -58,9 +56,9 @@ internal class BlOrder:BlApi.IOrder
             BOorder.TotalPrice = 0;
             List<BO.OrderItem> oiList = new();
             BO.OrderItem oi = new BO.OrderItem();
-            foreach (var item in Dal.OrderItem.ReadList(orderId))
+            foreach (var item in Dal.OrderItem.Read(orderItem=>orderItem.OrderId==orderId))
             {
-                oi.Name = Dal.Product.Read(item.ProductId).Name;
+                oi.Name = Dal.Product.ReadSingle(product=>product.Id==item.ProductId).Name;
                 oi.ProductId = item.ProductId;
                 oi.Price = item.UnitPrice;
                 oi.Id = item.Id;
@@ -78,8 +76,8 @@ internal class BlOrder:BlApi.IOrder
     {
         try
         {
-            DO.Order DOorder = Dal.Order.Read(OrderId);
-            if (DOorder.Shipping  < DateTime.Now)
+            DO.Order DOorder = Dal.Order.ReadSingle(order=>order.Id==OrderId);
+            if (DOorder.Shipping < DateTime.Now)
             {
                 BO.Order BOorder = new();
                 DOorder.Shipping = DateTime.Now;
@@ -104,7 +102,7 @@ internal class BlOrder:BlApi.IOrder
     {
         try
         {
-            DO.Order DOorder = Dal.Order.Read(OrderId);
+            DO.Order DOorder = Dal.Order.ReadSingle(order=>order.Id==OrderId);
             if (DOorder.Delivery < DateTime.Now)
             {
                 BO.Order BOorder = new();

@@ -5,8 +5,6 @@ using BlImplementation;
 IBl blListEntity = new Bl();
 BO.Product Product = new();
 BO.Cart newCart = new();
-BO.OrderItem newOrderItem = new();
-Dal.DataSource ds = new();
 int choice;
 int temp;
 int id;
@@ -15,28 +13,19 @@ string mail;
 string adress;
 int amount;
 
-//===================================product===================================
-/// <summary>
-/// Sending a request to get all the products and prints their details
-/// </summary>
+//product
 void ReadProduct()
 {
     foreach (var item in blListEntity.Product.Read())
         Console.WriteLine(item);
 }
 
-/// <summary>
-/// Sending a request to get all the products and prints their details for the catalog
-/// </summary>
 void ReadCatalogProduct()
 {
     foreach (var item in blListEntity.Product.ReadCatalog())
         Console.WriteLine(item);
 }
 
-/// <summary>
-/// Sending a request to get one product by ID and prints its details for buyeer
-/// </summary>
 void ReadProductForCustomer()
 {
     Console.WriteLine("Please enter ID");
@@ -44,9 +33,6 @@ void ReadProductForCustomer()
     Console.WriteLine(blListEntity.Product.ReadForCustomer(temp));
 }
 
-/// <summary>
-/// Sending a request to get one product by ID and prints its details for dairector
-/// </summary>
 void ReadProductForManager()
 {
     Console.WriteLine("Please enter ID");
@@ -54,10 +40,6 @@ void ReadProductForManager()
     Console.WriteLine(blListEntity.Product.ReadForManager(temp));
 }
 
-/// <summary>
-/// Sending a request to get new details for an existing product 
-/// from the user and updates the changes
-/// </summary>
 void UpdateProduct()
 {
     Console.WriteLine("Please enter ID");
@@ -92,7 +74,7 @@ void UpdateProduct()
         Console.WriteLine("Enter new amount in stock");
         string inStock = Console.ReadLine();
         if (!string.IsNullOrEmpty(inStock))
-        { 
+        {
             Product.AmountInStock = Convert.ToInt32(inStock);
         }
         blListEntity.Product.Update(Product);
@@ -104,9 +86,6 @@ void UpdateProduct()
     }
 }
 
-/// <summary>
-///  Adds a new product to the list products
-/// </summary>
 void CreateProduct()
 {
     try
@@ -122,15 +101,20 @@ void CreateProduct()
         Product.Category = (BO.ECategory)Convert.ToInt32(Console.ReadLine());
         Console.WriteLine($@"succses! id is: {blListEntity.Product.Create(Product)}");
     }
-    catch (BO.DataOverflow ex) { Console.WriteLine(ex); }
-    catch (BO.ObjectAlreadyExists ex) { Console.WriteLine(ex); }
-    catch (BO.InvalidInput ex) { Console.WriteLine(ex); }
+    catch (BO.DataOverflow ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.ObjectAlreadyExists ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.InvalidInput ex)
+    {
+        Console.WriteLine(ex);
+    }
 }
 
-
-/// <summary>
-/// Allows the user to choose the requested service for actions on a product
-/// </summary>
 void ProductFunction()
 {
     Console.WriteLine("Enter your choice: 1 - Read , 2 - Read catalog , 3 - Read Product for customer , 4 - Read Product for manager , 5 - Update , 6 - Create ");
@@ -161,19 +145,34 @@ void ProductFunction()
                 break;
         }
     }
-    catch (BO.DataIsEmpty ex) { Console.WriteLine(ex); }
-    catch (BO.InvalidInput ex) { Console.WriteLine(ex); }
-    catch (BO.NonExistentObject ex) { Console.WriteLine(ex); }
-    catch (BO.DataOverflow ex) { Console.WriteLine(ex); }
-    catch (BO.ObjectAlreadyExists ex) { Console.WriteLine(ex); }
-    catch (BO.ProductExistsAtSomeOrder ex) { Console.WriteLine(ex); }
+    catch (BO.DataIsEmpty ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.InvalidInput ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.NonExistentObject ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.DataOverflow ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.ObjectAlreadyExists ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.ProductExistsAtSomeOrder ex)
+    {
+        Console.WriteLine(ex);
+    }
 
 }
-//===================================order=====================================
+//order
 
-/// <summary>
-/// Sending a request to get all the orders and prints their details
-/// </summary>
 void Read()
 {
     List<BO.OrderForList> newOrder = new();
@@ -184,9 +183,6 @@ void Read()
     }
 }
 
-/// <summary>
-/// Sending a request to get specific order for dairector
-/// </summary>
 void ReadOrderForManager()
 {
     BO.Order order = new();
@@ -196,9 +192,6 @@ void ReadOrderForManager()
     Console.WriteLine(order);
 }
 
-/// <summary>
-/// Order shipping date update
-/// </summary>
 void UpdateOrderShipping()
 {
     Console.WriteLine("Please enter an order number");
@@ -206,9 +199,6 @@ void UpdateOrderShipping()
     Console.WriteLine(blListEntity.Order.UpdateShipping(temp));
 }
 
-/// <summary>
-/// Order delivering date update
-/// </summary>
 void UpdateOrderDelivery()
 {
     Console.WriteLine("Please enter an order number");
@@ -216,9 +206,6 @@ void UpdateOrderDelivery()
     Console.WriteLine(blListEntity.Order.UpdateDelivery(temp));
 }
 
-/// <summary>
-/// Allows the user to choose the requested service for actions on a order
-/// </summary>
 void OrderFunction()
 {
     Console.WriteLine("Enter your choice:  1 - Read all 2 - Read for manager , 3 - Update order shipping , 4 - Update order delivery ");
@@ -243,16 +230,22 @@ void OrderFunction()
                 break;
         }
     }
-    catch (BO.DataIsEmpty ex) { Console.WriteLine(ex); }
-    catch (BO.InvalidInput ex) { Console.WriteLine(ex); }
-    catch (BO.NonExistentObject ex) { Console.WriteLine(ex); }
+    catch (BO.DataIsEmpty ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.InvalidInput ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.NonExistentObject ex)
+    {
+        Console.WriteLine(ex);
+    }
 }
 
-//===================================cart======================================
+//cart
 
-/// <summary>
-/// Add a new product to the cart list
-/// </summary>
 void AddToCart()
 {
     Console.WriteLine("Please enter Product ID");
@@ -261,9 +254,6 @@ void AddToCart()
     Console.WriteLine(newCart);
 }
 
-/// <summary>
-/// Sending a request to get a new amount for specific item and update id
-/// </summary>
 void UpdateToCart()
 {
     Console.WriteLine("Please enter product ID");
@@ -274,10 +264,6 @@ void UpdateToCart()
     Console.WriteLine(newCart);
 }
 
-/// <summary>
-/// Order confirmation process,
-/// gets userdetails and creat a new order
-/// </summary>
 void OrderConfirmationTheCart()
 {
     Console.WriteLine("Please enter name");
@@ -290,9 +276,6 @@ void OrderConfirmationTheCart()
     Console.WriteLine("The serving has been made");
 }
 
-/// <summary>
-/// Allows the user to choose the requested service for actions on a cart
-/// </summary>
 void CartFunction()
 {
     Console.WriteLine("Enter your choice:  1 - Add , 2 - Update , 3 - Comfirmation ");
@@ -314,15 +297,33 @@ void CartFunction()
                 break;
         }
     }
-    catch (BO.Unsuccessful ex) { Console.WriteLine(ex); }
-    catch (BO.InvalidInput ex) { Console.WriteLine(ex); }
-    catch (BO.NonExistentObject ex) { Console.WriteLine(ex); }
-    catch (BO.DataOverflow ex) { Console.WriteLine(ex); }
-    catch (BO.ObjectAlreadyExists ex) { Console.WriteLine(ex); }
-    catch (BO.DataIsEmpty ex) { Console.WriteLine(ex); }
+    catch (BO.Unsuccessful ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.InvalidInput ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.NonExistentObject ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.DataOverflow ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.ObjectAlreadyExists ex)
+    {
+        Console.WriteLine(ex);
+    }
+    catch (BO.DataIsEmpty ex)
+    {
+        Console.WriteLine(ex);
+    }
 }
 
-//======================================main===================================
+//main
 
 void Main()
 {
