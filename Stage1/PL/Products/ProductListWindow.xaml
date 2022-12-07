@@ -20,9 +20,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ComboBox Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="ComboBox_SelectionChanged"/>
             <Label Grid.Column="0"/>
+            <ListView x:Name="ProductsListView" Grid.Column="2" />
         </Grid>
-        <ListView x:Name="ProductsListView" Grid.Row="1"></ListView>
+        <TextBox x:Name="mes" Grid.Row="3" Text="fdsfds" />
     </Grid>
 </Window>
