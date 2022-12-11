@@ -26,13 +26,16 @@ namespace PL.Products
         {
             InitializeComponent();
             bl = p_bl;
-            ProductsListView.ItemsSource =  bl.Product.Read();
+            ProductsListView.ItemsSource = bl.Product.Read();
             CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
+            //CategorySelector.ItemsSource;
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CategorySelected(object sender, SelectionChangedEventArgs e)
         {
-            mes.Text = sender.ToString();
+            string? category = CategorySelector.SelectedItem.ToString();
+            ProductsListView.ItemsSource = bl.Product.Read(p => p.Category.ToString() == category || category == "");
+            mes.Text = CategorySelector.SelectedItem.ToString();
         }
     }
 }

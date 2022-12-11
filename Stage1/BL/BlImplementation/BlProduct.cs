@@ -4,12 +4,12 @@ namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
     private readonly IDal Dal = new Dal.DalList();
-    public IEnumerable<BO.ProductForList> Read()
+    public IEnumerable<BO.ProductForList> Read(Func<DO.Product, bool>? func = null)
     {
         List<BO.ProductForList> productsList = new();
         try
         {
-            IEnumerable<DO.Product> products = Dal.Product.Read();
+            IEnumerable<DO.Product> products = Dal.Product.Read(func);
             foreach (var p in products)
             {
                 BO.ProductForList item = new()

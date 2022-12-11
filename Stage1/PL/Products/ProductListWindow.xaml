@@ -13,14 +13,26 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+        <Grid 
+            Name="UpGrid" 
+            HorizontalAlignment="Stretch" 
+            Height="auto" Grid.Row="0" 
+            VerticalAlignment="Stretch" 
+            Width="auto"
+        >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="ComboBox_SelectionChanged"/>
+            <ComboBox 
+                Name="CategorySelector" 
+                Grid.Column="1" 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                SelectionChanged="CategorySelected"
+            />
             <Label Grid.Column="0"/>
             <ListView x:Name="ProductsListView" Grid.Column="2" />
         </Grid>
