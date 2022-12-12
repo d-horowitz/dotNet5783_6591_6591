@@ -7,6 +7,34 @@
         mc:Ignorable="d"
         Title="ProductWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center" 
+            Content="Enter book details:" 
+            FontFamily="AdamGorry-Inline" 
+            FontSize="20"
+        />
+        <TextBox Name="NameInput" Margin="40,25,500,25" Grid.Row="1" Text="Name..."/>
+        <TextBox Name="PriceInput" Margin="40,25,500,25" Grid.Row="2" Text="Price..."/>
+        <Label Content="Choose category:" HorizontalAlignment="Left" Margin="50,3,0,0" Grid.Row="3" VerticalAlignment="Top"/>
+        <ComboBox Name="CategoryInput" Margin="40,25,500,25" Grid.Row="3" />
+        <TextBox Name="AmountInput" Margin="40,25,500,25" Grid.Row="4" Text="Amount in stock..."/>
+        <Button 
+            Content="Add" 
+            HorizontalAlignment="Left" 
+            Margin="638,0,0,0" 
+            Grid.Row="5" 
+            VerticalAlignment="Center" 
+            Click="Add"
+        />
+        <Button Content="Back to products" HorizontalAlignment="Left" Margin="513,0,0,0" Grid.Row="5" VerticalAlignment="Center" Click="BackToProducts" Width="99"/>
     </Grid>
 </Window>

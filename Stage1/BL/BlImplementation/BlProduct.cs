@@ -121,7 +121,6 @@ internal class BlProduct : BlApi.IProduct
     public int Create(BO.Product product)
     {
         int id;
-        if (product.Id < 0) throw new BO.InvalidInput("id is not valid");
         if (product.Name == null) throw new BO.InvalidInput("name value is not valid");
         if (product.Price < 0) throw new BO.InvalidInput("price value is not valid");
         if (product.AmountInStock < 0) throw new BO.InvalidInput("amount in stock value is not valid");

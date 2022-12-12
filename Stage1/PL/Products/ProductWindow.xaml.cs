@@ -11,17 +11,50 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BlApi;
+using BlImplementation;
 
-namespace PL.Products
+namespace PL.Products;
+/// <summary>
+/// Interaction logic for ProductWindow.xaml
+/// </summary>
+public partial class ProductWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for ProductWindow.xaml
-    /// </summary>
-    public partial class ProductWindow : Window
+    private IBl bl;
+    public ProductWindow(IBl p_bl)
     {
-        public ProductWindow()
+        InitializeComponent();
+        bl = p_bl;
+        CategoryInput.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
+    }
+
+    private void Add(object sender, RoutedEventArgs e)
+    {
+        try
         {
-            InitializeComponent();
+            if (CategoryInput.SelectedItem == null)
+                throw new Exception("Category not selected");
+            int id = bl.Product.Create(
+                new BO.Product
+                {
+                    Name = NameInput.Text,
+                    Price = Convert.ToDouble(PriceInput.Text),
+                    Category = (BO.ECategory)CategoryInput.SelectedItem,
+                    AmountInStock = Convert.ToInt32(AmountInput.Text)
+                }
+            );
+            MessageBox.Show("the book was added succesfully with ID " + id.ToString(), "👍 Successful Action");
+            BackToProducts(sender,e);
         }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "⚠ERROR");
+        }
+    }
+
+    private void BackToProducts(object sender, RoutedEventArgs e)
+    {
+        new ProductListWindow(bl).Show();
+        Close();
     }
 }

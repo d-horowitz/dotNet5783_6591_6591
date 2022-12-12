@@ -14,28 +14,42 @@ using System.Windows.Shapes;
 using BlApi;
 using BlImplementation;
 
-namespace PL.Products
+namespace PL.Products;
+/// <summary>
+/// Interaction logic for ProductListWindow.xaml
+/// </summary>
+public partial class ProductListWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for ProductListWindow.xaml
-    /// </summary>
-    public partial class ProductListWindow : Window
+    private IBl bl;
+    public ProductListWindow(IBl p_bl)
     {
-        private IBl bl;
-        public ProductListWindow(IBl p_bl)
-        {
-            InitializeComponent();
-            bl = p_bl;
-            ProductsListView.ItemsSource = bl.Product.Read();
-            CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
-            //CategorySelector.ItemsSource;
-        }
+        InitializeComponent();
+        bl = p_bl;
+        ProductsListView.ItemsSource = bl.Product.Read();
+        CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
+        //CategorySelector.ItemsSource;
+    }
 
-        private void CategorySelected(object sender, SelectionChangedEventArgs e)
-        {
-            string? category = CategorySelector.SelectedItem.ToString();
-            ProductsListView.ItemsSource = bl.Product.Read(p => p.Category.ToString() == category || category == "");
-            mes.Text = CategorySelector.SelectedItem.ToString();
-        }
+    private void CategorySelected(object sender, SelectionChangedEventArgs e)
+    {
+        string? category = CategorySelector.SelectedItem.ToString();
+        ProductsListView.ItemsSource = bl.Product.Read(p => p.Category.ToString() == category || category == "");
+        //mes.Text = CategorySelector.SelectedItem.ToString();
+    }
+    private void AddNew(object sender, RoutedEventArgs e)
+    {
+        new ProductWindow(bl).Show();
+        this.Close();
+    }
+
+    private void Close(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+
     }
 }
+

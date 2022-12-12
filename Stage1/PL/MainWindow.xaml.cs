@@ -31,7 +31,7 @@ namespace PL
         private void GoToProducts(object sender, RoutedEventArgs e)
         {
             new Products.ProductListWindow(bl).Show();
-            this.Close();
+            Close();
         }
     }
 }

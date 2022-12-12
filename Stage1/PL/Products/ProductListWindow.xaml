@@ -8,9 +8,9 @@
         Title="ProductListWindow" Height="640" Width="800">
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid 
@@ -36,6 +36,7 @@
             <Label Grid.Column="0"/>
             <ListView x:Name="ProductsListView" Grid.Column="2" />
         </Grid>
-        <TextBox x:Name="mes" Grid.Row="3" Text="fdsfds" />
+        <Button Grid.Row="2" Margin="644,58,42,104" Content="Add a new book" Click="AddNew"/>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="516,58,0,0" Grid.Row="2" VerticalAlignment="Top" Height="46" Width="82" Click="Close"/>
     </Grid>
 </Window>
