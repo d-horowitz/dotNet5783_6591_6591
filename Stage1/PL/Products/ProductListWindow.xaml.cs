@@ -27,14 +27,12 @@ public partial class ProductListWindow : Window
         bl = p_bl;
         ProductsListView.ItemsSource = bl.Product.Read();
         CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
-        //CategorySelector.ItemsSource;
     }
 
     private void CategorySelected(object sender, SelectionChangedEventArgs e)
     {
         string? category = CategorySelector.SelectedItem.ToString();
         ProductsListView.ItemsSource = bl.Product.Read(p => p.Category.ToString() == category || category == "");
-        //mes.Text = CategorySelector.SelectedItem.ToString();
     }
     private void AddNew(object sender, RoutedEventArgs e)
     {
@@ -46,10 +44,10 @@ public partial class ProductListWindow : Window
     {
         Close();
     }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private void Update(object sender, RoutedEventArgs e)
     {
-
+        new ProductWindow(bl, ((BO.ProductForList)ProductsListView.SelectedItem).Id).Show();
+        Close();
     }
 }
 

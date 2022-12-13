@@ -34,7 +34,7 @@
                 SelectionChanged="CategorySelected"
             />
             <Label Grid.Column="0"/>
-            <ListView x:Name="ProductsListView" Grid.Column="2" />
+            <ListView x:Name="ProductsListView" Grid.Column="2" SelectionChanged="Update" />
         </Grid>
         <Button Grid.Row="2" Margin="644,58,42,104" Content="Add a new book" Click="AddNew"/>
         <Button Content="Close" HorizontalAlignment="Left" Margin="516,58,0,0" Grid.Row="2" VerticalAlignment="Top" Height="46" Width="82" Click="Close"/>

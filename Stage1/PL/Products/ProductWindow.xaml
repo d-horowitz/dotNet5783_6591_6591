@@ -28,12 +28,12 @@
         <ComboBox Name="CategoryInput" Margin="40,25,500,25" Grid.Row="3" />
         <TextBox Name="AmountInput" Margin="40,25,500,25" Grid.Row="4" Text="Amount in stock..."/>
         <Button 
+            Name="AddUpdate"
             Content="Add" 
             HorizontalAlignment="Left" 
             Margin="638,0,0,0" 
             Grid.Row="5" 
-            VerticalAlignment="Center" 
-            Click="Add"
+            VerticalAlignment="Center"
         />
         <Button Content="Back to products" HorizontalAlignment="Left" Margin="513,0,0,0" Grid.Row="5" VerticalAlignment="Center" Click="BackToProducts" Width="99"/>
     </Grid>
