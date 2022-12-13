@@ -31,13 +31,13 @@ public partial class ProductListWindow : Window
 
     private void CategorySelected(object sender, SelectionChangedEventArgs e)
     {
-        string? category = CategorySelector.SelectedItem.ToString();
-        ProductsListView.ItemsSource = bl.Product.Read(p => p.Category.ToString() == category || category == "");
+        string? category = CategorySelector.SelectedItem?.ToString();
+        ProductsListView.ItemsSource = bl.Product.Read(p => p.Category.ToString() == category || category == null);
     }
     private void AddNew(object sender, RoutedEventArgs e)
     {
         new ProductWindow(bl).Show();
-        this.Close();
+        Close();
     }
 
     private void Close(object sender, RoutedEventArgs e)
@@ -48,6 +48,11 @@ public partial class ProductListWindow : Window
     {
         new ProductWindow(bl, ((BO.ProductForList)ProductsListView.SelectedItem).Id).Show();
         Close();
+    }
+
+    private void Clear(object sender, RoutedEventArgs e)
+    {
+        CategorySelector.SelectedItem = null;
     }
 }
 
