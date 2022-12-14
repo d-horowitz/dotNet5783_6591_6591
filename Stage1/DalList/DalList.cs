@@ -1,6 +1,6 @@
 ﻿using DalApi;
 namespace Dal;
-sealed public class DalList : IDal
+sealed internal class DalList : IDal
 {
     private DalList()
     {
