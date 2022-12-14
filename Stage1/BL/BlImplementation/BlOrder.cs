@@ -1,10 +1,9 @@
 ﻿using BlApi;
 using DalApi;
-using Dal;
 namespace BlImplementation;
 internal class BlOrder : BlApi.IOrder
 {
-    private readonly IDal Dal = new DalList();
+    private readonly IDal? Dal = DalApi.Factory.Get();//DalList.Instance;
     public IEnumerable<BO.OrderForList> Read()
     {
         List<BO.OrderForList> OrdersList = new();

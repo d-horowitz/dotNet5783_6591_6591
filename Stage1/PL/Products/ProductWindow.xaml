@@ -16,7 +16,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Label 
-            VerticalAlignment="Center" 
+            VerticalAlignment="Center"
+            Grid.Row="0"
             HorizontalAlignment="Center" 
             Content="Enter book details:" 
             FontFamily="AdamGorry-Inline" 

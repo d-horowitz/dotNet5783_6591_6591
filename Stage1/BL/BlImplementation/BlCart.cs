@@ -2,11 +2,10 @@
 using DalApi;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
-
 namespace BlImplementation;
 internal class BlCart : ICart
 {
-    private readonly IDal Dal = new Dal.DalList();
+    private readonly IDal? Dal = DalApi.Factory.Get();//DalList.Instance;
     public BO.Cart Create(BO.Cart items, int id)
     {
         try
