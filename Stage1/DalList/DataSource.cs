@@ -1,6 +1,5 @@
 ﻿using DO;
 namespace Dal;
-
 public class DataSource
 {
     public static readonly Random _randomer = new Random();
@@ -58,9 +57,9 @@ public class DataSource
                 Id = Config.OrderItemId,
                 OrderId = _orders[_randomer.Next(0, _orders.Count - 1)].Id,
                 ProductId = _products[_randomer.Next(0, _products.Count - 1)].Id,
-                UnitPrice = _randomer.NextDouble() * 75 + 55,
                 Amount = (int)_randomer.NextInt64(1, 6)
             };
+            oi.UnitPrice = _products.Where(p => p.Id==oi.ProductId).ToList()[0].Price;
             _orderItems.Add(oi);
         }
     }

@@ -40,6 +40,7 @@
                         <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=Price}" Header="Price"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Path=Category}" Header="Category"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Amount}" Header="Amount in Stock"/>
                     </GridView>
                 </ListView.View>
             </ListView>

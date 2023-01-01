@@ -1,6 +1,6 @@
 ﻿using DalApi;
 using DO;
 namespace Dal;
-internal class OrderItem : IOrderItem
+internal class OrderItem //: IOrderItem
 {
 }

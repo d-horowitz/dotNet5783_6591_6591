@@ -1,7 +1,7 @@
 ﻿using DalApi;
 using DO;
 namespace Dal;
-internal class Product: IProduct
+internal class Product//: IProduct
 {
 }
 
