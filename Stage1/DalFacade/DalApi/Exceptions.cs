@@ -40,3 +40,9 @@ public class DataIsEmpty : Exception
                             "data is empty";
 
 }
+public class NotEnoughInStock : Exception
+{
+    public override string Message =>
+                            "Not enough items in stock";
+
+}

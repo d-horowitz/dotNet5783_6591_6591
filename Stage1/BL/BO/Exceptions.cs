@@ -23,7 +23,8 @@ public class DataOverflow : Exception
 }
 public class ObjectAlreadyExists : Exception
 {
-    public ObjectAlreadyExists(Exception exc) : base("Object is already exist", exc) { }
+    public ObjectAlreadyExists(string msg) : base(msg) { }
+    public ObjectAlreadyExists(Exception exc) : base("Object already exists", exc) { }
 }
 public class ProductExistsAtSomeOrder : Exception
 {
@@ -32,4 +33,9 @@ public class ProductExistsAtSomeOrder : Exception
 public class Unsuccessful : Exception
 {
     public Unsuccessful(string msg) : base(msg) { }
+}
+public class NotEnoughInStock : Exception
+{
+    public NotEnoughInStock(Exception exc) : base("Not Enough Items in Stock", exc) { }
+    public NotEnoughInStock(string msg) : base(msg) { }
 }

@@ -6,9 +6,9 @@ public class Order
     public string? CustomerEmail { get; set; }
     public string? CustomerAddress { get; set; }
     public EOrderStatus Status { get; set; }
-    public DateTime OrderDate { get; set; }
-    public DateTime ShipDate { get; set; }
-    public DateTime DeliveryDate { get; set; }
+    public DateTime OrderCreated { get; set; }
+    public DateTime Shipping { get; set; }
+    public DateTime Delivery { get; set; }
     public List<OrderItem>? Items { get; set; }
     public double TotalPrice { get; set; }
     public override string ToString()
@@ -18,9 +18,9 @@ public class Order
             customer mame: {CustomerName}, 
             email {CustomerEmail}, 
             address {CustomerAddress}.
-            order date: {OrderDate}, 
-            ship date: {ShipDate}, 
-            delivery date: {DeliveryDate}, 
+            order date: {OrderCreated}, 
+            ship date: {Shipping}, 
+            delivery date: {Delivery}, 
             status: {Status}.
             total price:{TotalPrice}
             items:";

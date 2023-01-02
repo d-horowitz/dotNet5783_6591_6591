@@ -89,20 +89,21 @@ internal class BlProduct : BlApi.IProduct
         }
 
     }
-    public BO.Product ReadForCustomer(int productId)
+    public BO.ProductItem ReadForCustomer(int productId, BO.Cart cart)
     {
         if (productId > 0)
         {
             try
             {
                 DO.Product DOproduct = Dal.Product.ReadSingle(product => product.Id == productId);
-                BO.Product BOproduct = new()
+                BO.ProductItem BOproduct = new()
                 {
                     Id = DOproduct.Id,
                     Name = DOproduct.Name,
                     Price = DOproduct.Price,
                     Category = (BO.ECategory)DOproduct.Category,
-                    AmountInStock = DOproduct.Amount
+                    InStock = DOproduct.Amount > 0,
+                    Amount = cart.Items.Where(itm => itm.ProductId == productId).First().Amount
                 };
                 return BOproduct;
             }
@@ -123,7 +124,7 @@ internal class BlProduct : BlApi.IProduct
     public int Create(BO.Product product)
     {
         int id;
-        if (product.Name == null) throw new BO.InvalidInput("name value is not valid");
+        if (product.Name == null || product.Name == "") throw new BO.InvalidInput("name value is not valid");
         if (product.Price < 0) throw new BO.InvalidInput("price value is not valid");
         if (product.AmountInStock < 0) throw new BO.InvalidInput("amount in stock value is not valid");
         DO.Product p = new()
@@ -147,16 +148,20 @@ internal class BlProduct : BlApi.IProduct
     }
     public void Delete(int productId)
     {
-        foreach (var oi in Dal.OrderItem.Read(orderItem => orderItem.ProductId == productId))
+        /*foreach (var oi in Dal.OrderItem.Read(orderItem => orderItem.ProductId == productId))
         {
             DO.Order order = Dal.Order.ReadSingle(order => order.Id == oi.OrderId);
             if (DateTime.Now < order.Shipping)
             {
                 throw new BO.ProductExistsAtSomeOrder();
             }
-        }
+        }*/
         try
         {
+        if(Dal.OrderItem.Read(oi=>oi.ProductId==productId).ToList().Count != 0)
+            {
+                throw new BO.ObjectAlreadyExists("Product already exists in order(s)");
+            }
             Dal.Product.Delete(productId);
         }
         catch (NonExistentObject ex)
@@ -168,7 +173,7 @@ internal class BlProduct : BlApi.IProduct
     public void Update(BO.Product product)
     {
         if (product.Id < 0) throw new BO.InvalidInput("id is not valid");
-        if (product.Name == null) throw new BO.InvalidInput("name value is not valid");
+        if (product.Name == null|| product.Name == "") throw new BO.InvalidInput("name value is not valid");
         if (product.Price < 0) throw new BO.InvalidInput("price value is not valid");
         if (product.AmountInStock < 0) throw new BO.InvalidInput("amount in stock value is not valid");
         DO.Product p = new()

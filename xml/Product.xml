@@ -2,10 +2,10 @@
 <ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Product>
     <Id>100000</Id>
-    <Name>BOOK A</Name>
+    <Name>Siddur</Name>
     <Category>Kodesh</Category>
     <Price>90</Price>
-    <Amount>0</Amount>
+    <Amount>12</Amount>
   </Product>
   <Product>
     <Id>100001</Id>
@@ -74,8 +74,8 @@
     <Id>100010</Id>
     <Name>Dadi Gamadi</Name>
     <Category>Children</Category>
-    <Price>13.9</Price>
-    <Amount>15</Amount>
+    <Price>15.9</Price>
+    <Amount>1</Amount>
   </Product>
   <Product>
     <Id>100011</Id>
