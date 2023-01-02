@@ -1,73 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<Product>
-		<Id>100000</Id>
-		<Name>BOOK A</Name>
-		<Category>Kodesh</Category>
-		<Price>90</Price>
-		<Amount>0</Amount>
-	</Product>
-	<Product>
-		<Id>100001</Id>
-		<Name>BOOK B</Name>
-		<Category>Biography</Category>
-		<Price>91.1</Price>
-		<Amount>1</Amount>
-	</Product>
-	<Product>
-		<Id>100002</Id>
-		<Name>BOOK C</Name>
-		<Category>Novel</Category>
-		<Price>92.2</Price>
-		<Amount>2</Amount>
-	</Product>
-	<Product>
-		<Id>100003</Id>
-		<Name>BOOK D</Name>
-		<Category>Fiction</Category>
-		<Price>93.3</Price>
-		<Amount>3</Amount>
-	</Product>
-	<Product>
-		<Id>100004</Id>
-		<Name>BOOK E</Name>
-		<Category>Children</Category>
-		<Price>94.4</Price>
-		<Amount>4</Amount>
-	</Product>
-	<Product>
-		<Id>100005</Id>
-		<Name>BOOK F</Name>
-		<Category>Kodesh</Category>
-		<Price>95.5</Price>
-		<Amount>5</Amount>
-	</Product>
-	<Product>
-		<Id>100006</Id>
-		<Name>BOOK G</Name>
-		<Category>Biography</Category>
-		<Price>96.6</Price>
-		<Amount>6</Amount>
-	</Product>
-	<Product>
-		<Id>100007</Id>
-		<Name>BOOK H</Name>
-		<Category>Novel</Category>
-		<Price>97.7</Price>
-		<Amount>7</Amount>
-	</Product>
-	<Product>
-		<Id>100008</Id>
-		<Name>BOOK I</Name>
-		<Category>Fiction</Category>
-		<Price>98.8</Price>
-		<Amount>8</Amount>
-	</Product>
-	<Product>
-		<Id>100009</Id>
-		<Name>BOOK J</Name>
-		<Category>Children</Category>
-		<Price>99.9</Price>
-		<Amount>9</Amount>
-	</Product>
+  <Product>
+    <Id>100000</Id>
+    <Name>BOOK A</Name>
+    <Category>Kodesh</Category>
+    <Price>90</Price>
+    <Amount>0</Amount>
+  </Product>
+  <Product>
+    <Id>100001</Id>
+    <Name>BOOK B</Name>
+    <Category>Biography</Category>
+    <Price>91.1</Price>
+    <Amount>1</Amount>
+  </Product>
+  <Product>
+    <Id>100002</Id>
+    <Name>BOOK C</Name>
+    <Category>Novel</Category>
+    <Price>92.2</Price>
+    <Amount>2</Amount>
+  </Product>
+  <Product>
+    <Id>100003</Id>
+    <Name>BOOK D</Name>
+    <Category>Fiction</Category>
+    <Price>93.3</Price>
+    <Amount>3</Amount>
+  </Product>
+  <Product>
+    <Id>100004</Id>
+    <Name>BOOK E</Name>
+    <Category>Children</Category>
+    <Price>94.4</Price>
+    <Amount>4</Amount>
+  </Product>
+  <Product>
+    <Id>100005</Id>
+    <Name>BOOK F</Name>
+    <Category>Kodesh</Category>
+    <Price>95.5</Price>
+    <Amount>5</Amount>
+  </Product>
+  <Product>
+    <Id>100006</Id>
+    <Name>BOOK G</Name>
+    <Category>Biography</Category>
+    <Price>96.6</Price>
+    <Amount>6</Amount>
+  </Product>
+  <Product>
+    <Id>100007</Id>
+    <Name>BOOK H</Name>
+    <Category>Novel</Category>
+    <Price>97.7</Price>
+    <Amount>7</Amount>
+  </Product>
+  <Product>
+    <Id>100008</Id>
+    <Name>BOOK I</Name>
+    <Category>Fiction</Category>
+    <Price>98.8</Price>
+    <Amount>8</Amount>
+  </Product>
+  <Product>
+    <Id>100009</Id>
+    <Name>BOOK J</Name>
+    <Category>Children</Category>
+    <Price>99.9</Price>
+    <Amount>9</Amount>
+  </Product>
+  <Product>
+    <Id>100010</Id>
+    <Name>Dadi Gamadi</Name>
+    <Category>Children</Category>
+    <Price>13.9</Price>
+    <Amount>15</Amount>
+  </Product>
+  <Product>
+    <Id>100011</Id>
+    <Name>My Life</Name>
+    <Category>Biography</Category>
+    <Price>105</Price>
+    <Amount>5</Amount>
+  </Product>
 </ArrayOfProduct>

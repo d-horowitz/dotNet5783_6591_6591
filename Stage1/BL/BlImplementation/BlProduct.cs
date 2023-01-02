@@ -1,10 +1,11 @@
 ﻿using BlApi;
 using DalApi;
+using Dal;
 
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
-    private readonly IDal? Dall = DalApi.Factory.Get();//DalList.Instance;
+    private readonly IDal Dal = DalXml.Instance;//DalApi.Factory.Get();//DalList.Instance;
     public IEnumerable<BO.ProductForList> Read(Func<DO.Product, bool>? func = null)
     {
         List<BO.ProductForList> productsList = new();
@@ -130,7 +131,8 @@ internal class BlProduct : BlApi.IProduct
             Id = product.Id,
             Name = product.Name,
             Price = product.Price,
-            Category = (DO.ECategory)product.Category
+            Category = (DO.ECategory)product.Category,
+            Amount = product.AmountInStock
         };
         try { id = Dal.Product.Add(p); }
         catch (DataOverflow ex)
