@@ -10,13 +10,25 @@ internal class BlOrder : BlApi.IOrder
         List<BO.OrderForList> OrderList = new();
         try
         {
-            Dal.Order.Read().ToList().ForEach(o => OrderList.Add(
+            Dal.Order.Read().ToList().ForEach(o =>
+            {
+                List<DO.OrderItem> oi = Dal.OrderItem.Read(oi => oi.OrderId == o.Id).ToList();
+                OrderList.Add(
                 new BO.OrderForList
                 {
-                    CustomerName = o.Name
+                    Id = o.Id,
+                    CustomerName = o.Name,
+                    AmountOfItems = Dal.OrderItem.Read(oi => oi.OrderId == o.Id).Count(),
+                    OrderStatus = o.Shipping == DateTime.MinValue ? BO.EOrderStatus.Processed : o.Delivery == DateTime.MinValue ? BO.EOrderStatus.Shipped : BO.EOrderStatus.Delivered,
+                    TotalPrice =
+
+
                 }
-                ));
-        }catch (Exception ex) { }
+                );
+            });
+        }
+        catch (Exception ex) { }
+        return OrderList;
         /*List<BO.OrderForList> OrdersList = new();
         try
         {
@@ -55,7 +67,7 @@ internal class BlOrder : BlApi.IOrder
             throw new BO.InvalidInput("id is not valid");
         try
         {
-            DO.Order DOorder = Dal.Order.ReadSingle(order=>order.Id==orderId);
+            DO.Order DOorder = Dal.Order.ReadSingle(order => order.Id == orderId);
             BO.Order BOorder = new();
             BOorder.Id = orderId;
             BOorder.OrderCreated = DOorder.OrderCreated;
@@ -67,9 +79,9 @@ internal class BlOrder : BlApi.IOrder
             BOorder.TotalPrice = 0;
             List<BO.OrderItem> oiList = new();
             BO.OrderItem oi = new BO.OrderItem();
-            foreach (var item in Dal.OrderItem.Read(orderItem=>orderItem.OrderId==orderId))
+            foreach (var item in Dal.OrderItem.Read(orderItem => orderItem.OrderId == orderId))
             {
-                oi.Name = Dal.Product.ReadSingle(product=>product.Id==item.ProductId).Name;
+                oi.Name = Dal.Product.ReadSingle(product => product.Id == item.ProductId).Name;
                 oi.ProductId = item.ProductId;
                 oi.Price = item.UnitPrice;
                 oi.Id = item.Id;
@@ -87,7 +99,7 @@ internal class BlOrder : BlApi.IOrder
     {
         try
         {
-            DO.Order DOorder = Dal.Order.ReadSingle(order=>order.Id==OrderId);
+            DO.Order DOorder = Dal.Order.ReadSingle(order => order.Id == OrderId);
             if (DOorder.Shipping < DateTime.Now)
             {
                 BO.Order BOorder = new();
@@ -113,7 +125,7 @@ internal class BlOrder : BlApi.IOrder
     {
         try
         {
-            DO.Order DOorder = Dal.Order.ReadSingle(order=>order.Id==OrderId);
+            DO.Order DOorder = Dal.Order.ReadSingle(order => order.Id == OrderId);
             if (DOorder.Delivery < DateTime.Now)
             {
                 BO.Order BOorder = new();
