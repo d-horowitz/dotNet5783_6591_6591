@@ -1,30 +1,30 @@
 ﻿namespace BO;
 public class NotExistException : Exception
 {
-    public NotExistException(Exception exc) : base("The item does not exist", exc) { }
+    public NotExistException(Exception ex) : base("The item does not exist", ex) { }
 }
 public class DataIsEmpty : Exception
 {
-    public DataIsEmpty(Exception exc) : base("Data is empty", exc) { }
+    public DataIsEmpty(Exception ex) : base("Data is empty", ex) { }
 }
 public class InvalidInput : Exception
 {
     public InvalidInput(string msg) : base(msg) { }
-    public InvalidInput(Exception exc) : base("Input is not valud", exc) { }
+    public InvalidInput(Exception ex) : base("Input is not valud", ex) { }
 }
 public class NonExistentObject : Exception
 {
-    public NonExistentObject(Exception exc) : base("Object is not exist", exc) { }
+    public NonExistentObject(Exception ex) : base("Object is not exist", ex) { }
     public NonExistentObject(string msg) : base(msg) { }
 }
 public class DataOverflow : Exception
 {
-    public DataOverflow(Exception exc) : base("Data overflow", exc) { }
+    public DataOverflow(Exception ex) : base("Data overflow", ex) { }
 }
 public class ObjectAlreadyExists : Exception
 {
     public ObjectAlreadyExists(string msg) : base(msg) { }
-    public ObjectAlreadyExists(Exception exc) : base("Object already exists", exc) { }
+    public ObjectAlreadyExists(Exception ex) : base("Object already exists", ex) { }
 }
 public class ProductExistsAtSomeOrder : Exception
 {
@@ -36,6 +36,6 @@ public class Unsuccessful : Exception
 }
 public class NotEnoughInStock : Exception
 {
-    public NotEnoughInStock(Exception exc) : base("Not Enough Items in Stock", exc) { }
+    public NotEnoughInStock(Exception ex) : base("Not Enough Items in Stock", ex) { }
     public NotEnoughInStock(string msg) : base(msg) { }
 }

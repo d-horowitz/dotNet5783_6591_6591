@@ -77,7 +77,7 @@ internal class BlCart : ICart
                 }
             }*/
         }
-        catch(NotEnoughInStock ex)
+        catch (NotEnoughInStock ex)
         {
             throw new BO.NotEnoughInStock(ex);
         }
@@ -100,15 +100,15 @@ internal class BlCart : ICart
             {
                 throw new InvalidInput();
             }
-            if(cart.Items == null || cart.Items.Where(oi=>oi.ProductId == productId).ToList().Count == 0)
+            if (cart.Items == null || cart.Items.Where(oi => oi.ProductId == productId).ToList().Count == 0)
             {
                 throw new NonExistentObject();
             }
             int oiIndex = cart.Items.FindIndex(oi => oi.ProductId == productId);
             int numAdded = newAmount - cart.Items[oiIndex].Amount;
-            if(numAdded > 0)
+            if (numAdded > 0)
             {
-                if(new BlProduct().ReadForManager(productId).AmountInStock < cart.Items[oiIndex].Amount + numAdded)
+                if (new BlProduct().ReadForManager(productId).AmountInStock < cart.Items[oiIndex].Amount + numAdded)
                 {
                     throw new NotEnoughInStock();
                 }
@@ -116,12 +116,12 @@ internal class BlCart : ICart
             cart.Items[oiIndex].Amount += numAdded;
             cart.Items[oiIndex].TotalPrice += numAdded * cart.Items[oiIndex].Price;
             cart.TotalPrice += numAdded * cart.Items[oiIndex].Price;
-            if(newAmount ==0)
+            if (newAmount == 0)
             {
                 cart.Items = cart.Items.Where(oi => oi.ProductId != productId).ToList();
             }
         }
-        catch(NotEnoughInStock ex)
+        catch (NotEnoughInStock ex)
         {
             throw new BO.NotEnoughInStock(ex);
         }
@@ -179,9 +179,68 @@ internal class BlCart : ICart
         return cart;
     }
 
-    public void OrderConfirmation(BO.Cart items, string name, string mail, string Address)
+    public void OrderConfirmation(BO.Cart cart)
     {
         try
+        {
+            if (cart.CustomerName == null || cart.CustomerName == "" || cart.CustomerAddress == null || cart.CustomerAddress == "" || cart.CustomerEmail == null || cart.CustomerEmail == "")
+            {
+                throw new InvalidInput();
+            }
+            cart.Items.ForEach(
+                (oi) =>
+                {
+                    if (oi.Amount <= 0)
+                    {
+                        throw new InvalidInput();
+                    }
+
+                    if (new BlProduct().ReadForManager(oi.ProductId).AmountInStock < oi.Amount)
+                    {
+                        throw new NotEnoughInStock();
+                    }
+                });
+            int OrderId = Dal.Order.Add(
+                new DO.Order
+                {
+                    Name = cart.CustomerName,
+                    Address = cart.CustomerAddress,
+                    Email = cart.CustomerEmail,
+                    OrderCreated = DateTime.Now,
+                    Shipping = DateTime.MinValue,
+                    Delivery = DateTime.MinValue
+                }
+                );
+            cart.Items.ForEach((oi) =>
+            {
+                DO.Product product = Dal.Product.ReadSingle(p => p.Id == oi.ProductId);
+                Dal.Product.Update(new DO.Product
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Category = product.Category,
+                    Price = product.Price,
+                    Amount = product.Amount - oi.Amount
+                });
+                Dal.OrderItem.Add(new DO.OrderItem
+                {
+                    OrderId = OrderId,
+                    ProductId = oi.ProductId,
+                    Amount = oi.Amount,
+                    UnitPrice = oi.Price
+                });
+            });
+
+        }
+        catch (InvalidInput ex)
+        {
+            throw new BO.InvalidInput(ex);
+        }
+        catch (NotEnoughInStock ex)
+        {
+            throw new BO.NotEnoughInStock(ex);
+        }
+        /*try
         {
             if (items.CustomerName == "")
             {
@@ -250,7 +309,7 @@ internal class BlCart : ICart
         catch (NonExistentObject ex)
         {
             throw new BO.NonExistentObject(ex);
-        }
+        }*/
     }
 
 }

@@ -1,12 +1,23 @@
 ﻿using BlApi;
 using DalApi;
 namespace BlImplementation;
+using Dal;
 internal class BlOrder : BlApi.IOrder
 {
-    private readonly IDal? Dal = DalApi.Factory.Get();//DalList.Instance;
+    private readonly IDal Dal = DalXml.Instance;//DalApi.Factory.Get();//DalList.Instance;
     public IEnumerable<BO.OrderForList> Read()
     {
-        List<BO.OrderForList> OrdersList = new();
+        List<BO.OrderForList> OrderList = new();
+        try
+        {
+            Dal.Order.Read().ToList().ForEach(o => OrderList.Add(
+                new BO.OrderForList
+                {
+                    CustomerName = o.Name
+                }
+                ));
+        }catch (Exception ex) { }
+        /*List<BO.OrderForList> OrdersList = new();
         try
         {
             IEnumerable<DO.Order> orders = Dal.Order.Read();
@@ -36,6 +47,7 @@ internal class BlOrder : BlApi.IOrder
         }
         catch (DataIsEmpty ex) { throw new BO.DataIsEmpty(ex); }
         return OrdersList;
+        */
     }
     public BO.Order Read(int orderId)
     {
