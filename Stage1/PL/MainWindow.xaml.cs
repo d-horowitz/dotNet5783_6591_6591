@@ -32,5 +32,6 @@ namespace PL
             new Products.ProductListWindow(bl).Show();
             Close();
         }
+
     }
 }

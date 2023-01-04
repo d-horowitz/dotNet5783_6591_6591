@@ -7,7 +7,32 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Go to Product List" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" Click="GoToProducts"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Content="Admin" HorizontalAlignment="Left" Margin="179,150,0,0" VerticalAlignment="Top" Click="GoToProducts" RenderTransformOrigin="-3.255,-2.845" Height="45" Width="89"/>
+        <Button Grid.Column="0" Content="New Order" HorizontalAlignment="Left" Margin="169,277,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.331,-1.589" Height="36" Width="109">
 
+        </Button>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="6*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="5*"></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="1" BorderThickness="3" BorderBrush="Black"></Border>
+                <TextBox Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Order Number..." VerticalAlignment="Top" Width="120" Margin="0,20,0,0"/>
+                <Button Grid.Column="1" Content="Track Order" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="33" Width="120" RenderTransformOrigin="0.565,0.516" Margin="0,0,0,20"/>
+            </Grid>
+
+        </Grid>
     </Grid>
 </Window>

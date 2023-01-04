@@ -6,45 +6,64 @@
         xmlns:local="clr-namespace:PL.Products"
         mc:Ignorable="d"
         Title="ProductListWindow" Height="640" Width="800">
-    <Grid Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <!-- orders -->
+        </Grid>
+        <Grid x:Name="MainGrid" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Grid 
-            Name="UpGrid" 
+            <Grid 
+            x:Name="UpGrid" 
             HorizontalAlignment="Stretch" 
             Height="auto" Grid.Row="0" 
             VerticalAlignment="Stretch" 
             Width="auto"
         >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions >
-            <Label Content="Choose category:" Grid.Column="1"/>
-            <ComboBox 
-                Name="CategorySelector" 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Choose category:" Grid.Column="1"/>
+                <ComboBox 
+                x:Name="CategorySelector" 
                 Grid.Column="1" 
                 VerticalAlignment="Top" 
                 SelectionChanged="CategorySelected" Margin="0,30,0,0"
             />
-            <Button Content="Show all Categories" Grid.Column="1" Click="Clear" Margin="0,60,0,0" VerticalAlignment="Top"/>
-            <ListView x:Name="ProductsListView" Grid.Column="2" SelectionChanged="Update" >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Header="Name"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Price}" Header="Price"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Category}" Header="Category"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                <Button Content="Show all Categories" Grid.Column="1" Click="Clear" Margin="0,60,0,0" VerticalAlignment="Top"/>
+                <ListView x:Name="ProductsListView" Grid.Column="2" SelectionChanged="Update" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Price"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Category}" Header="Category"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Close" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center" Click="Close"/>
+                <Button Grid.Column="3" Content="Add a new book" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNew"/>
+            </Grid>
         </Grid>
-        <Button Grid.Row="1" Margin="644,58,42,52" Content="Add a new book" Click="AddNew"/>
-        <Button Content="Close" HorizontalAlignment="Left" Margin="525,58,0,0" Grid.Row="1" VerticalAlignment="Top" Height="46" Width="82" Click="Close"/>
     </Grid>
+
 </Window>

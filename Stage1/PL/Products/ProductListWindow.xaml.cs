@@ -41,6 +41,7 @@ public partial class ProductListWindow : Window
 
     private void Close(object sender, RoutedEventArgs e)
     {
+        new MainWindow().Show();
         Close();
     }
     private void Update(object sender, RoutedEventArgs e)

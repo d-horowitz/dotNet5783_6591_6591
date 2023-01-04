@@ -1,12 +1,9 @@
 ﻿using BlApi;
 using DalApi;
-using System.Text.RegularExpressions;
-using System.ComponentModel.DataAnnotations;
-using Dal;
 namespace BlImplementation;
 internal class BlCart : ICart
 {
-    private readonly IDal Dal = DalXml.Instance;//DalApi.Factory.Get();//DalList.Instance;
+    private readonly IDal Dal = DalApi.Factory.Get();//DalList.Instance;
     public BO.Cart Create(BO.Cart cart, int productId)
     {
         try

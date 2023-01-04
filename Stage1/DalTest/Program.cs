@@ -243,7 +243,12 @@ class Program
     }
     public static void Main()
     {
-        Options choice;
+        List<Product> list = new();
+        list.Add(new() { Amount = 1, Category = ECategory.Biography, Id = 1, Name = "", Price = 2.5 });
+        list.Add(new() { Amount = 1, Category = ECategory.Biography, Id = 1, Name = "", Price = 3.4 });
+        Console.WriteLine(list.Sum(p => p.Price));
+    }
+        /*Options choice;
         Console.WriteLine("Choose an Option:");
         Console.WriteLine("0 - Exit");
         Console.WriteLine("1 - Check Books");
@@ -274,7 +279,7 @@ class Program
             Console.WriteLine("3 - Check Order Items");
             choice = (Options)Convert.ToInt32(Console.ReadLine());
         }
-    }
+    }*/
 
     public Program()
     {

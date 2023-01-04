@@ -65,9 +65,9 @@
   </Product>
   <Product>
     <Id>100009</Id>
-    <Name>BOOK J</Name>
-    <Category>Children</Category>
-    <Price>99.9</Price>
+    <Name>המסע הארוך של נאן</Name>
+    <Category>Novel</Category>
+    <Price>54.3</Price>
     <Amount>9</Amount>
   </Product>
   <Product>
@@ -83,5 +83,12 @@
     <Category>Biography</Category>
     <Price>105</Price>
     <Amount>5</Amount>
+  </Product>
+  <Product>
+    <Id>100012</Id>
+    <Name>qa</Name>
+    <Category>Novel</Category>
+    <Price>55.5</Price>
+    <Amount>12</Amount>
   </Product>
 </ArrayOfProduct>

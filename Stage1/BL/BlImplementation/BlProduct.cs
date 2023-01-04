@@ -5,7 +5,7 @@ using Dal;
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
-    private readonly IDal Dal = DalXml.Instance;//DalApi.Factory.Get();//DalList.Instance;
+    private readonly IDal Dal = DalApi.Factory.Get();//DalList.Instance;
     public IEnumerable<BO.ProductForList> Read(Func<DO.Product, bool>? func = null)
     {
         List<BO.ProductForList> productsList = new();
