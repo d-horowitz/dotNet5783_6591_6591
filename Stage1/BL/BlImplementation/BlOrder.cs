@@ -234,12 +234,12 @@ internal class BlOrder : BlApi.IOrder
             };
             if (order.OrderCreated != DateTime.MinValue)
             {
-                ot.TrackList.Add((order.OrderCreated, BO.EOrderStatus.Processed));
+                ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.OrderCreated, BO.EOrderStatus.Processed));
                 if (order.Shipping != DateTime.MinValue)
                 {
-                    ot.TrackList.Add((order.Shipping, BO.EOrderStatus.Shipped));
+                    ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.Shipping, BO.EOrderStatus.Shipped));
                     if (order.Delivery != DateTime.MinValue)
-                        ot.TrackList.Add((order.Delivery, BO.EOrderStatus.Delivered));
+                        ot.TrackList.Add( new Tuple<DateTime, BO.EOrderStatus>(order.Delivery, BO.EOrderStatus.Delivered));
                 }
             }
             return ot;

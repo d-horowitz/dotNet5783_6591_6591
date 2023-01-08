@@ -11,9 +11,6 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid>
-            <!-- orders -->
-        </Grid>
         <Grid x:Name="MainGrid" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
@@ -29,19 +26,17 @@
         >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Choose category:" Grid.Column="1"/>
+                <Label Content="Choose category:" Grid.Column="0"/>
                 <ComboBox 
                 x:Name="CategorySelector" 
-                Grid.Column="1" 
+                Grid.Column="0" 
                 VerticalAlignment="Top" 
                 SelectionChanged="CategorySelected" Margin="0,30,0,0"
             />
-                <Button Content="Show all Categories" Grid.Column="1" Click="Clear" Margin="0,60,0,0" VerticalAlignment="Top"/>
-                <ListView x:Name="ProductsListView" Grid.Column="2" SelectionChanged="Update" >
+                <Button Content="Show all Categories" Grid.Column="0" Click="Clear" Margin="0,60,0,0" VerticalAlignment="Top"/>
+                <ListView x:Name="ProductsListView" Grid.Column="1" SelectionChanged="UpdateProduct" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
@@ -60,9 +55,23 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Close" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center" Click="Close"/>
-                <Button Grid.Column="3" Content="Add a new book" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNew"/>
+                <Button Content="Back to main menu" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center" Click="Back"/>
+                <Button Grid.Column="3" Content="Add a new book" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AddNewProduct"/>
             </Grid>
+        </Grid>
+        <Grid Grid.Column="1">
+            <!-- orders -->
+            <ListView x:Name="OrdersListView" Grid.Column="1" SelectionChanged="UpdateOrder" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding CusromerName}" Header="Customer Name"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding OrderStatus}" Header="Order Status"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding AmountOfItems}" Header="Amount of Items"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding TotalPrice}" Header="Total Price"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 

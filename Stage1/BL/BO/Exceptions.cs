@@ -10,11 +10,11 @@ public class DataIsEmpty : Exception
 public class InvalidInput : Exception
 {
     public InvalidInput(string msg) : base(msg) { }
-    public InvalidInput(Exception ex) : base("Input is not valud", ex) { }
+    public InvalidInput(Exception ex) : base("Input is invalid", ex) { }
 }
 public class NonExistentObject : Exception
 {
-    public NonExistentObject(Exception ex) : base("Object is not exist", ex) { }
+    public NonExistentObject(Exception ex) : base("Object does not exist", ex) { }
     public NonExistentObject(string msg) : base(msg) { }
 }
 public class DataOverflow : Exception

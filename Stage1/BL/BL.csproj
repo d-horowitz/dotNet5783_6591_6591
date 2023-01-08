@@ -13,12 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="S:\BlOrder.cs" Link="BlOrder.cs" />
-    <Compile Include="S:\OrderTracking.cs" Link="OrderTracking.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DalFacade\DalFacade.csproj" />
+    <ProjectReference Include="..\DalList\DalList.csproj" />
     <ProjectReference Include="..\DalXml\DalXml.csproj" />
   </ItemGroup>
 

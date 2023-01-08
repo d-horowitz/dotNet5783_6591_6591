@@ -8,13 +8,22 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*"></ColumnDefinition>
-            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="0" Content="Admin" HorizontalAlignment="Left" Margin="179,150,0,0" VerticalAlignment="Top" Click="GoToProducts" RenderTransformOrigin="-3.255,-2.845" Height="45" Width="89"/>
-        <Button Grid.Column="0" Content="New Order" HorizontalAlignment="Left" Margin="169,277,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.331,-1.589" Height="36" Width="109">
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="1" Content="Admin" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="GoToProducts" RenderTransformOrigin="-3.255,-2.845" Height="48" Width="104"/>
+            <Button Grid.Row="3" Content="New Order" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="-1.331,-1.589" Height="52" Width="128">
 
-        </Button>
+            </Button>
+        </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="6*"></RowDefinition>
@@ -29,8 +38,8 @@
                     <ColumnDefinition Width="4*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="1" BorderThickness="3" BorderBrush="Black"></Border>
-                <TextBox Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Order Number..." VerticalAlignment="Top" Width="120" Margin="0,20,0,0"/>
-                <Button Grid.Column="1" Content="Track Order" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="33" Width="120" RenderTransformOrigin="0.565,0.516" Margin="0,0,0,20"/>
+                <TextBox Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Order Number..." VerticalAlignment="Top" Width="120" Margin="0,20,0,0" Name="OrderNumber"/>
+                <Button Grid.Column="1" Content="Track Order" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="33" Click ="Track" Width="120" RenderTransformOrigin="0.565,0.516" Margin="0,0,0,20"/>
             </Grid>
 
         </Grid>

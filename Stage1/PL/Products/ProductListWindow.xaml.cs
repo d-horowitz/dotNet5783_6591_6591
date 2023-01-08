@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using PL.Orders;
 
 namespace PL.Products;
 /// <summary>
@@ -25,6 +26,7 @@ public partial class ProductListWindow : Window
         InitializeComponent();
         bl = p_bl;
         ProductsListView.ItemsSource = bl.Product.Read();
+        OrdersListView.ItemsSource = bl.Order.Read();
         CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
     }
 
@@ -33,20 +35,25 @@ public partial class ProductListWindow : Window
         string? category = CategorySelector.SelectedItem?.ToString();
         ProductsListView.ItemsSource = bl.Product.Read(p => p.Category.ToString() == category || category == null);
     }
-    private void AddNew(object sender, RoutedEventArgs e)
+    private void AddNewProduct(object sender, RoutedEventArgs e)
     {
         new ProductWindow(bl).Show();
         Close();
     }
 
-    private void Close(object sender, RoutedEventArgs e)
+    private void Back(object sender, RoutedEventArgs e)
     {
         new MainWindow().Show();
         Close();
     }
-    private void Update(object sender, RoutedEventArgs e)
+    private void UpdateProduct(object sender, RoutedEventArgs e)
     {
         new ProductWindow(bl, ((BO.ProductForList)ProductsListView.SelectedItem).Id).Show();
+        Close();
+    }
+    private void UpdateOrder(object sender, RoutedEventArgs e)
+    {
+        new OrderWindow(bl, ((BO.OrderForList)OrdersListView.SelectedItem).Id, true).Show();
         Close();
     }
 

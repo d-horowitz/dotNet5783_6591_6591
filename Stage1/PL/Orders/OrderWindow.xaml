@@ -5,8 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Orders"
         mc:Ignorable="d"
-        Title="OrderWindow" Height="450" Width="800">
+        Title="OrderWindow" Height="450" Width="800"
+        >
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label 
+            VerticalAlignment="Center"
+            Grid.Row="0"
+            HorizontalAlignment="Center" 
+            Content="Order ID: "
+            FontFamily="AdamGorry-Inline"
+            FontSize="20"
+            Name="Id"
+        />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" HorizontalAlignment="Right">
+                <Label HorizontalAlignment="Right">Customer Name:</Label>
+                <Label HorizontalAlignment="Right">Customer Email:</Label>
+                <Label HorizontalAlignment="Right">Customer Address:</Label>
+                <Label HorizontalAlignment="Right">Order Status:</Label>
+                <Label HorizontalAlignment="Right">Order Created on:</Label>
+                <Label HorizontalAlignment="Right">Shipped On:</Label>
+                <Label HorizontalAlignment="Right">Delivered On:</Label>
+                <Label HorizontalAlignment="Right">Total Price:</Label>
+                <Button Content="Back" Click="Back"></Button>
+                <Button Name="Ship" Content="Ship Order" Click="ShipOrder" IsEnabled="{Binding Path=editable}" ></Button>
+                <Button Name="Deliver" Content="Deliver Order" Click="DeliverOrder" IsEnabled="{Binding Path=editable}"></Button>
+            </StackPanel>
+            <StackPanel Name="Order" Grid.Column="1" HorizontalAlignment="Left">
+                <Label Content ="{Binding CustomerName}"></Label>
+                <Label Content="{Binding CustomerEmail}"></Label>
+                <Label Content="{Binding CustomerAddress}"></Label>
+                <Label Content="{Binding Status}"></Label>
+                <Label Content="{Binding OrderCreated}" ></Label>
+                <Label Content="{Binding Shipping}"></Label>
+                <Label Content="{Binding Delivery}"></Label>
+                <Label Content="{Binding TotalPrice}"></Label>
+            </StackPanel>
+            <ListView Grid.Column="2" x:Name="Items" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="ID"></GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding ProductId}" Header="Product ID"></GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"></GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Price"></GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Amount}" Header="Amount"></GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding TotalPrice}" Header="Total Price"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Grid>
 </Window>

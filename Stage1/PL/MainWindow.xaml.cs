@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BlApi;
+using PL.Orders;
 
 namespace PL
 {
@@ -33,5 +34,20 @@ namespace PL
             Close();
         }
 
+        private void Track(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                new OrderTracking(bl,Convert.ToInt32(OrderNumber.Text)).Show();
+                Close();
+            }
+            catch(BO.NonExistentObject ex)
+            {
+                MessageBox.Show("Order not found.", "⚠" + ex.Message);
+            }
+            catch(Exception ex){
+                MessageBox.Show("Please enter a valid order number.", "⚠"+ex.Message);
+            }
+        }
     }
 }
