@@ -27,7 +27,7 @@ namespace PL.Orders
     {
         private readonly IBl bl;
         private readonly int id;
-        private readonly bool editable;
+        public readonly bool editable;
         private readonly BO.Cart cart = new();
 
         public OrderWindow(IBl p_bl, BO.Cart p_cart, int p_id, bool p_editable)
@@ -41,6 +41,10 @@ namespace PL.Orders
             BO.Order order = bl.Order.Read(p_id);
             Order.DataContext = order;
             Items.ItemsSource = order.Items;
+            buttons.DataContext = new
+            {
+                editable = p_editable
+            };
             //DataContext = editable;
             Ship.Visibility = Visibility.Hidden;
             Deliver.Visibility = Visibility.Hidden;

@@ -60,7 +60,8 @@ namespace PL.Carts
         }
         private void ShowCart(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("hello cart");
+            new CartWindow(bl, cart).Show();
+            Close();
         }
         private void Clear(object sender, RoutedEventArgs e)
         {

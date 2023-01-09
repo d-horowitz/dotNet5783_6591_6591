@@ -9,7 +9,7 @@ public class DalOrder : IOrder
     {
         o.Id = DataSource.Config.OrderId;
         o.OrderCreated = DateTime.Now;
-        o.OrderCreated = DateTime.MinValue;
+        o.Shipping = DateTime.MinValue;
         o.Delivery = DateTime.MinValue;
         DataSource._orders.Add(o);
         return o.Id;

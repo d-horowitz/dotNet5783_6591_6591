@@ -6,12 +6,12 @@ public class ProductItem
     public double Price { get; set; }
     public ECategory Category { get; set; }
     public bool InStock { get; set; }
-    public int Amount { get; set; }
+    public int AmountInStock { get; set; }
     public override string ToString() => $@"
         Product ID={Id}: {Name}, 
         category - {Category} 
         Price: {Price} 
-        Amount: {Amount} 
+        Amount: {AmountInStock} 
         Amount in stock: {InStock}
     ";
 }

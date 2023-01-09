@@ -27,15 +27,20 @@ public partial class ProductListWindow : Window
         InitializeComponent();
         bl = p_bl;
         cart = p_cart;
-        ProductsListView.ItemsSource = bl.Product.Read();
-        OrdersListView.ItemsSource = bl.Order.Read();
+        MainGrid.DataContext = new
+        {
+            products =  bl.Product.Read(),
+            orders = bl.Order.Read()
+        };
+        //ProductsListView.ItemsSource = bl.Product.Read();
+        //OrdersListView.ItemsSource = bl.Order.Read();
         CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
     }
 
     private void CategorySelected(object sender, SelectionChangedEventArgs e)
     {
         string? category = CategorySelector.SelectedItem?.ToString();
-        ProductsListView.ItemsSource = bl.Product.ReadCatalog(p => p.Category.ToString() == category || category == null);
+        ProductsListView.ItemsSource = bl.Product.Read(p => p.Category.ToString() == category || category == null);
     }
     private void AddNewProduct(object sender, RoutedEventArgs e)
     {

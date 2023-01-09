@@ -25,7 +25,7 @@ internal class BlCart : ICart
             else
             {
                 BO.Product BOProduct = new BlProduct().ReadForManager(productId);
-                if(BOProduct.AmountInStock <= 0)
+                if (BOProduct.AmountInStock <= 0)
                 {
                     throw new NotEnoughInStock();
                 }
@@ -180,7 +180,7 @@ internal class BlCart : ICart
         return cart;
     }
 
-    public void OrderConfirmation(BO.Cart cart)
+    public int OrderConfirmation(BO.Cart cart)
     {
         try
         {
@@ -231,7 +231,7 @@ internal class BlCart : ICart
                     UnitPrice = oi.Price
                 });
             });
-
+            return OrderId;
         }
         catch (InvalidInput ex)
         {

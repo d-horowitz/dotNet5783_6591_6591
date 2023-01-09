@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL.Products"
         mc:Ignorable="d"
         Title="ProductWindow" Height="450" Width="800">
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
@@ -19,15 +19,18 @@
             VerticalAlignment="Center"
             Grid.Row="0"
             HorizontalAlignment="Center" 
-            Content="Enter book details:" 
+            Content="Book details:" 
             FontFamily="AdamGorry-Inline" 
             FontSize="20"
         />
-        <TextBox IsReadOnly="{Binding noneditable}" Name="NameInput" Margin="40,25,500,25" Grid.Row="1" Text="Name..."/>
-        <TextBox IsReadOnly="{Binding noneditable}"  Name="PriceInput" Margin="40,25,500,25" Grid.Row="2" Text="Price..."/>
-        <Label Content="Choose category:" HorizontalAlignment="Left" Margin="50,3,0,0" Grid.Row="3" VerticalAlignment="Top"/>
-        <ComboBox Name="CategoryInput" Margin="40,25,500,25" Grid.Row="3" />
-        <TextBox IsReadOnly="{Binding noneditable}"  Name="AmountInput" Margin="40,25,500,25" Grid.Row="4" Text="Amount in stock..."/>
+        <Label Grid.Row="1">Name:</Label>
+        <TextBox IsReadOnly="{Binding noneditable}" Name="NameInput" Margin="40,25,500,25" Grid.Row="1" Text="{Binding Path=p.Name}"/>
+        <Label Grid.Row="2">Price:</Label>
+        <TextBox IsReadOnly="{Binding noneditable}"  Name="PriceInput" Margin="40,25,500,25" Grid.Row="2" Text="{Binding Path=p.Price}"/>
+        <Label Content="Category:" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top"/>
+        <ComboBox SelectedItem="{Binding Path=p.Category}" IsEnabled="{Binding editable}" Name="CategoryInput" Margin="40,25,500,25" Grid.Row="3" />
+        <Label Grid.Row="4">Amount in Stock:</Label>
+        <TextBox IsReadOnly="{Binding noneditable}"  Name="AmountInput" Margin="40,25,500,25" Grid.Row="4" Text="{Binding Path=p.AmountInStock}"/>
         <Button 
             Name="AddUpdate"
             Content="Add" 

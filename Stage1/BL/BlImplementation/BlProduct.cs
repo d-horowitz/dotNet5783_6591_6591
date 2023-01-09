@@ -38,7 +38,7 @@ internal class BlProduct : BlApi.IProduct
                 Name = p.Name,
                 Price = p.Price,
                 Category = (BO.ECategory)p.Category,
-                Amount = p.Amount,
+                AmountInStock = p.Amount,
                 InStock = p.Amount > 0
             }));
             return catalog;
@@ -95,7 +95,7 @@ internal class BlProduct : BlApi.IProduct
                     Price = DOproduct.Price,
                     Category = (BO.ECategory)DOproduct.Category,
                     InStock = DOproduct.Amount > 0,
-                    Amount = cart.Items.Where(itm => itm.ProductId == productId).First().Amount
+                    AmountInStock = cart.Items.Where(itm => itm.ProductId == productId).First().Amount
                 };
                 return BOproduct;
             }

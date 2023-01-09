@@ -6,7 +6,44 @@
         xmlns:local="clr-namespace:PL.Carts"
         mc:Ignorable="d"
         Title="CartWindow" Height="640" Width="800">
-    <Grid Name="MainGrid">
-        
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label 
+            VerticalAlignment="Center"
+            Grid.Row="0"
+            HorizontalAlignment="Center" 
+            Content="Your cart" 
+            FontFamily="AdamGorry-Inline" 
+            FontSize="20"
+        />
+        <StackPanel Grid.Row="1">
+            <ListView HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding Items}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding ProductId}" Header="Product Id"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Price"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Amount}" Header="Amount"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding TotalPrice}" Header="Total Price"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Label HorizontalAlignment="Center">Total Price:</Label>
+            <Label Content="{Binding TotalPrice}" HorizontalAlignment="Center" />
+            <Button HorizontalAlignment="Center" Click="Back">Back</Button>
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Label>Customer Name:</Label>
+                <TextBox Text="{Binding CustomerName}"></TextBox>
+                <Label>Customer Email:</Label>
+                <TextBox Text="{Binding CustomerEmail}"></TextBox>
+                <Label>Customer Address:</Label>
+                <TextBox Text="{Binding CustomerAddress}"></TextBox>
+                <Button Click="Confirm">Confirm Order</Button>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

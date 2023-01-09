@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="2*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" HorizontalAlignment="Right">
+            <StackPanel Grid.Column="0" HorizontalAlignment="Right" x:Name="buttons">
                 <Label HorizontalAlignment="Right">Customer Name:</Label>
                 <Label HorizontalAlignment="Right">Customer Email:</Label>
                 <Label HorizontalAlignment="Right">Customer Address:</Label>
@@ -38,6 +38,7 @@
                 <Label HorizontalAlignment="Right">Total Price:</Label>
                 <Button Content="Back" Click="Back"></Button>
                 <Button Name="Ship" Content="Ship Order" Click="ShipOrder" IsEnabled="{Binding Path=editable}" ></Button>
+                <Button Content="editable" IsEnabled="{Binding Path=editable, Mode=OneTime}" ></Button>
                 <Button Name="Deliver" Content="Deliver Order" Click="DeliverOrder" IsEnabled="{Binding Path=editable}"></Button>
             </StackPanel>
             <StackPanel Name="Order" Grid.Column="1" HorizontalAlignment="Left">

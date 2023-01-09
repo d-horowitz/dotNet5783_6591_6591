@@ -30,7 +30,12 @@ public partial class ProductWindow : Window
         bl = p_bl;
         cart = p_cart;
         noneditable = p_noneditable;
-        DataContext = noneditable;
+        MainGrid.DataContext = new
+        {
+            noneditable = p_noneditable,
+            editable = !p_noneditable,
+            p = p_id==null?new BO.Product() { }: bl.Product.ReadForManager((int)p_id)
+    };
         CategoryInput.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
         if (p_id == null || noneditable)
         {
@@ -45,11 +50,11 @@ public partial class ProductWindow : Window
                 AddUpdate.Content = "Update";
             }
             id = (int)p_id;
-            BO.Product product = bl.Product.ReadForManager(id);
-            NameInput.Text = product.Name;
-            PriceInput.Text = product.Price.ToString();
-            CategoryInput.SelectedItem = product.Category;
-            AmountInput.Text = product.AmountInStock.ToString();
+            //BO.Product product = bl.Product.ReadForManager(id);
+            //NameInput.Text = product.Name;
+            //PriceInput.Text = product.Price.ToString();
+            //CategoryInput.SelectedItem = product.Category;
+            //AmountInput.Text = product.AmountInStock.ToString();
         }
     }
 
