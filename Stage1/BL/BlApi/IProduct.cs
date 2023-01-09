@@ -3,7 +3,7 @@ namespace BlApi;
 public interface IProduct
 {
     public IEnumerable<ProductForList> Read(Func<DO.Product, bool>? func = null);
-    public IEnumerable<ProductItem> ReadCatalog();
+    public IEnumerable<ProductItem> ReadCatalog(Func<DO.Product, bool>? func = null);
     public Product ReadForManager(int productId);
     public ProductItem ReadForCustomer(int productId, Cart cart);
     public int Create(Product product);

@@ -23,14 +23,29 @@ namespace PL
     public partial class MainWindow : Window
     {
         private readonly IBl bl = Factory.Get();
+        private readonly BO.Cart cart = new();
         public MainWindow()
         {
             InitializeComponent();
         }
+        public MainWindow(BO.Cart? p_cart = null)
+        {
+            InitializeComponent();
+            if (p_cart != null)
+            {
+                cart = p_cart;
+            }
+        }
 
         private void GoToProducts(object sender, RoutedEventArgs e)
         {
-            new Products.ProductListWindow(bl).Show();
+            new Products.ProductListWindow(bl, cart).Show();
+            Close();
+        }
+
+        private void NewOrder(object sender, RoutedEventArgs e)
+        {
+            new Carts.CartListWindow(bl, cart).Show();
             Close();
         }
 
@@ -38,7 +53,7 @@ namespace PL
         {
             try
             {
-                new OrderTracking(bl,Convert.ToInt32(OrderNumber.Text)).Show();
+                new OrderTracking(bl, cart,Convert.ToInt32(OrderNumber.Text)).Show();
                 Close();
             }
             catch(BO.NonExistentObject ex)

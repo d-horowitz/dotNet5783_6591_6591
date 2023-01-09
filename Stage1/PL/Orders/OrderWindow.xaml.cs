@@ -28,12 +28,14 @@ namespace PL.Orders
         private readonly IBl bl;
         private readonly int id;
         private readonly bool editable;
+        private readonly BO.Cart cart = new();
 
-        public OrderWindow(IBl p_bl, int p_id, bool p_editable)
+        public OrderWindow(IBl p_bl, BO.Cart p_cart, int p_id, bool p_editable)
         {
             InitializeComponent();
             bl = p_bl;
             id = p_id;
+            cart = p_cart;
             editable = p_editable;
             Id.Content = Id.Content.ToString() + p_id;
             BO.Order order = bl.Order.Read(p_id);
@@ -65,12 +67,12 @@ namespace PL.Orders
         {
             if (editable)
             {
-                new ProductListWindow(bl).Show();
+                new ProductListWindow(bl, cart).Show();
                 Close();
             }
             else
             {
-                new OrderTracking(bl, id).Show();
+                new OrderTracking(bl,cart, id).Show();
                 Close();
             }
         }

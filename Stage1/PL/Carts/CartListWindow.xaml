@@ -6,7 +6,56 @@
         xmlns:local="clr-namespace:PL.Carts"
         mc:Ignorable="d"
         Title="CartListWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid 
+            x:Name="UpGrid" 
+            HorizontalAlignment="Stretch" 
+            Height="auto" Grid.Row="0" 
+            VerticalAlignment="Stretch" 
+            Width="auto"
+        >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Choose category:" Grid.Column="0"/>
+            <ComboBox 
+                x:Name="CategorySelector" 
+                Grid.Column="0" 
+                VerticalAlignment="Top" 
+                SelectionChanged="CategorySelected" Margin="0,30,0,0"
+            />
+            <Button Content="Show all Categories" Grid.Column="0" Click="Clear" Margin="0,60,0,0" VerticalAlignment="Top"/>
+            <ListView x:Name="ProductList" Grid.Column="1" SelectionChanged="AddProduct" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Price"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Category}" Header="Category"/>
+                        <GridViewColumn Header="In Stock" DisplayMemberBinding="{Binding InStock}">
+                        </GridViewColumn>
+                        <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}">
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Back to main menu" HorizontalAlignment="Center" Grid.Column="1" VerticalAlignment="Center" Click="Back"/>
+            <Button Grid.Column="3" Content="Show Cart" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ShowCart"/>
+        </Grid>
     </Grid>
 </Window>

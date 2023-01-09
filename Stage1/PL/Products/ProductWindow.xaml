@@ -23,11 +23,11 @@
             FontFamily="AdamGorry-Inline" 
             FontSize="20"
         />
-        <TextBox Name="NameInput" Margin="40,25,500,25" Grid.Row="1" Text="Name..."/>
-        <TextBox Name="PriceInput" Margin="40,25,500,25" Grid.Row="2" Text="Price..."/>
+        <TextBox IsReadOnly="{Binding noneditable}" Name="NameInput" Margin="40,25,500,25" Grid.Row="1" Text="Name..."/>
+        <TextBox IsReadOnly="{Binding noneditable}"  Name="PriceInput" Margin="40,25,500,25" Grid.Row="2" Text="Price..."/>
         <Label Content="Choose category:" HorizontalAlignment="Left" Margin="50,3,0,0" Grid.Row="3" VerticalAlignment="Top"/>
         <ComboBox Name="CategoryInput" Margin="40,25,500,25" Grid.Row="3" />
-        <TextBox Name="AmountInput" Margin="40,25,500,25" Grid.Row="4" Text="Amount in stock..."/>
+        <TextBox IsReadOnly="{Binding noneditable}"  Name="AmountInput" Margin="40,25,500,25" Grid.Row="4" Text="Amount in stock..."/>
         <Button 
             Name="AddUpdate"
             Content="Add" 
@@ -36,6 +36,6 @@
             Grid.Row="5" 
             VerticalAlignment="Center"
         />
-        <Button Content="Back to products" HorizontalAlignment="Left" Margin="513,0,0,0" Grid.Row="5" VerticalAlignment="Center" Click="BackToProducts" Width="99"/>
+        <Button Content="Back" HorizontalAlignment="Left" Margin="513,0,0,0" Grid.Row="5" VerticalAlignment="Center" Click="Back" Width="99"/>
     </Grid>
 </Window>

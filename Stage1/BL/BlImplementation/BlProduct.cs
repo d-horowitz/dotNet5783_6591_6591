@@ -12,17 +12,13 @@ internal class BlProduct : BlApi.IProduct
         try
         {
             IEnumerable<DO.Product> products = Dal.Product.Read(func);
-            foreach (var p in products)
+            products.ToList().ForEach(p => productsList.Add(new()
             {
-                BO.ProductForList item = new()
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Price = p.Price,
-                    Category = (BO.ECategory)p.Category
-                };
-                productsList.Add(item);
-            }
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                Category = (BO.ECategory)p.Category
+            }));
             return productsList;
         }
         catch (DataIsEmpty ex)
@@ -30,25 +26,21 @@ internal class BlProduct : BlApi.IProduct
             throw new BO.DataIsEmpty(ex);
         }
     }
-    public IEnumerable<BO.ProductItem> ReadCatalog()
+    public IEnumerable<BO.ProductItem> ReadCatalog(Func<DO.Product, bool>? func = null)
     {
         List<BO.ProductItem> catalog = new();
         try
         {
-            IEnumerable<DO.Product> c = Dal.Product.Read();
-            foreach (var item in c)
+            IEnumerable<DO.Product> c = Dal.Product.Read(func);
+            c.ToList().ForEach(p => catalog.Add(new()
             {
-                BO.ProductItem pi = new()
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Price = item.Price,
-                    Category = (BO.ECategory)item.Category,
-                    Amount = item.Amount,
-                    InStock = item.Amount > 0
-                };
-                catalog.Add(pi);
-            }
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                Category = (BO.ECategory)p.Category,
+                Amount = p.Amount,
+                InStock = p.Amount > 0
+            }));
             return catalog;
         }
 
@@ -158,7 +150,7 @@ internal class BlProduct : BlApi.IProduct
         }*/
         try
         {
-        if(Dal.OrderItem.Read(oi=>oi.ProductId==productId).ToList().Count != 0)
+            if (Dal.OrderItem.Read(oi => oi.ProductId == productId).ToList().Count != 0)
             {
                 throw new BO.ObjectAlreadyExists("Product already exists in order(s)");
             }
@@ -173,7 +165,7 @@ internal class BlProduct : BlApi.IProduct
     public void Update(BO.Product product)
     {
         if (product.Id < 0) throw new BO.InvalidInput("id is not valid");
-        if (product.Name == null|| product.Name == "") throw new BO.InvalidInput("name value is not valid");
+        if (product.Name == null || product.Name == "") throw new BO.InvalidInput("name value is not valid");
         if (product.Price < 0) throw new BO.InvalidInput("price value is not valid");
         if (product.AmountInStock < 0) throw new BO.InvalidInput("amount in stock value is not valid");
         DO.Product p = new()

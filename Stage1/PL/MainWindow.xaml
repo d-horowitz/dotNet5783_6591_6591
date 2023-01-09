@@ -20,7 +20,7 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Button Grid.Row="1" Content="Admin" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="GoToProducts" RenderTransformOrigin="-3.255,-2.845" Height="48" Width="104"/>
-            <Button Grid.Row="3" Content="New Order" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="-1.331,-1.589" Height="52" Width="128">
+            <Button Grid.Row="3" Content="New Order" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="-1.331,-1.589" Height="52" Width="128" Click="NewOrder">
 
             </Button>
         </Grid>

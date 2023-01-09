@@ -22,20 +22,28 @@ public partial class ProductWindow : Window
 {
     private readonly IBl bl;
     private readonly int id;
-    public ProductWindow(IBl p_bl, int? p_id = null)
+    private readonly bool noneditable;
+    private BO.Cart cart = new();
+    public ProductWindow(IBl p_bl, BO.Cart p_cart, bool p_noneditable, int? p_id = null)
     {
         InitializeComponent();
         bl = p_bl;
+        cart = p_cart;
+        noneditable = p_noneditable;
+        DataContext = noneditable;
         CategoryInput.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
-        if (p_id == null)
+        if (p_id == null || noneditable)
         {
             AddUpdate.Click += Add;
             AddUpdate.Content = "Add";
         }
-        else
+        if (p_id != null)
         {
-            AddUpdate.Click += Update;
-            AddUpdate.Content = "Update";
+            if (!noneditable)
+            {
+                AddUpdate.Click += Update;
+                AddUpdate.Content = "Update";
+            }
             id = (int)p_id;
             BO.Product product = bl.Product.ReadForManager(id);
             NameInput.Text = product.Name;
@@ -49,19 +57,27 @@ public partial class ProductWindow : Window
     {
         try
         {
-            if (CategoryInput.SelectedItem == null)
-                throw new Exception("Category not selected");
-            int id = bl.Product.Create(
-                new BO.Product
-                {
-                    Name = NameInput.Text,
-                    Price = Convert.ToDouble(PriceInput.Text),
-                    Category = (BO.ECategory)CategoryInput.SelectedItem,
-                    AmountInStock = Convert.ToInt32(AmountInput.Text)
-                }
-            );
-            MessageBox.Show("the book was added succesfully with ID " + id.ToString(), "👍 Successful Action");
-            BackToProducts(sender, e);
+            if (noneditable)
+            {
+                cart = bl.Cart.Create(cart, id);
+            }
+            else
+            {
+                if (CategoryInput.SelectedItem == null)
+                    throw new Exception("Category not selected");
+                int id = bl.Product.Create(
+                    new BO.Product
+                    {
+                        Name = NameInput.Text,
+                        Price = Convert.ToDouble(PriceInput.Text),
+                        Category = (BO.ECategory)CategoryInput.SelectedItem,
+                        AmountInStock = Convert.ToInt32(AmountInput.Text)
+                    }
+                );
+            }
+            MessageBox.Show(NameInput.Text + " was added successfully" + (noneditable ? " to cart" : ""), "👍 Successful Action");
+            //MessageBox.Show("the book was added succesfully with ID " + id.ToString(), "👍 Successful Action");
+            Back(sender, e);
         }
         catch (Exception ex)
         {
@@ -83,7 +99,7 @@ public partial class ProductWindow : Window
                 }
             );
             MessageBox.Show("the book was updated succesfully", "👍 Successful Action");
-            BackToProducts(sender, e);
+            Back(sender, e);
         }
         catch (Exception ex)
         {
@@ -91,9 +107,12 @@ public partial class ProductWindow : Window
         }
     }
 
-    private void BackToProducts(object sender, RoutedEventArgs e)
+    private void Back(object sender, RoutedEventArgs e)
     {
-        new ProductListWindow(bl).Show();
+        if (noneditable)
+            new Carts.CartListWindow(bl, cart).Show();
+        else
+            new ProductListWindow(bl, cart).Show();
         Close();
     }
 }

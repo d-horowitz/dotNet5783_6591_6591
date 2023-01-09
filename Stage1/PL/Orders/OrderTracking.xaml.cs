@@ -23,12 +23,14 @@ namespace PL.Orders
     {
         private readonly int id;
         private readonly IBl bl;
+        private readonly BO.Cart cart = new();
         //public ObservableCollection<Tuple<decimal, decimal>> MyCollection { get; }
-        public OrderTracking(IBl p_bl, int p_id)
+        public OrderTracking(IBl p_bl,BO.Cart p_cart, int p_id)
         {
             InitializeComponent();
             bl = p_bl;
             id = p_id;
+            cart = p_cart;
             Id.Content = Id.Content.ToString() + p_id;
             BO.OrderTracking tracking = bl.Order.TrackOrder(p_id);
             Order.DataContext = tracking;
@@ -37,12 +39,12 @@ namespace PL.Orders
 
         private void Back(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
+            new MainWindow(cart).Show();
             Close();
         }
         private void Details(object sender, RoutedEventArgs e)
         {
-            new OrderWindow(bl,id,false).Show();
+            new OrderWindow(bl,cart,id,false).Show();
             Close();
         }
     }

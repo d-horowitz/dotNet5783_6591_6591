@@ -20,11 +20,13 @@ namespace PL.Products;
 /// </summary>
 public partial class ProductListWindow : Window
 {
-    private IBl bl;
-    public ProductListWindow(IBl p_bl)
+    private readonly IBl bl;
+    private readonly BO.Cart cart = new();
+    public ProductListWindow(IBl p_bl, BO.Cart p_cart)
     {
         InitializeComponent();
         bl = p_bl;
+        cart = p_cart;
         ProductsListView.ItemsSource = bl.Product.Read();
         OrdersListView.ItemsSource = bl.Order.Read();
         CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
@@ -33,27 +35,27 @@ public partial class ProductListWindow : Window
     private void CategorySelected(object sender, SelectionChangedEventArgs e)
     {
         string? category = CategorySelector.SelectedItem?.ToString();
-        ProductsListView.ItemsSource = bl.Product.Read(p => p.Category.ToString() == category || category == null);
+        ProductsListView.ItemsSource = bl.Product.ReadCatalog(p => p.Category.ToString() == category || category == null);
     }
     private void AddNewProduct(object sender, RoutedEventArgs e)
     {
-        new ProductWindow(bl).Show();
+        new ProductWindow(bl, cart, false).Show();
         Close();
     }
 
     private void Back(object sender, RoutedEventArgs e)
     {
-        new MainWindow().Show();
+        new MainWindow(cart).Show();
         Close();
     }
     private void UpdateProduct(object sender, RoutedEventArgs e)
     {
-        new ProductWindow(bl, ((BO.ProductForList)ProductsListView.SelectedItem).Id).Show();
+        new ProductWindow(bl, cart, false, ((BO.ProductForList)ProductsListView.SelectedItem).Id).Show();
         Close();
     }
     private void UpdateOrder(object sender, RoutedEventArgs e)
     {
-        new OrderWindow(bl, ((BO.OrderForList)OrdersListView.SelectedItem).Id, true).Show();
+        new OrderWindow(bl, cart, ((BO.OrderForList)OrdersListView.SelectedItem).Id, true).Show();
         Close();
     }
 

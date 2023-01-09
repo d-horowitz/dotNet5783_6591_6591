@@ -25,6 +25,10 @@ internal class BlCart : ICart
             else
             {
                 BO.Product BOProduct = new BlProduct().ReadForManager(productId);
+                if(BOProduct.AmountInStock <= 0)
+                {
+                    throw new NotEnoughInStock();
+                }
                 if (cart.Items == null)
                 {
                     cart.Items = new List<BO.OrderItem>();
