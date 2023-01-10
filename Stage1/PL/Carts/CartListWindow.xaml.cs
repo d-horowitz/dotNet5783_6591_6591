@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PL.PO;
 
 namespace PL.Carts
 {
@@ -21,8 +22,8 @@ namespace PL.Carts
     public partial class CartListWindow : Window
     {
         private readonly IBl bl;
-        private BO.Cart cart = new();
-        public CartListWindow(IBl p_bl, BO.Cart p_cart)
+        private Cart cart = new();
+        public CartListWindow(IBl p_bl, Cart p_cart)
         {
             InitializeComponent();
             bl = p_bl;

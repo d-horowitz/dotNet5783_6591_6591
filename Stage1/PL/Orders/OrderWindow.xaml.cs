@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using BlApi;
 using BlImplementation;
 using PL.Products;
+using PL.PO;
 
 namespace PL.Orders
 {
@@ -28,9 +29,9 @@ namespace PL.Orders
         private readonly IBl bl;
         private readonly int id;
         public readonly bool editable;
-        private readonly BO.Cart cart = new();
+        private readonly Cart cart = new();
 
-        public OrderWindow(IBl p_bl, BO.Cart p_cart, int p_id, bool p_editable)
+        public OrderWindow(IBl p_bl, Cart p_cart, int p_id, bool p_editable)
         {
             InitializeComponent();
             bl = p_bl;

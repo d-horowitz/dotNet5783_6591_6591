@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
 using BlImplementation;
+using PL.PO;
 
 namespace PL.Products;
 /// <summary>
@@ -23,8 +24,8 @@ public partial class ProductWindow : Window
     private readonly IBl bl;
     private readonly int id;
     private readonly bool noneditable;
-    private BO.Cart cart = new();
-    public ProductWindow(IBl p_bl, BO.Cart p_cart, bool p_noneditable, int? p_id = null)
+    private Cart cart = new();
+    public ProductWindow(IBl p_bl, Cart p_cart, bool p_noneditable, int? p_id = null)
     {
         InitializeComponent();
         bl = p_bl;
@@ -34,8 +35,8 @@ public partial class ProductWindow : Window
         {
             noneditable = p_noneditable,
             editable = !p_noneditable,
-            p = p_id==null?new BO.Product() { }: bl.Product.ReadForManager((int)p_id)
-    };
+            p = p_id == null ? new BO.Product() { } : bl.Product.ReadForManager((int)p_id)
+        };
         CategoryInput.ItemsSource = Enum.GetValues(typeof(BO.ECategory));
         if (p_id == null || noneditable)
         {
@@ -64,7 +65,7 @@ public partial class ProductWindow : Window
         {
             if (noneditable)
             {
-                cart = bl.Cart.Create(cart, id);
+                cart = BtoP.ConvertCart(bl.Cart.Create(PtoB.ConvertCart(cart), id));
             }
             else
             {

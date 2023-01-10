@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PL.PO;
 
 namespace PL.Orders
 {
@@ -23,9 +24,9 @@ namespace PL.Orders
     {
         private readonly int id;
         private readonly IBl bl;
-        private readonly BO.Cart cart = new();
+        private readonly Cart cart = new();
         //public ObservableCollection<Tuple<decimal, decimal>> MyCollection { get; }
-        public OrderTracking(IBl p_bl,BO.Cart p_cart, int p_id)
+        public OrderTracking(IBl p_bl,Cart p_cart, int p_id)
         {
             InitializeComponent();
             bl = p_bl;

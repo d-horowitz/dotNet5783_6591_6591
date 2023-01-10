@@ -20,15 +20,38 @@
             FontSize="20"
         />
         <StackPanel Grid.Row="1">
-            <ListView HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding Items}">
+            <ListView HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding Items, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
                         <GridViewColumn DisplayMemberBinding="{Binding ProductId}" Header="Product Id"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name"/>
                         <GridViewColumn DisplayMemberBinding="{Binding Price}" Header="Price"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding Amount}" Header="Amount"/>
                         <GridViewColumn DisplayMemberBinding="{Binding TotalPrice}" Header="Total Price"/>
+                        <GridViewColumn Header="Amount" Width="80">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Amount}" Grid.Column="0" HorizontalAlignment="Left"></TextBlock>
+                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                            <Button Height="10" Margin="10,0,0,0" Padding="0,-5, 0, 0" Click="Increment">+</Button>
+                                            <Button Height="10" Margin="10,0,0,0" Padding="0,-5, 0, 0" Click="Decrement">-</Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Remove">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="Remove">🚮</Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

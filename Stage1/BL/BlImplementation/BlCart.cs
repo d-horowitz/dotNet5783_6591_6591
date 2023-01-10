@@ -44,7 +44,8 @@ internal class BlCart : ICart
                         TotalPrice = BOProduct.Price
                     }
                 );
-                cart.TotalPrice += BOProduct.Price;
+                cart.TotalPrice = cart.Items.Sum(oi => oi.TotalPrice);
+                //cart.TotalPrice += BOProduct.Price;
             }
             /*int idx = -1;
             if (cart.Items != null)
@@ -115,12 +116,13 @@ internal class BlCart : ICart
                 }
             }
             cart.Items[oiIndex].Amount += numAdded;
-            cart.Items[oiIndex].TotalPrice += numAdded * cart.Items[oiIndex].Price;
-            cart.TotalPrice += numAdded * cart.Items[oiIndex].Price;
+            cart.Items[oiIndex].TotalPrice = cart.Items[oiIndex].Price * cart.Items[oiIndex].Amount;
+            //numAdded * cart.Items[oiIndex].Price;
             if (newAmount == 0)
             {
                 cart.Items = cart.Items.Where(oi => oi.ProductId != productId).ToList();
             }
+            cart.TotalPrice = cart.Items.Sum(oi => oi.TotalPrice);
         }
         catch (NotEnoughInStock ex)
         {

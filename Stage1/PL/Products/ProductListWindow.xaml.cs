@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
 using PL.Orders;
+using PL.PO;
 
 namespace PL.Products;
 /// <summary>
@@ -21,8 +22,8 @@ namespace PL.Products;
 public partial class ProductListWindow : Window
 {
     private readonly IBl bl;
-    private readonly BO.Cart cart = new();
-    public ProductListWindow(IBl p_bl, BO.Cart p_cart)
+    private readonly Cart cart = new();
+    public ProductListWindow(IBl p_bl, Cart p_cart)
     {
         InitializeComponent();
         bl = p_bl;

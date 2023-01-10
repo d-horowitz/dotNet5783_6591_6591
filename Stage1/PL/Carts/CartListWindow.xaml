@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Label Content="Choose category:" Grid.Column="0"/>
-            <ListView x:Name="ProductList" Grid.Column="1" SelectionChanged="AddProduct">
+            <ListView x:Name="ProductList" Grid.Column="1" SelectionChanged="AddProduct" d:ItemsSource="{d:SampleData ItemCount=5}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
