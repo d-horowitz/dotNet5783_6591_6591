@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class Cart : INotifyPropertyChanged
+    public class Order : INotifyPropertyChanged
     {
-        private PoCart _instance;
-        public PoCart Instance
+        private BO.Order _instance;
+        public BO.Order Instance
         {
             get
             {

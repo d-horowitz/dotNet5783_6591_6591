@@ -14,44 +14,69 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using PL.PO;
+using System.ComponentModel;
 
 namespace PL.Carts
 {
     /// <summary>
     /// Interaction logic for CartWindow.xaml
     /// </summary>
-    public partial class CartWindow : Window
+    public partial class CartWindow : Window, INotifyPropertyChanged
     {
         private readonly IBl bl;
-        private Cart cart;
+        //private Cart cart;
+
+        private Cart _cart;
+        public Cart M_Cart
+        {
+            get
+            {
+                return _cart;
+            }
+            set
+            {
+                _cart = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("M_Cart"));
+                }
+            }
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+
         public CartWindow(IBl p_bl, Cart p_cart)
         {
             InitializeComponent();
             bl = p_bl;
-            cart = p_cart;
+            _cart = p_cart;
             //ObservableCollection<BO.OrderItem> list = new ();
             //cart.Items.ForEach(x => list.Add(x));
             //(cart.Items);
-            MainGrid.DataContext = cart;
+            MainGrid.DataContext = M_Cart;
         }
 
         private void Back(object sender, RoutedEventArgs e)
         {
-            new CartListWindow(bl, cart).Show();
+            new CartListWindow(bl, M_Cart).Show();
             Close();
         }
         private void Confirm(object sender, RoutedEventArgs e)
         {
             try
             {
-                int id = bl.Cart.OrderConfirmation(PtoB.ConvertCart(cart));
+                int id = bl.Cart.OrderConfirmation(PtoB.Cart(M_Cart.Instance));
                 MessageBox.Show("Order confirmed. Order ID: " + id);
-                new Orders.OrderTracking(bl, new Cart() { Items = new() }, id).Show();
+                new Orders.OrderTracking(bl, new Cart() { Instance = new() { Items = new() } }, id).Show();
                 Close();
+            }
+            catch (BO.InvalidInput)
+            {
+                MessageBox.Show("Please fill out your details", "⚠ERROR");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "⚠ERROR");
             }
         }
 
@@ -59,10 +84,10 @@ namespace PL.Carts
         {
             try
             {
-                BO.OrderItem changed = (BO.OrderItem)((Button)sender).DataContext;
+                OrderItem changed = (OrderItem)((Button)sender).DataContext;
 
-                cart = BtoP.ConvertCart(bl.Cart.Update(PtoB.ConvertCart(cart), changed.ProductId, changed.Amount + 1));
-                MainGrid.DataContext = cart;
+                M_Cart.Instance = BtoP.Cart(bl.Cart.Update(PtoB.Cart(M_Cart.Instance), changed.ProductId, changed.Amount + 1));
+                //MainGrid.DataContext = cart;
             }
             catch (Exception ex)
             {
@@ -74,9 +99,9 @@ namespace PL.Carts
         {
             try
             {
-                BO.OrderItem changed = (BO.OrderItem)((Button)sender).DataContext;
-                cart = BtoP.ConvertCart(bl.Cart.Update(PtoB.ConvertCart(cart), changed.ProductId, changed.Amount - 1));
-                MainGrid.DataContext = cart;
+                OrderItem changed = (OrderItem)((Button)sender).DataContext;
+                M_Cart.Instance = BtoP.Cart(bl.Cart.Update(PtoB.Cart(M_Cart.Instance), changed.ProductId, changed.Amount - 1));
+                //MainGrid.DataContext = cart;
             }
             catch (Exception ex)
             {
@@ -88,9 +113,9 @@ namespace PL.Carts
         {
             try
             {
-                BO.OrderItem changed = (BO.OrderItem)((Button)sender).DataContext;
-                cart = BtoP.ConvertCart(bl.Cart.Update(PtoB.ConvertCart(cart), changed.ProductId, 0));
-                MainGrid.DataContext = cart;
+                OrderItem changed = (OrderItem)((Button)sender).DataContext;
+                M_Cart.Instance = BtoP.Cart( bl.Cart.Update(PtoB.Cart(M_Cart.Instance), changed.ProductId, 0));
+                //MainGrid.DataContext = cart;
             }
             catch (Exception ex)
             {

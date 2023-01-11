@@ -16,9 +16,64 @@ using BlApi;
 using BlImplementation;
 using PL.Products;
 using PL.PO;
+using System.ComponentModel;
 
 namespace PL.Orders
 {
+    public class NotBooleanToVisibilityConverterShip : IValueConverter
+    {
+        public object Convert(
+        object value,
+        Type targetType,
+        object parameter,
+        CultureInfo culture)
+        {
+            BO.EOrderStatus status = (BO.EOrderStatus)value;
+            if (status == BO.EOrderStatus.Processed)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Collapsed;
+            }
+        }
+        public object ConvertBack(
+        object value,
+        Type targetType,
+        object parameter,
+        CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class NotBooleanToVisibilityConverterDeliver : IValueConverter
+    {
+        public object Convert(
+        object value,
+        Type targetType,
+        object parameter,
+        CultureInfo culture)
+        {
+            BO.EOrderStatus status = (BO.EOrderStatus)value;
+            if (status == BO.EOrderStatus.Shipped)
+            {
+                return Visibility.Visible;
+            }
+            else
+            {
+                return Visibility.Collapsed;
+            }
+        }
+        public object ConvertBack(
+        object value,
+        Type targetType,
+        object parameter,
+        CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     /// <summary>
     /// Interaction logic for OrderWindow.xaml
@@ -30,6 +85,23 @@ namespace PL.Orders
         private readonly int id;
         public readonly bool editable;
         private readonly Cart cart = new();
+        private Order _order = new();
+        public Order M_Order
+        {
+            get
+            {
+                return _order;
+            }
+            set
+            {
+                _order = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("M_Cart"));
+                }
+            }
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public OrderWindow(IBl p_bl, Cart p_cart, int p_id, bool p_editable)
         {
@@ -39,23 +111,23 @@ namespace PL.Orders
             cart = p_cart;
             editable = p_editable;
             Id.Content = Id.Content.ToString() + p_id;
-            BO.Order order = bl.Order.Read(p_id);
-            Order.DataContext = order;
-            Items.ItemsSource = order.Items;
+            _order.Instance = bl.Order.Read(p_id);
+            Order.DataContext = _order;
+            Items.ItemsSource = _order.Instance.Items;
             buttons.DataContext = new
             {
-                editable = p_editable
+                editable = p_editable, _order
             };
             //DataContext = editable;
-            Ship.Visibility = Visibility.Hidden;
-            Deliver.Visibility = Visibility.Hidden;
+            /*Ship.Visibility = Visibility.Collapsed;
+            Deliver.Visibility = Visibility.Collapsed;
             if (editable && order.OrderCreated != DateTime.MinValue)
             {
                 if (order.Shipping == DateTime.MinValue)
                     Ship.Visibility = Visibility.Visible;
                 else if (order.Delivery == DateTime.MinValue)
                     Deliver.Visibility = Visibility.Visible;
-            }
+            }*/
 
             /*AddUpdate.Click += Update;
             AddUpdate.Content = "Update";
@@ -86,19 +158,19 @@ namespace PL.Orders
             if (editable)
             {
                 bl.Order.UpdateShipping(id);
-                BO.Order order = bl.Order.Read(id);
-                Order.DataContext = order;
-                Items.ItemsSource = order.Items;
+                M_Order.Instance = bl.Order.Read(id);
+                //Order.DataContext = _order;
+                //Items.ItemsSource = _order.Instance.Items;
                 //DataContext = editable;
-                Ship.Visibility = Visibility.Hidden;
-                Deliver.Visibility = Visibility.Hidden;
+                /*Ship.Visibility = Visibility.Collapsed;
+                Deliver.Visibility = Visibility.Collapsed;
                 if (editable && order.OrderCreated != DateTime.MinValue)
                 {
                     if (order.Shipping == DateTime.MinValue)
                         Ship.Visibility = Visibility.Visible;
                     else if (order.Delivery == DateTime.MinValue)
                         Deliver.Visibility = Visibility.Visible;
-                }
+                }*/
             }
         }
         private void DeliverOrder(object sender, RoutedEventArgs e)
@@ -106,19 +178,19 @@ namespace PL.Orders
             if (editable)
             {
                 bl.Order.UpdateDelivery(id);
-                BO.Order order = bl.Order.Read(id);
-                Order.DataContext = order;
-                Items.ItemsSource = order.Items;
+                M_Order.Instance = bl.Order.Read(id);
+                //Order.DataContext = _order;
+                //Items.ItemsSource = _order.Instance.Items;
                 //DataContext = editable;
-                Ship.Visibility = Visibility.Hidden;
-                Deliver.Visibility = Visibility.Hidden;
+                /*Ship.Visibility = Visibility.Collapsed;
+                Deliver.Visibility = Visibility.Collapsed;
                 if (editable && order.OrderCreated != DateTime.MinValue)
                 {
                     if (order.Shipping == DateTime.MinValue)
                         Ship.Visibility = Visibility.Visible;
                     else if (order.Delivery == DateTime.MinValue)
                         Deliver.Visibility = Visibility.Visible;
-                }
+                }*/
             }
         }
 
@@ -130,11 +202,11 @@ namespace PL.Orders
             bool boolValue = (bool)value;
             if (boolValue)
             {
-                return Visibility.Hidden;
+                return Visibility.Collapsed;
             }
             else
             {
-                return Visibility.Hidden;
+                return Visibility.Collapsed;
             }
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

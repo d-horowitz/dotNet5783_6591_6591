@@ -31,17 +31,14 @@ internal class BlProduct : BlApi.IProduct
         List<BO.ProductItem> catalog = new();
         try
         {
-            IEnumerable<DO.Product> c = Dal.Product.Read(func);
-            c.ToList().ForEach(p => catalog.Add(new()
-            {
+            return Dal.Product.Read(func).Select(p=>new BO.ProductItem() {
                 Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
-                Category = (BO.ECategory)p.Category,
                 AmountInStock = p.Amount,
-                InStock = p.Amount > 0
-            }));
-            return catalog;
+                InStock = p.Amount > 0,
+                Category = (BO.ECategory)p.Category
+            });
         }
 
         catch (DataIsEmpty ex)

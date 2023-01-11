@@ -7,6 +7,14 @@
         mc:Ignorable="d"
         Title="OrderWindow" Height="450" Width="800"
         >
+    <Window.Resources>
+        <local:NotBooleanToVisibilityConverterShip
+            x:Key="notBooleanToVisibilityConverterShip"
+        />
+        <local:NotBooleanToVisibilityConverterDeliver
+            x:Key="notBooleanToVisibilityConverterDeliver"
+        />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -37,19 +45,25 @@
                 <Label HorizontalAlignment="Right">Delivered On:</Label>
                 <Label HorizontalAlignment="Right">Total Price:</Label>
                 <Button Content="Back" Click="Back"></Button>
-                <Button Name="Ship" Content="Ship Order" Click="ShipOrder" IsEnabled="{Binding Path=editable}" ></Button>
-                <Button Content="editable" IsEnabled="{Binding Path=editable, Mode=OneTime}" ></Button>
-                <Button Name="Deliver" Content="Deliver Order" Click="DeliverOrder" IsEnabled="{Binding Path=editable}"></Button>
+                <Button Visibility="{Binding
+                _order.Instance.Status, 
+                Converter={StaticResource 
+                    notBooleanToVisibilityConverterShip}}" Name="Ship" Content="Ship Order" Click="ShipOrder" IsEnabled="{Binding Path=editable}" ></Button>
+                <Button Visibility="{Binding
+                _order.Instance.Status, 
+                Converter={StaticResource 
+                    notBooleanToVisibilityConverterDeliver}}" Name="Deliver" Content="Deliver Order" Click="DeliverOrder" IsEnabled="{Binding Path=editable}"></Button>
+                
             </StackPanel>
             <StackPanel Name="Order" Grid.Column="1" HorizontalAlignment="Left">
-                <Label Content ="{Binding CustomerName}"></Label>
-                <Label Content="{Binding CustomerEmail}"></Label>
-                <Label Content="{Binding CustomerAddress}"></Label>
-                <Label Content="{Binding Status}"></Label>
-                <Label Content="{Binding OrderCreated}" ></Label>
-                <Label Content="{Binding Shipping}"></Label>
-                <Label Content="{Binding Delivery}"></Label>
-                <Label Content="{Binding TotalPrice}"></Label>
+                <Label Content ="{Binding Instance.CustomerName}"></Label>
+                <Label Content="{Binding Instance.CustomerEmail}"></Label>
+                <Label Content="{Binding Instance.CustomerAddress}"></Label>
+                <Label Content="{Binding Instance.Status}"></Label>
+                <Label Content="{Binding Instance.OrderCreated}" ></Label>
+                <Label Content="{Binding Instance.Shipping}"></Label>
+                <Label Content="{Binding Instance.Delivery}"></Label>
+                <Label Content="{Binding Instance.TotalPrice}"></Label>
             </StackPanel>
             <ListView Grid.Column="2" x:Name="Items" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <ListView.View>

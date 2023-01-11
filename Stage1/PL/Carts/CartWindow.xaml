@@ -20,7 +20,7 @@
             FontSize="20"
         />
         <StackPanel Grid.Row="1">
-            <ListView HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding Items, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListView HorizontalAlignment="Center" VerticalAlignment="Top" ItemsSource="{Binding Instance.Items}" d:ItemsSource="{d:SampleData ItemCount=5}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Id}" Header="Id"/>
@@ -56,15 +56,15 @@
                 </ListView.View>
             </ListView>
             <Label HorizontalAlignment="Center">Total Price:</Label>
-            <Label Content="{Binding TotalPrice}" HorizontalAlignment="Center" />
+            <Label Content="{Binding Instance.TotalPrice}" HorizontalAlignment="Center" />
             <Button HorizontalAlignment="Center" Click="Back">Back</Button>
             <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
                 <Label>Customer Name:</Label>
-                <TextBox Text="{Binding CustomerName}"></TextBox>
+                <TextBox Text="{Binding Instance.CustomerName}"></TextBox>
                 <Label>Customer Email:</Label>
-                <TextBox Text="{Binding CustomerEmail}"></TextBox>
+                <TextBox Text="{Binding Instance.CustomerEmail}"></TextBox>
                 <Label>Customer Address:</Label>
-                <TextBox Text="{Binding CustomerAddress}"></TextBox>
+                <TextBox Text="{Binding Instance.CustomerAddress}"></TextBox>
                 <Button Click="Confirm">Confirm Order</Button>
             </StackPanel>
         </StackPanel>

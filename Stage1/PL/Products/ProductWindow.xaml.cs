@@ -65,7 +65,7 @@ public partial class ProductWindow : Window
         {
             if (noneditable)
             {
-                cart = BtoP.ConvertCart(bl.Cart.Create(PtoB.ConvertCart(cart), id));
+                cart.Instance = BtoP.Cart(bl.Cart.Create(PtoB.Cart(cart.Instance), id));
             }
             else
             {

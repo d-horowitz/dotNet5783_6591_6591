@@ -47,6 +47,7 @@ internal class BlCart : ICart
                 cart.TotalPrice = cart.Items.Sum(oi => oi.TotalPrice);
                 //cart.TotalPrice += BOProduct.Price;
             }
+            return cart;
             /*int idx = -1;
             if (cart.Items != null)
                 idx = cart.Items.FindIndex(item => item.Id == productId);
@@ -91,7 +92,6 @@ internal class BlCart : ICart
         {
             throw new BO.InvalidInput(ex);
         }
-        return cart;
     }
 
     public BO.Cart Update(BO.Cart cart, int productId, int newAmount)
@@ -102,7 +102,9 @@ internal class BlCart : ICart
             {
                 throw new InvalidInput();
             }
-            if (cart.Items == null || cart.Items.Where(oi => oi.ProductId == productId).ToList().Count == 0)
+            if (cart.Items == null || !(from oi in cart.Items
+                                        where oi.ProductId == productId
+                                        select oi).Any())
             {
                 throw new NonExistentObject();
             }
@@ -120,9 +122,12 @@ internal class BlCart : ICart
             //numAdded * cart.Items[oiIndex].Price;
             if (newAmount == 0)
             {
-                cart.Items = cart.Items.Where(oi => oi.ProductId != productId).ToList();
+                cart.Items = (from oi in cart.Items
+                              where oi.ProductId != productId
+                              select oi).ToList();
             }
             cart.TotalPrice = cart.Items.Sum(oi => oi.TotalPrice);
+            return cart;
         }
         catch (NotEnoughInStock ex)
         {
@@ -179,7 +184,6 @@ internal class BlCart : ICart
                 throw new BO.InvalidInput(ex);
             }
         }*/
-        return cart;
     }
 
     public int OrderConfirmation(BO.Cart cart)
@@ -190,19 +194,20 @@ internal class BlCart : ICart
             {
                 throw new InvalidInput();
             }
-            cart.Items.ForEach(
-                (oi) =>
-                {
-                    if (oi.Amount <= 0)
-                    {
-                        throw new InvalidInput();
-                    }
-
-                    if (new BlProduct().ReadForManager(oi.ProductId).AmountInStock < oi.Amount)
-                    {
-                        throw new NotEnoughInStock();
-                    }
-                });
+            if ((from oi in cart.Items
+                 where oi.Amount <= 0
+                 select oi
+                ).Any())
+            {
+                throw new InvalidInput();
+            }
+            if ((from oi in cart.Items
+                 where oi.Amount > new BlProduct().ReadForManager(oi.ProductId).AmountInStock
+                 select oi
+                ).Any())
+            {
+                throw new NotEnoughInStock();
+            }
             int OrderId = Dal.Order.Add(
                 new DO.Order
                 {

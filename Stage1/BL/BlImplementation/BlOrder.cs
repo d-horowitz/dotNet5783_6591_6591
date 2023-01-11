@@ -8,7 +8,7 @@ internal class BlOrder : BlApi.IOrder
     {
         List<BO.OrderForList> OrderList = new();
 
-        Dal.Order.Read().ToList().ForEach(o =>
+        /*Dal.Order.Read().ToList().ForEach(o =>
         {
             OrderList.Add(
             new BO.OrderForList
@@ -20,9 +20,21 @@ internal class BlOrder : BlApi.IOrder
                 TotalPrice = Dal.OrderItem.Read(oi => oi.OrderId == o.Id).Sum(oi => oi.UnitPrice * oi.Amount)
             }
             );
-        });
+        });*/
 
-        return OrderList;
+        return
+            from o in (
+           from o in Dal.Order.Read()
+           select new BO.OrderForList()
+           {
+               Id = o.Id,
+               CustomerName = o.Name,
+               AmountOfItems = Dal.OrderItem.Read(oi => oi.OrderId == o.Id).Count(),
+               OrderStatus = o.Shipping == DateTime.MinValue ? BO.EOrderStatus.Processed : o.Delivery == DateTime.MinValue ? BO.EOrderStatus.Shipped : BO.EOrderStatus.Delivered,
+               TotalPrice = Dal.OrderItem.Read(oi => oi.OrderId == o.Id).Sum(oi => oi.UnitPrice * oi.Amount)
+           })
+            orderby o.OrderStatus, o.CustomerName
+            select o;
         /*List<BO.OrderForList> OrdersList = new();
         try
         {
@@ -239,7 +251,7 @@ internal class BlOrder : BlApi.IOrder
                 {
                     ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.Shipping, BO.EOrderStatus.Shipped));
                     if (order.Delivery != DateTime.MinValue)
-                        ot.TrackList.Add( new Tuple<DateTime, BO.EOrderStatus>(order.Delivery, BO.EOrderStatus.Delivered));
+                        ot.TrackList.Add(new Tuple<DateTime, BO.EOrderStatus>(order.Delivery, BO.EOrderStatus.Delivered));
                 }
             }
             return ot;

@@ -23,7 +23,7 @@ namespace PL
     public partial class MainWindow : Window
     {
         private readonly IBl bl = Factory.Get();
-        private readonly PO.Cart cart = new() { Items = new() };
+        private readonly PO.Cart cart = new() { Instance = new() { Items = new() } };
         public MainWindow()
         {
             InitializeComponent();
