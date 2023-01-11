@@ -8,18 +8,17 @@ internal class BlProduct : BlApi.IProduct
     private readonly IDal Dal = DalApi.Factory.Get();//DalList.Instance;
     public IEnumerable<BO.ProductForList> Read(Func<DO.Product, bool>? func = null)
     {
-        List<BO.ProductForList> productsList = new();
         try
         {
-            IEnumerable<DO.Product> products = Dal.Product.Read(func);
-            products.ToList().ForEach(p => productsList.Add(new()
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                Category = (BO.ECategory)p.Category
-            }));
-            return productsList;
+            return from p in Dal.Product.Read(func)
+                   orderby p.Name
+                   select new BO.ProductForList()
+                   {
+                       Id = p.Id,
+                       Name = p.Name,
+                       Price = p.Price,
+                       Category = (BO.ECategory)p.Category
+                   };
         }
         catch (DataIsEmpty ex)
         {
@@ -28,7 +27,6 @@ internal class BlProduct : BlApi.IProduct
     }
     public IEnumerable<BO.ProductItem> ReadCatalog(Func<DO.Product, bool>? func = null)
     {
-        List<BO.ProductItem> catalog = new();
         try
         {
             return Dal.Product.Read(func).Select(p=>new BO.ProductItem() {
