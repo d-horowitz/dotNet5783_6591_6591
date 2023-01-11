@@ -29,14 +29,17 @@ internal class BlProduct : BlApi.IProduct
     {
         try
         {
-            return Dal.Product.Read(func).Select(p=>new BO.ProductItem() {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                AmountInStock = p.Amount,
-                InStock = p.Amount > 0,
-                Category = (BO.ECategory)p.Category
-            });
+            return from p in Dal.Product.Read(func)
+                   let isInStock = p.Amount <= 0
+                   select new BO.ProductItem()
+                   {
+                       Id = p.Id,
+                       Name = p.Name,
+                       Price = p.Price,
+                       AmountInStock = p.Amount,
+                       InStock = isInStock,
+                       Category = (BO.ECategory)p.Category
+                   };
         }
 
         catch (DataIsEmpty ex)
