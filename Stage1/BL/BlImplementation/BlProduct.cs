@@ -30,7 +30,7 @@ internal class BlProduct : BlApi.IProduct
         try
         {
             return from p in Dal.Product.Read(func)
-                   let isInStock = p.Amount <= 0
+                   let isInStock = p.Amount > 0
                    select new BO.ProductItem()
                    {
                        Id = p.Id,
