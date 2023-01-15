@@ -1,6 +1,6 @@
 ﻿using DalApi;
-using DO;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Dal;
 internal class Product : IProduct
@@ -12,20 +12,14 @@ internal class Product : IProduct
         p.Id = Convert.ToInt32(productId?.Value ?? "");
         productId.Value = (p.Id + 1).ToString();
         config?.Save(@"..\..\xml\config.xml");
-        XElement? root = XDocument.Load(@"..\..\xml\Product.xml").Root;
-        //List<XElement> xproducts = root?.Elements("Product").ToList()?? new();
-        root?.Add(
-            new XElement("Product",
-                new XElement("Id", p.Id),
-                new XElement("Name", p.Name),
-                new XElement("Category", p.Category),
-                new XElement("Price", p.Price),
-                new XElement("Amount", p.Amount)
-            )
-        );
-        root?.Save(@"..\..\xml\Product.xml");
-        //p.Id = DataSource.Config.ProductId;
-        //DataSource._products.Add(p);
+        XmlSerializer serializer = new(typeof(List<DO.Product>), new XmlRootAttribute() { ElementName = "ArrayOfProduct", IsNullable = false });
+        StreamReader reader = new(@"..\..\xml\Product.xml");
+        List<DO.Product> xml = (List<DO.Product>)serializer.Deserialize(reader);
+        xml?.Add(p);
+        reader.Close();
+        StreamWriter writer = new(@"..\..\xml\Product.xml");
+        serializer.Serialize(writer, xml);
+        writer.Close();
         return p.Id;
     }
 
@@ -36,60 +30,38 @@ internal class Product : IProduct
 
     public IEnumerable<DO.Product> Read(Func<DO.Product, bool>? func = null)
     {
-        XElement? root = XDocument.Load(@"..\..\xml\Product.xml").Root;
-        List<XElement> xproducts = root?.Elements("Product").ToList() ?? new();
-        List<DO.Product> products = new();
-        for (int i = 0; i < xproducts.Count; i++)
-        {
-            products.Add(new DO.Product()
-            {
-                Id = Convert.ToInt32(xproducts[i]?.Element("Id")?.Value),
-                Name = xproducts[i]?.Element("Name")?.Value,
-                Category = (ECategory)Enum.Parse(typeof(ECategory), xproducts[i]?.Element("Category")?.Value ?? "0"),
-                Amount = Convert.ToInt32(xproducts[i]?.Element("Amount")?.Value),
-                Price = Convert.ToDouble(xproducts[i]?.Element("Price")?.Value),
-            });
-        }
+        XmlSerializer serializer = new(typeof(List<DO.Product>), new XmlRootAttribute() { ElementName = "ArrayOfProduct" });
+        StreamReader reader = new(@"..\..\xml\Product.xml");
+        List<DO.Product> products = (List<DO.Product>)serializer.Deserialize(reader);
+        reader.Close();
         if (func == null)
             return products;
-        return products.Where(func);
-        //XElement xproducts = XElement.Load(@"..\..\xml\Product.xml");
-        //.Elements("Product").;
-        //List<DO.Product> a = new();
-        //a.Add(new DO.Product { Id=1, Amount = 2, Category = ECategory.Biography, Name="my life", Price = 55.5 });
-        //a.Add(new DO.Product { Id=2, Amount = 10, Category = ECategory.Children, Name="dadi gamadi", Price = 13.9 });
-        //return a;
+        return from p in products
+               where func(p)
+               select p;
     }
 
     public DO.Product ReadSingle(Func<DO.Product, bool> func)
     {
-        XElement? root = XDocument.Load(@"..\..\xml\Product.xml").Root;
-        List<XElement> xproducts = root?.Elements("Product").ToList() ?? new();
-        List<DO.Product> products = new();
-        for (int i = 0; i < xproducts.Count; i++)
-        {
-            products.Add(new DO.Product()
-            {
-                Id = Convert.ToInt32(xproducts[i]?.Element("Id")?.Value),
-                Name = xproducts[i]?.Element("Name")?.Value,
-                Category = (ECategory)Enum.Parse(typeof(ECategory), xproducts[i]?.Element("Category")?.Value ?? "0"),
-                Amount = Convert.ToInt32(xproducts[i]?.Element("Amount")?.Value),
-                Price = Convert.ToDouble(xproducts[i]?.Element("Price")?.Value),
-            });
-        }
-        return products.Where(func).FirstOrDefault();
+        XmlSerializer serializer = new(typeof(List<DO.Product>), new XmlRootAttribute() { ElementName = "ArrayOfProduct" });
+        StreamReader reader = new(@"..\..\xml\Product.xml");
+        List<DO.Product> products = (List<DO.Product>)serializer.Deserialize(reader);
+        reader.Close();
+        return (from p in products
+                where func(p)
+                select p).First();
     }
 
     public void Update(DO.Product p)
     {
-        XElement? root = XDocument.Load(@"..\..\xml\Product.xml").Root;
-        List<XElement> xproducts = root?.Elements("Product").ToList() ?? new();
-        XElement xprod = root?.Elements("Product")?.Where(pr => pr.Element("Id")?.Value == p.Id.ToString()).FirstOrDefault() ??throw new Exception("Product not found");
-        xprod.Element("Name").Value = p.Name ?? "";
-        xprod.Element("Price").Value = p.Price.ToString();
-        xprod.Element("Category").Value = p.Category.ToString();
-        xprod.Element("Amount").Value = p.Amount.ToString();
-        root?.Save(@"..\..\xml\Product.xml");
+        XmlSerializer serializer = new(typeof(List<DO.Product>), new XmlRootAttribute() { ElementName = "ArrayOfProduct" });
+        StreamReader reader = new(@"..\..\xml\Product.xml");
+        List<DO.Product> products = (List<DO.Product>)serializer.Deserialize(reader);
+        reader.Close();
+        products[products.FindIndex(pr => pr.Id == p.Id)] = p;
+        StreamWriter writer = new(@"..\..\xml\Product.xml");
+        serializer.Serialize(writer, products);
+        writer.Close();
     }
 }
 

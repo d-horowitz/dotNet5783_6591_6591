@@ -9,7 +9,7 @@ sealed public class DalXml : IDal
 
     }
     public static IDal Instance { get; } = new DalXml();
-    public IProduct Product { get; } = new Dal.Product();
-    public IOrder Order { get; } = new Dal.Order();
-    public IOrderItem OrderItem { get; } = new Dal.OrderItem();
+    public IProduct Product { get; } = new Product();
+    public IOrder Order { get; } = new Order();
+    public IOrderItem OrderItem { get; } = new OrderItem();
 }
