@@ -1,10 +1,12 @@
 ﻿using DO;
 using DalApi;
+using System.Runtime.CompilerServices;
+
 namespace Dal;
 
 public class DalOrder : IOrder
 {
-
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Add(Order o)
     {
         o.Id = DataSource.Config.OrderId;
@@ -24,11 +26,15 @@ public class DalOrder : IOrder
         throw new Exception("Order not found");
     }
     */
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public Order ReadSingle(Func<Order, bool> func)
     {
         Predicate<Order> myFunc = new(func);
         return DataSource._orders.Find(myFunc);
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<Order> Read(Func<Order, bool>? func = null)
     {
         IEnumerable<Order> orders;
@@ -38,11 +44,15 @@ public class DalOrder : IOrder
             orders = new List<Order>(DataSource._orders);
         return orders;
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int orderId)
     {
         if (!DataSource._orders.Remove(new Order { Id = orderId }))
             throw new Exception("Order not found");
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(Order o)
     {
         for (int i = 0; i < DataSource._orders.Count; i++)

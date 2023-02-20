@@ -1,9 +1,12 @@
 ﻿using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
+
 namespace Dal;
 
 public class DalOrderItem : IOrderItem
 {
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Add(OrderItem oi)
     {
         oi.Id = DataSource.Config.OrderItemId;
@@ -20,11 +23,15 @@ public class DalOrderItem : IOrderItem
         throw new Exception("Order item not found");
     }
     */
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public OrderItem ReadSingle(Func<OrderItem, bool> func)
     {
         Predicate<OrderItem> myFunc = new(func);
         return DataSource._orderItems.Find(myFunc);
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<OrderItem> Read(Func<OrderItem, bool>? func = null)
     {
         IEnumerable<OrderItem> orderItems;
@@ -34,11 +41,15 @@ public class DalOrderItem : IOrderItem
             orderItems = new List<OrderItem>(DataSource._orderItems);
         return orderItems;
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int orderItemId)
     {
         if (!DataSource._orderItems.Remove(new OrderItem { Id = orderItemId }))
             throw new Exception("Order item not found");
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(OrderItem oi)
     {
         for (int i = 0; i < DataSource._orderItems.Count; i++)

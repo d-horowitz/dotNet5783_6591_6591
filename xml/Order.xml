@@ -50,9 +50,9 @@
     <Name>Customer f</Name>
     <Email>customerf@gmail.com</Email>
     <Address>5 F st.</Address>
-    <OrderCreated>2022-12-13T15:54:28.0553761+02:00</OrderCreated>
-    <Shipping>2022-12-17T15:54:28.0553761+02:00</Shipping>
-    <Delivery>0001-01-01T00:00:00</Delivery>
+    <OrderCreated>13/12/2022 15:54:28</OrderCreated>
+    <Shipping>17/12/2022 15:54:28</Shipping>
+    <Delivery>20/02/2023 18:51:42</Delivery>
   </Order>
   <Order>
     <Id>100006</Id>
