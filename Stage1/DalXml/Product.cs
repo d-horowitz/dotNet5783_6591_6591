@@ -1,10 +1,12 @@
 ﻿using DalApi;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace Dal;
 internal class Product : IProduct
 {
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Add(DO.Product p)
     {
         XElement? config = XDocument.Load(@"..\..\xml\config.xml").Root;
@@ -23,11 +25,13 @@ internal class Product : IProduct
         return p.Id;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
 
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<DO.Product> Read(Func<DO.Product, bool>? func = null)
     {
         XmlSerializer serializer = new(typeof(List<DO.Product>), new XmlRootAttribute() { ElementName = "ArrayOfProduct" });
@@ -41,6 +45,7 @@ internal class Product : IProduct
                select p;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public DO.Product ReadSingle(Func<DO.Product, bool> func)
     {
         XmlSerializer serializer = new(typeof(List<DO.Product>), new XmlRootAttribute() { ElementName = "ArrayOfProduct" });
@@ -52,6 +57,7 @@ internal class Product : IProduct
                 select p).First();
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(DO.Product p)
     {
         XmlSerializer serializer = new(typeof(List<DO.Product>), new XmlRootAttribute() { ElementName = "ArrayOfProduct" });

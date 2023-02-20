@@ -1,10 +1,12 @@
 ﻿using DalApi;
 using DO;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
 namespace Dal;
 internal class Order : IOrder
 {
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public int Add(DO.Order o)
     {
         XElement? config = XDocument.Load(@"..\..\xml\config.xml").Root;
@@ -19,6 +21,8 @@ internal class Order : IOrder
         root?.Save(@"..\..\xml\Order.xml");
         return o.Id;
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public DO.Order ReadSingle(Func<DO.Order, bool> func)
     {
         XElement? root = XDocument.Load(@"..\..\xml\Order.xml").Root;
@@ -41,6 +45,8 @@ internal class Order : IOrder
                 where func(o)
                 select o).First();
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<DO.Order> Read(Func<DO.Order, bool>? func = null)
     {
         XElement? root = XDocument.Load(@"..\..\xml\Order.xml").Root;
@@ -65,10 +71,14 @@ internal class Order : IOrder
                where func(o)
                select o;
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int id)
     {
 
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(DO.Order o)
     {
         XElement? root = XDocument.Load(@"..\..\xml\Order.xml").Root;
