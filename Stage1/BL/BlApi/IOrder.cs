@@ -7,5 +7,6 @@ public interface IOrder
     public Order UpdateShipping(int orderId);
     public Order UpdateDelivery(int orderId);
     public OrderTracking TrackOrder(int orderId);
+    public int? NextOrder();
 }
 

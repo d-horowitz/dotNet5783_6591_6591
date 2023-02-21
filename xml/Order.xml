@@ -114,8 +114,8 @@
     <Email>customerm@gmail.com</Email>
     <Address>12 M st.</Address>
     <OrderCreated>2022-12-13T15:54:28.0553782+02:00</OrderCreated>
-    <Shipping>2022-12-16T15:54:28.0553782+02:00</Shipping>
-    <Delivery>2022-12-17T15:54:28.0553782+02:00</Delivery>
+    <Shipping>2022-12-16T15:55:28.0553782+02:00</Shipping>
+    <Delivery>0001-01-01T00:00:00</Delivery>
   </Order>
   <Order>
     <Id>100013</Id>

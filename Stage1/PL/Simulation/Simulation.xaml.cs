@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlApi;
+using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
@@ -10,25 +11,28 @@ namespace PL.Simulation
     /// </summary>
     public partial class Simulation : Window, INotifyPropertyChanged
     {
-        private bool timing = true;
-        private Thread timer;
         private DateTime start = DateTime.Now;
         private BackgroundWorker bw;
-        public Simulation()
+        private readonly IBl bl;
+        public Simulation(IBl p_bl)
         {
             InitializeComponent();
             Loaded += ToolWindow_Loaded;
-            //TimeDisplay.DataContext = new { t = DateTime.Now - start };
             TimeDisplay.DataContext = new { t = DateTime.Now.ToLongTimeString() };
+            bl = p_bl;
+            MainGrid.DataContext = new { OrderId = 0, Previous = BO.EOrderStatus.Processed, Next = BO.EOrderStatus.Processed };
             bw = new();
-            timer = new(runTimer);
-            timer.Start();
+            bw.DoWork += Simulator.Simulator.Run;
+            bw.DoWork += runTimer;
+            bw.RunWorkerCompleted += Simulator.Simulator.Stop;
+            bw.WorkerSupportsCancellation = true;
+            bw.RunWorkerAsync();
         }
-        private void runTimer()
+        private void runTimer(object? sender, DoWorkEventArgs args)
         {
-            while (timing)
+            while (!bw.CancellationPending)
             {
-                UpdateTime(this, new RoutedEventArgs());
+                UpdateTime(sender, args);
                 Thread.Sleep(1000);
             }
         }
@@ -53,10 +57,17 @@ namespace PL.Simulation
 
         private void StopSimulation(object sender, RoutedEventArgs e)
         {
-            timing = false;
+            bw.CancelAsync();
             Close();
         }
-        private void UpdateTime(object sender, RoutedEventArgs e)
+        private void NextOrder(object sender, RoutedEventArgs e)
+        {
+            int? id = bl.Order.NextOrder();
+            MessageBox.Show(id.ToString() ?? "No Order");
+            BO.Order order = bl.Order.Read(id ?? 0);
+            MainGrid.DataContext = new { OrderId = order.Id, Previous = order.Status, Next = (BO.EOrderStatus)(Convert.ToInt32(order.Status) + 1) };
+        }
+        private void UpdateTime(object? sender, DoWorkEventArgs e)
         {
             if (!CheckAccess())
             {

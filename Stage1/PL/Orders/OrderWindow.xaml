@@ -40,9 +40,9 @@
                 <Label HorizontalAlignment="Right">Customer Email:</Label>
                 <Label HorizontalAlignment="Right">Customer Address:</Label>
                 <Label HorizontalAlignment="Right">Order Status:</Label>
-                <Label HorizontalAlignment="Right">Order Created on:</Label>
-                <Label HorizontalAlignment="Right">Shipped On:</Label>
-                <Label HorizontalAlignment="Right">Delivered On:</Label>
+                <Label HorizontalAlignment="Right">Order created on:</Label>
+                <Label HorizontalAlignment="Right">Shipped on:</Label>
+                <Label HorizontalAlignment="Right">Delivered on:</Label>
                 <Label HorizontalAlignment="Right">Total Price:</Label>
                 <Button Content="Back" Click="Back"></Button>
                 <Button Visibility="{Binding
