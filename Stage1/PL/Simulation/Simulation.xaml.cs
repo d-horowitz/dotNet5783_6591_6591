@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
+using Simulator;
 
 namespace PL.Simulation
 {
@@ -21,12 +22,14 @@ namespace PL.Simulation
             TimeDisplay.DataContext = new { t = DateTime.Now.ToLongTimeString() };
             bl = p_bl;
             MainGrid.DataContext = new { OrderId = 0, Previous = BO.EOrderStatus.Processed, Next = BO.EOrderStatus.Processed };
+            Simulator.Simulator.ProgressUpdatedRegister(ProgressUpdated);
             bw = new();
             bw.DoWork += Simulator.Simulator.Run;
             bw.DoWork += runTimer;
             bw.RunWorkerCompleted += Simulator.Simulator.Stop;
             bw.WorkerSupportsCancellation = true;
             bw.RunWorkerAsync();
+
         }
         private void runTimer(object? sender, DoWorkEventArgs args)
         {
@@ -55,6 +58,12 @@ namespace PL.Simulation
         }
         //==================Hide X Button==================^^
 
+        private void ProgressUpdated(SimulatorEventArgs args)
+        {
+            Dispatcher.BeginInvoke(() => MainGrid.DataContext = new { OrderId = 0, Previous = BO.EOrderStatus.Processed, Next = BO.EOrderStatus.Processed, UpdateTime = args.RandomTime });
+
+        }
+
         private void StopSimulation(object sender, RoutedEventArgs e)
         {
             bw.CancelAsync();
@@ -65,11 +74,12 @@ namespace PL.Simulation
             int? id = bl.Order.NextOrder();
             MessageBox.Show(id.ToString() ?? "No Order");
             BO.Order order = bl.Order.Read(id ?? 0);
-            MainGrid.DataContext = new { OrderId = order.Id, Previous = order.Status, Next = (BO.EOrderStatus)(Convert.ToInt32(order.Status) + 1) };
+            MainGrid.DataContext = new { OrderId = order.Id, Previous = order.Status, Next = (BO.EOrderStatus)(Convert.ToInt32(order.Status) + 1), UpdateTime = 0 };
         }
         private void UpdateTime(object? sender, DoWorkEventArgs e)
         {
-            if (!CheckAccess())
+            Dispatcher.BeginInvoke(() => TimeDisplay.DataContext = new { t = (DateTime.Now - start).ToString().Substring(0, 8) });
+            /*if (!CheckAccess())
             {
                 Dispatcher.BeginInvoke(UpdateTime, sender, e);
             }
@@ -77,7 +87,7 @@ namespace PL.Simulation
             {
                 //TimeDisplay.DataContext = new { t = (DateTime.Now - start).ToString().Substring(0, 8) };
                 TimeDisplay.DataContext = new { t = DateTime.Now.ToLongTimeString() };
-            }
+            }*/
         }
 
     }

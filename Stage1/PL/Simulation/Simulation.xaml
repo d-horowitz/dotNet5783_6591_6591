@@ -19,6 +19,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Width="150" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="NextOrder" Content="Show Next" />
             <Label Content="Current Order:" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" />
@@ -27,6 +28,8 @@
             <Label Content="{Binding Previous}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
             <Label Content="Next Status:" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" />
             <Label Content="{Binding Next}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+            <Label Content="Estimated time to finish:" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <Label Content="{Binding UpdateTime}" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
         </Grid>
     </Grid>
 </Window>
