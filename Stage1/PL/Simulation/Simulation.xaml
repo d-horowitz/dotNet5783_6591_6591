@@ -5,7 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Simulation"
         mc:Ignorable="d"
-        Title="Simulation" Height="450" Width="800">
+        Title="Simulation" Height="450" Width="800"
+        >
+    <Window.Resources>
+        <Style TargetType="Label">
+        <Setter Property="FontSize" Value="20"/>
+    </Style>
+    </Window.Resources>
+    
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -16,20 +23,23 @@
         <TextBlock x:Name="TimeDisplay" Grid.Row="1" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding t}"></TextBlock>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Width="150" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="NextOrder" Content="Show Next" />
-            <Label Content="Current Order:" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" />
-            <Label Content="{Binding OrderId}" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-            <Label Content="Previous Status:" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" />
-            <Label Content="{Binding Previous}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-            <Label Content="Next Status:" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" />
-            <Label Content="{Binding Next}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-            <Label Content="Estimated time to finish:" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top" />
-            <Label Content="{Binding UpdateTime}" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Content="Current Order:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="{Binding OrderId}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="Previous Status:" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="{Binding Previous}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="Next Status:" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="{Binding Next}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="Estimated time to finish:" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label Content="{Binding UpdateTime}" Grid.Column="3" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
     </Grid>
 </Window>

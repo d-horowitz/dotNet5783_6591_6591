@@ -55,7 +55,7 @@ namespace PL
 
         private void StartSimulation(object sender, RoutedEventArgs e)
         {
-            new Simulation.Simulation(bl).Show();
+            new Simulation.Simulation().Show();
         }
     }
 }

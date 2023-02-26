@@ -10,32 +10,42 @@ namespace PL.Simulation
     /// <summary>
     /// Interaction logic for Simulation.xaml
     /// </summary>
-    public partial class Simulation : Window, INotifyPropertyChanged
+    public partial class Simulation : Window
     {
-        private DateTime start = DateTime.Now;
-        private BackgroundWorker bw;
-        private readonly IBl bl;
-        public Simulation(IBl p_bl)
+        private readonly DateTime start = DateTime.Now;
+        private readonly BackgroundWorker bw;
+        public Simulation()
         {
             InitializeComponent();
             Loaded += ToolWindow_Loaded;
             TimeDisplay.DataContext = new { t = DateTime.Now.ToLongTimeString() };
-            bl = p_bl;
-            MainGrid.DataContext = new { OrderId = 0, Previous = BO.EOrderStatus.Processed, Next = BO.EOrderStatus.Processed };
-            Simulator.Simulator.ProgressUpdatedRegister(ProgressUpdated);
+            MainGrid.DataContext = new
+            {
+                OrderId = 0,
+                Previous = BO.EOrderStatus.Processed,
+                Next = BO.EOrderStatus.Processed,
+                UpdateTime = 0
+            };
             bw = new();
+            Simulator.Simulator.ProgressUpdatedRegister(ProgressUpdated);
+            Simulator.Simulator.SimulationStopCompletedRegister(bw.CancelAsync);
             bw.DoWork += Simulator.Simulator.Run;
             bw.DoWork += runTimer;
-            bw.RunWorkerCompleted += Simulator.Simulator.Stop;
+            bw.WorkerReportsProgress = true;
+            bw.ProgressChanged += UpdateTime;
+            bw.RunWorkerCompleted += (sender, e) =>
+            {
+                Simulator.Simulator.ProgressUpdatedUnregister(ProgressUpdated);
+                Simulator.Simulator.SimulationStopCompletedUnregister(bw.CancelAsync);
+            };
             bw.WorkerSupportsCancellation = true;
             bw.RunWorkerAsync();
-
         }
         private void runTimer(object? sender, DoWorkEventArgs args)
         {
             while (!bw.CancellationPending)
             {
-                UpdateTime(sender, args);
+                bw.ReportProgress(1);
                 Thread.Sleep(1000);
             }
         }
@@ -44,7 +54,6 @@ namespace PL.Simulation
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
@@ -60,35 +69,25 @@ namespace PL.Simulation
 
         private void ProgressUpdated(SimulatorEventArgs args)
         {
-            Dispatcher.BeginInvoke(() => MainGrid.DataContext = new { OrderId = 0, Previous = BO.EOrderStatus.Processed, Next = BO.EOrderStatus.Processed, UpdateTime = args.RandomTime });
-
+            Dispatcher.BeginInvoke(() => MainGrid.DataContext = new
+            {
+                args.OrderId,
+                Previous = args.Status,
+                Next = (BO.EOrderStatus)(Convert.ToInt32(args.Status) + 1),
+                UpdateTime = args.RandomTime
+            });
         }
 
         private void StopSimulation(object sender, RoutedEventArgs e)
         {
-            bw.CancelAsync();
+            Simulator.Simulator.Stop();
             Close();
         }
-        private void NextOrder(object sender, RoutedEventArgs e)
+        private void UpdateTime(object? sender, ProgressChangedEventArgs e)
         {
-            int? id = bl.Order.NextOrder();
-            MessageBox.Show(id.ToString() ?? "No Order");
-            BO.Order order = bl.Order.Read(id ?? 0);
-            MainGrid.DataContext = new { OrderId = order.Id, Previous = order.Status, Next = (BO.EOrderStatus)(Convert.ToInt32(order.Status) + 1), UpdateTime = 0 };
+            Dispatcher.BeginInvoke(
+                () => TimeDisplay.DataContext = new { t = (DateTime.Now - start).ToString().Substring(0, 8) }
+                );
         }
-        private void UpdateTime(object? sender, DoWorkEventArgs e)
-        {
-            Dispatcher.BeginInvoke(() => TimeDisplay.DataContext = new { t = (DateTime.Now - start).ToString().Substring(0, 8) });
-            /*if (!CheckAccess())
-            {
-                Dispatcher.BeginInvoke(UpdateTime, sender, e);
-            }
-            else
-            {
-                //TimeDisplay.DataContext = new { t = (DateTime.Now - start).ToString().Substring(0, 8) };
-                TimeDisplay.DataContext = new { t = DateTime.Now.ToLongTimeString() };
-            }*/
-        }
-
     }
 }

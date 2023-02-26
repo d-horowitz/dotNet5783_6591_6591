@@ -87,7 +87,7 @@ public partial class ProductWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "⚠ERROR");
+            MessageBox.Show(ex.Message, "⚠ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
     private void Update(object sender, RoutedEventArgs e)
@@ -104,12 +104,12 @@ public partial class ProductWindow : Window
                     AmountInStock = Convert.ToInt32(AmountInput.Text)
                 }
             );
-            MessageBox.Show("the book was updated succesfully", "👍 Successful Action");
+            MessageBox.Show("the book was updated succesfully", "👍 Successful Action", MessageBoxButton.OK, MessageBoxImage.Hand);
             Back(sender, e);
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "⚠ERROR");
+            MessageBox.Show(ex.Message, "⚠ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

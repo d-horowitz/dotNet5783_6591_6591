@@ -8,9 +8,13 @@ namespace Simulator;
 public class SimulatorEventArgs : EventArgs
 {
     public int RandomTime;
-    public SimulatorEventArgs(int randomTime)
+    public int OrderId;
+    public BO.EOrderStatus Status;
+    public SimulatorEventArgs(int randomTime, int orderId, BO.EOrderStatus status)
     {
         RandomTime = randomTime;
+        OrderId = orderId;
+        Status = status;
     }
 }
 
