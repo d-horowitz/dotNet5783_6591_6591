@@ -9,19 +9,23 @@
         >
     <Window.Resources>
         <Style TargetType="Label">
-        <Setter Property="FontSize" Value="20"/>
-    </Style>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
     </Window.Resources>
-    
+
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
         <Button Grid.Row="0" Width="150" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="StopSimulation" Content="Stop Simulation" />
+
         <TextBlock x:Name="TimeDisplay" Grid.Row="1" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding t}"></TextBlock>
-        <Grid Grid.Row="2">
+        <ProgressBar x:Name="PB" Grid.Row="2" Maximum="10" Value="5" />
+
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="2*"/>
@@ -39,7 +43,7 @@
             <Label Content="Next Status:" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Label Content="{Binding Next}" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Label Content="Estimated time to finish:" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <Label Content="{Binding UpdateTime}" Grid.Column="3" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Label x:Name="UpdateTimeLabel" Content="{Binding UpdateTime}" Grid.Column="3" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
     </Grid>
 </Window>

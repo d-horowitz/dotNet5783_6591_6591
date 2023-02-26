@@ -13,6 +13,8 @@ namespace PL.Simulation
     public partial class Simulation : Window
     {
         private readonly DateTime start = DateTime.Now;
+        private DateTime lastUpdate = DateTime.Now;
+        private int duration = 10;
         private readonly BackgroundWorker bw;
         public Simulation()
         {
@@ -69,12 +71,20 @@ namespace PL.Simulation
 
         private void ProgressUpdated(SimulatorEventArgs args)
         {
-            Dispatcher.BeginInvoke(() => MainGrid.DataContext = new
+            lastUpdate = DateTime.Now;
+            duration = args.RandomTime;
+
+            Dispatcher.BeginInvoke(() =>
             {
-                args.OrderId,
-                Previous = args.Status,
-                Next = (BO.EOrderStatus)(Convert.ToInt32(args.Status) + 1),
-                UpdateTime = args.RandomTime
+                MainGrid.DataContext = new
+                {
+                    args.OrderId,
+                    Previous = args.Status,
+                    Next = (BO.EOrderStatus)(Convert.ToInt32(args.Status) + 1),
+                    UpdateTime = args.RandomTime
+                };
+                PB.Maximum = args.RandomTime;
+                PB.Value = 0;//(double)(DateTime.Now - lastUpdate).TotalSeconds / (double)duration;
             });
         }
 
@@ -85,8 +95,15 @@ namespace PL.Simulation
         }
         private void UpdateTime(object? sender, ProgressChangedEventArgs e)
         {
+                    duration--;
             Dispatcher.BeginInvoke(
-                () => TimeDisplay.DataContext = new { t = (DateTime.Now - start).ToString().Substring(0, 8) }
+                () =>
+                {
+                    UpdateTimeLabel.DataContext = new { UpdateTime = duration};
+                    TimeDisplay.DataContext = new { t = (DateTime.Now - start).ToString().Substring(0, 8) };
+
+                    PB.Value += 1;//(double)(DateTime.Now - lastUpdate).TotalSeconds / (double)duration;
+                }
                 );
         }
     }
